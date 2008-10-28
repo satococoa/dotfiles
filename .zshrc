@@ -1,19 +1,23 @@
 export LANG=ja_JP.UTF-8
-if [ x$TERM != xscreen ]; then
-  case "${OSTYPE}" in
-    darwin*)
-      alias ls="ls -G -w"
-      export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-      export MANPATH=/opt/local/share/man:$MANPATH
-      ;;
-    linux*)
-      alias ls="ls --color=auto"
-      export PATH=$PATH:$HOME/flex_sdk_3/bin
-      export EDITOR=/usr/bin/vim
-      umask 002
-      ;;
-  esac
-fi
+case "${OSTYPE}" in
+  darwin*)
+  if [ x$TERM != xscreen ]; then
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export MANPATH=/opt/local/share/man:$MANPATH
+  else
+    alias ls="ls -G -w"
+  fi
+  ;;
+  linux*)
+  if [ x$TERM != xscreen ]; then
+    export PATH=$PATH:$HOME/flex_sdk_3/bin
+    export EDITOR=/usr/bin/vim
+    umask 002
+  else
+    alias ls="ls --color=auto"
+  fi
+  ;;
+esac
 bindkey -e
 PROMPT="${USER}@${HOST}%(!.#.$) "
 RPROMPT="[%~]"
