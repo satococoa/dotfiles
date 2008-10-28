@@ -1,0 +1,2 @@
+[paths]
+default = ssh://209.20.69.223:2/dotfiles

@@ -1,0 +1,1 @@
+Align.vba: call delete('/home/satoshi/.vim/plugin/AlignPlugin.vim')|call delete('/home/satoshi/.vim/plugin/AlignMaps.vim')|call delete('/home/satoshi/.vim/plugin/cecutil.vim')|call delete('/home/satoshi/.vim/doc/Align.txt')|call delete('/home/satoshi/.vim/autoload/Align.vim')
