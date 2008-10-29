@@ -70,6 +70,8 @@ let NERDShutUp = 1
 nnoremap <silent> ,tt :NERDTreeToggle<CR>
 "autocomplpop
 let g:AutoComplPop_NotEnableAtStartup = 1
+"Align.vim
+let g:Align_xstrlen = 3
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit
