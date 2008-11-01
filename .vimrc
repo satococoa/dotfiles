@@ -57,8 +57,9 @@ autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
 
 "for some plugins
 "yankring
-let yankring_max_history = 30
-let yankring_max_display = 70
+let g:yankring_max_history = 30
+let g:yankring_max_display = 70
+let g:yankring_history_file = '.yankring_history'
 "FuzzyFinder
 nnoremap <silent> ,fb :FuzzyFinderBuffer<CR>
 nnoremap <silent> ,ff :FuzzyFinderFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
