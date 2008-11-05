@@ -2,7 +2,7 @@ export LANG=ja_JP.UTF-8
 case "${OSTYPE}" in
   darwin*)
   if [ x$TERM != xscreen ]; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
   else
     alias ls="ls -G -w"
