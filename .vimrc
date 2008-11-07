@@ -23,10 +23,10 @@ set number
 set wrap
 set list
 set listchars=tab:>-
+set cursorline
 set showcmd
 set title
 set nopaste
-set pastetoggle=<f11>
 set background=dark
 highlight Pmenu ctermbg=lightcyan ctermfg=black
 highlight PmenuSel ctermbg=blue ctermfg=black
