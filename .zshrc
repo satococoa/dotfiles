@@ -1,7 +1,7 @@
 export LANG=ja_JP.UTF-8
 case "${OSTYPE}" in
   darwin*)
-  if [ x$TERM != xscreen ]; then
+  if [ "x$TERM" != "xscreen" ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
     export MANPATH=/opt/local/share/man:$MANPATH
   else
@@ -9,7 +9,7 @@ case "${OSTYPE}" in
   fi
   ;;
   linux*)
-  if [ x$TERM != xscreen ]; then
+  if [ "x$TERM" != "xscreen" ]; then
     export PATH=$PATH:$HOME/flex_sdk_3/bin
     export EDITOR=/usr/bin/vim
     umask 002
@@ -29,7 +29,7 @@ setopt share_history
 function history-all { history -E 1 }
 autoload -U compinit
 compinit
-if [ "$TERM" = "screen" ]; then
+if [ "x$TERM" = "xscreen" ]; then
   chpwd () { echo -n "_`dirs`\\" }
   preexec() {
     # see [zsh-workers:13180]
@@ -70,7 +70,7 @@ function ssh_screen(){
  eval server=\${$#}
  screen -t $server ssh "$@"
 }
-if [ x$TERM = xscreen ]; then
+if [ "x$TERM" = "xscreen" ]; then
   alias ssh=ssh_screen
 else
   exec `/usr/bin/env screen` -S main -xRR
