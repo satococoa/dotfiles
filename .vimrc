@@ -76,4 +76,4 @@ let g:Align_xstrlen = 3
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit
-"actionscript.vim, mxml.vim
+"actionscript.vim, mxml.vim, migemo

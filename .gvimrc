@@ -1,7 +1,7 @@
 colorscheme oceanblack
-set columns=120
-set lines=40
-set guifont=Osaka-Mono:h14
+set columns=140
+set lines=60
+set guifont=Osaka-Mono:h13
 set hlsearch
 set guioptions='Tm'
 set vb t_vb=
