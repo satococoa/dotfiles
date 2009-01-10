@@ -1,7 +1,5 @@
-highlight CursorLine guifg=NONE guibg=NONE gui=underline
 colorscheme xoria256
 set hlsearch
-" set guioptions='Tm'
 set vb t_vb=
 if has('gui_macvim')
     set columns=140
@@ -16,6 +14,5 @@ else
     set lines=60
     set guifont=Osaka-Mono:h14
     set iminsert=0 imsearch=0 noimdisable
-    " set transparency=230
     set transparency=240
 endif
