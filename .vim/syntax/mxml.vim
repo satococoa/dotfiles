@@ -299,7 +299,8 @@ endif
 
 syn keyword xmlDocTypeKeyword contained DOCTYPE PUBLIC SYSTEM
 syn region  xmlInlineDTD contained matchgroup=xmlDocTypeDecl start="\[" end="]" contains=@xmlDTD
-syn include @xmlDTD <sfile>:p:h/dtd.vim
+" syn include @xmlDTD <sfile>:p:h/dtd.vim
+syn include @xmlDTD $VIMRUNTIME/syntax/dtd.vim
 unlet b:current_syntax
 
 
