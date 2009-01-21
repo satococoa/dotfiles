@@ -1,12 +1,9 @@
 export LANG=ja_JP.UTF-8
 case "${OSTYPE}" in
   darwin*)
-  if [ "x$TERM" != "xscreen" ]; then
-    export PATH=/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
-    export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
-  else
-    alias ls="ls -G -w"
-  fi
+  export PATH=/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
+  export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
+  alias ls="ls -G -w"
   ;;
   linux*)
   if [ "x$TERM" != "xscreen" ]; then
