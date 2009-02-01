@@ -70,5 +70,5 @@ function ssh_screen(){
 if [ "x$TERM" = "xscreen" ]; then
   alias ssh=ssh_screen
 else
-  exec `/usr/bin/env screen` -S main -xRR
+  exec screen -S main -xRR
 fi
