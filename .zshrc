@@ -6,13 +6,10 @@ case "${OSTYPE}" in
   alias ls="ls -G -w"
   ;;
   linux*)
-  if [ "x$TERM" != "xscreen" ]; then
-    export PATH=$PATH:$HOME/flex_sdk_3/bin
-    export EDITOR=/usr/bin/vim
-    umask 002
-  else
-    alias ls="ls --color=auto"
-  fi
+  export PATH=$PATH:$HOME/flex_sdk_3/bin
+  export EDITOR=/usr/bin/vim
+  umask 002
+  alias ls="ls --color=auto"
   ;;
 esac
 bindkey -e
@@ -67,8 +64,3 @@ function ssh_screen(){
  eval server=\${$#}
  screen -t $server ssh "$@"
 }
-if [ "x$TERM" = "xscreen" ]; then
-  alias ssh=ssh_screen
-else
-  exec screen -S main -xRR
-fi
