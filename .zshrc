@@ -3,6 +3,7 @@ case "${OSTYPE}" in
   darwin*)
   export PATH=/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
   export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
+  export LSCOLORS=DxGxcxdxCxegedabagacad
   alias ls="ls -G -w"
   ;;
   linux*)
