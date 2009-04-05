@@ -1,16 +1,17 @@
 export LANG=ja_JP.UTF-8
-export LSCOLORS=DxGxcxdxCxegedabagacad
 case "${OSTYPE}" in
   darwin*)
   export PATH=/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
   export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
   alias ls="ls -G -w"
+  export LSCOLORS=DxGxcxdxCxegedabagacad
   ;;
   linux*)
   export PATH=$PATH:$HOME/flex_sdk_3/bin
   export EDITOR=/usr/bin/vim
   umask 002
   alias ls="ls --color=auto"
+  export LS_COLORS="di=01;33"
   ;;
 esac
 bindkey -e
