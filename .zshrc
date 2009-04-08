@@ -7,14 +7,11 @@ case "${OSTYPE}" in
   export LSCOLORS=DxGxcxdxCxegedabagacad
   ;;
   linux*)
-  if [ "x$TERM" != "xscreen" ]; then
-    export PATH=$PATH:$HOME/flex_sdk_3/bin
-    export EDITOR=/usr/bin/vim
-    umask 002
-  else
-    alias ls="ls --color=auto"
-    export LS_COLORS="di=01;33"
-  fi
+  export PATH=$PATH:$HOME/flex_sdk_3/bin
+  export EDITOR=/usr/bin/vim
+  umask 002
+  alias ls="ls --color=auto"
+  export LS_COLORS="di=01;33"
   ;;
 esac
 bindkey -e
