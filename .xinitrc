@@ -42,7 +42,8 @@ fi
 
 # start some nice programs
 
-test -x /opt/local/bin/kinput2 && /opt/local/bin/kinput2 &
+# test -x /opt/local/bin/kinput2 && /opt/local/bin/kinput2 &
+test -x /opt/local/bin/uim-xim && /opt/local/bin/uim-xim --engine=anthy &
 
 
 

@@ -75,6 +75,11 @@ let g:AutoComplPop_NotEnableAtStartup = 0
 "Align.vim
 let g:Align_xstrlen = 3
 
+if has('gui_macvim')
+    " MacPortsで入れたRubyを使う
+    let $RUBY_DLL = "/opt/local/lib/libruby.1.8.7.dylib"
+endif
+
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit
 "actionscript.vim, mxml.vim, migemo

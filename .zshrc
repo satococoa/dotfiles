@@ -5,6 +5,7 @@ case "${OSTYPE}" in
   export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
   alias ls="ls -G -w"
   export LSCOLORS=DxGxcxdxCxegedabagacad
+  alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
   ;;
   linux*)
   export PATH=$PATH:$HOME/flex_sdk_3/bin
