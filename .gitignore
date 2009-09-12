@@ -1,3 +1,4 @@
 .vim/doc/tags
 .vim/GetLatest/Installed/*
+.vim/.*
 .DS_Store
