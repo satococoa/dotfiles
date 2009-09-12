@@ -62,9 +62,9 @@ let g:yankring_max_history = 30
 let g:yankring_max_display = 70
 let g:yankring_history_file = '.yankring_history'
 "FuzzyFinder
-nnoremap <silent> ,fb :FuzzyFinderBuffer<CR>
-nnoremap <silent> ,ff :FuzzyFinderFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
-nnoremap <silent> ,fd :FuzzyFinderDir<CR>
+nnoremap <silent> ,fb :FufBuffer<CR>
+nnoremap <silent> ,ff :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
+nnoremap <silent> ,fd :FufDir<CR>
 "NERD comments
 let NERDSpaceDelims = 1
 let NERDShutUp = 1
@@ -74,6 +74,9 @@ nnoremap <silent> ,tt :NERDTreeToggle<CR>
 let g:AutoComplPop_NotEnableAtStartup = 0
 "Align.vim
 let g:Align_xstrlen = 3
+"neocomplcache
+let g:NeoComplCache_EnableAtStartup = 1
+
 
 if has('gui_macvim')
     " MacPortsで入れたRubyを使う
@@ -83,3 +86,4 @@ endif
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit
 "actionscript.vim, mxml.vim, migemo
+"neocomplcache
