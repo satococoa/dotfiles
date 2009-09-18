@@ -1,4 +1,4 @@
-colorscheme xoria256
+colorscheme h2u_black
 set hlsearch
 set vb t_vb=
 if has('gui_macvim')
