@@ -76,6 +76,8 @@ let g:AutoComplPop_NotEnableAtStartup = 0
 let g:Align_xstrlen = 3
 "neocomplcache
 let g:NeoComplCache_EnableAtStartup = 1
+"twitvim
+let twitvim_login_b64="c2F0b2NvY29hOnNhdG90d2l0dGVy"
 
 
 if has('gui_macvim')
@@ -86,4 +88,4 @@ endif
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit
 "actionscript.vim, mxml.vim, migemo
-"neocomplcache
+"neocomplcache, twitvim
