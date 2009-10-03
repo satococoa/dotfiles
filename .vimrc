@@ -71,7 +71,7 @@ let NERDShutUp = 1
 "NERD Tree
 nnoremap <silent> ,tt :NERDTreeToggle<CR>
 "autocomplpop
-let g:AutoComplPop_NotEnableAtStartup = 1
+let g:acp_enableAtStartup = 0
 "Align.vim
 let g:Align_xstrlen = 3
 "neocomplcache
