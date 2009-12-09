@@ -1,18 +1,12 @@
-export LANG=ja_JP.UTF-8
 case "${OSTYPE}" in
   darwin*)
-  export PATH=/usr/local/bin:/opt/local/bin:/opt/local/sbin:/Developer/SDKs/flex/bin:$PATH
-  export MANPATH=/usr/local/share/man:/opt/local/share/man:$MANPATH
   alias ls="ls -G -w"
   export LSCOLORS=DxGxcxdxCxegedabagacad
   alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
   ;;
   linux*)
-  export PATH=$PATH:$HOME/flex_sdk_3/bin
-  export EDITOR=/usr/bin/vim
   umask 002
   alias ls="ls --color=auto"
-  export LS_COLORS="di=01;33"
   ;;
 esac
 bindkey -e
@@ -62,13 +56,11 @@ if [ "x$TERM" = "xscreen" ]; then
       echo -n "k$cmd[1]:t\\") 2>/dev/null
   }
   chpwd
+  alias ssh=ssh_screen
+else
+  exec screen -S main -xRR
 fi
 function ssh_screen(){
  eval server=\${$#}
  screen -t $server ssh "$@"
 }
-if [ "x$TERM" = "xscreen" ]; then
-  alias ssh=ssh_screen
-else
-  exec screen -S main -xRR
-fi
