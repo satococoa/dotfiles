@@ -11,6 +11,15 @@ if has('gui_macvim')
     set guifont=Monaco:h11
     set guioptions-=T
     set fileencodings=''
+elseif has('gui_win32')
+    set guifont=MS_Gothic:h9:cSHIFTJIS
+    "set guifont=M+2VM+IPAG_circle:h8:cSHIFTJIS
+    set columns=140
+    set lines=60
+    set hlsearch
+    set guioptions='m'
+    set vb t_vb=
+    highlight CursorLine guifg=NONE guibg=NONE gui=underline
 else
     set columns=140
     set lines=60
