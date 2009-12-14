@@ -44,7 +44,7 @@ let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
 "for PHP
 let php_sql_query=1
 let php_htmlInStrings=1
-let php_noShortTags=1
+" let php_noShortTags=1
 let php_folding=1
 autocmd BufRead,BufNewFile *.ctp setfiletype php
 "for ruby
@@ -78,12 +78,6 @@ let g:Align_xstrlen = 3
 let g:NeoComplCache_EnableAtStartup = 0
 "twitvim
 let twitvim_login_b64="c2F0b2NvY29hOnNhdG90d2l0dGVy"
-
-
-if has('gui_macvim')
-    " MacPortsで入れたRubyを使う
-    let $RUBY_DLL = "/opt/local/lib/libruby.1.8.7.dylib"
-endif
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD comments, NERD Tree, matchit

@@ -11,6 +11,8 @@ if has('gui_macvim')
     set guifont=Monaco:h11
     set guioptions-=T
     set fileencodings=''
+    " MacPortsで入れたRubyを使う
+    let $RUBY_DLL = "/opt/local/lib/libruby.1.8.7.dylib"
 else
     set columns=140
     set lines=60
