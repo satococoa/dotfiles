@@ -6,7 +6,7 @@ if has('gui_macvim')
     set lines=36
     set imdisable
     set showtabline=2
-    set transparency=10
+    set transparency=5
     set antialias
     set guifont=Monaco:h11
     set guioptions-=T

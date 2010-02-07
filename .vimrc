@@ -75,7 +75,7 @@ let g:acp_enableAtStartup = 0
 "Align.vim
 let g:Align_xstrlen = 3
 "neocomplcache
-let g:NeoComplCache_EnableAtStartup = 0
+let g:NeoComplCache_EnableAtStartup = 1
 "twitvim
 let twitvim_login_b64="c2F0b2NvY29hOnNhdG90d2l0dGVy"
 
