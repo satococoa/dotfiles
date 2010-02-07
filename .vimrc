@@ -54,7 +54,7 @@ let g:rubycomplete_rails=1
 autocmd FileType ruby set ts=2 sw=2 sts=2 expandtab
 "for (x)html
 autocmd FileType xhtml,html set ts=2 sw=2 sts=2 expandtab
-autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
+" autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
 
 "for some plugins
 "yankring
@@ -70,16 +70,19 @@ let NERDSpaceDelims = 1
 let NERDShutUp = 1
 "NERD Tree
 nnoremap <silent> ,tt :NERDTreeToggle<CR>
-"autocomplpop
-let g:acp_enableAtStartup = 0
 "Align.vim
 let g:Align_xstrlen = 3
 "neocomplcache
 let g:NeoComplCache_EnableAtStartup = 1
-"twitvim
-let twitvim_login_b64="c2F0b2NvY29hOnNhdG90d2l0dGVy"
+let g:NeoComplCache_SmartCase = 1
+let g:NeoComplCache_EnableCamelCaseCompletion = 1
+let g:NeoComplCache_EnableUnderbarCompletion = 1
+let g:NeoComplCache_MinSyntaxLength = 1
+imap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
+smap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
-"FuzzyFinder, NERD comments, NERD Tree, matchit
-"actionscript.vim, mxml.vim, migemo
-"neocomplcache, twitvim
+"FuzzyFinder, NERD commenter, NERD Tree
+"neocomplcache, scala.vim

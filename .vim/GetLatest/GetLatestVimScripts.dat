@@ -1,10 +1,8 @@
 ScriptID SourceID Filename
 --------------------------
-294 10110 :AutoInstall: Align.vim
-1879 11894 :AutoInstall: AutoComplPop
-1066 7618 :AutoInstall: cecutil.vim
 1984 11852 :AutoInstall: FuzzyFinder
 1567 11920 :AutoInstall: rails.vim
 1697 8283 :AutoInstall: surround.vim
-2204 11990 twitvim.vim
 1234 12258 :AutoInstall: yankring.vim
+294 10110 :AutoInstall: Align.vim
+1066 7618 :AutoInstall: cecutil.vim
