@@ -82,7 +82,9 @@ imap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
 inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
+"vimshell
+let g:VimShell_EnableInteractive = 1
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree
-"neocomplcache, scala.vim
+"neocomplcache, scala.vim, vimproc, vimshell
