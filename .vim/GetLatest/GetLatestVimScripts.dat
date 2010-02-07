@@ -1,23 +1,10 @@
 ScriptID SourceID Filename
 --------------------------
-294 10110 Align.vba.gz
-1879 11894 vim-autocomplpop.zip
-1984 11852 vim-fuzzyfinder.zip
-39 8196 matchit.zip
-2620 11902 neocomplcache-2.75a.zip
-1567 11920 rails.zip
-1318 8450 snippy_plugin.vba
-1697 8283 surround.zip
-1218 10318 NERD_commenter.zip
-1658 11834 NERD_tree.zip
-2204 11990 twitvim-0.4.2.vba
-1234 12258 yankring_90.zip
 294 10110 :AutoInstall: Align.vim
-1879 11894 :AutoInstall: autocomplpop.vim
+1879 11894 :AutoInstall: AutoComplPop
 1066 7618 :AutoInstall: cecutil.vim
 1984 11852 :AutoInstall: FuzzyFinder
 1567 11920 :AutoInstall: rails.vim
 1697 8283 :AutoInstall: surround.vim
 2204 11990 twitvim.vim
 1234 12258 :AutoInstall: yankring.vim
-1879 11894 :AutoInstall: AutoComplPop

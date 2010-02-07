@@ -1,4 +1,3 @@
-.vim/doc/tags
 .vim/GetLatest/Installed/*
-.vim/.*
+.vim/.VimballRecord
 .DS_Store
