@@ -3,6 +3,9 @@ set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,sjis,iso-2022-jp
 set fileformat=unix
 set fileformats=unix,dos,mac
+if has('win32')
+    set termencoding=cp932
+endif
 set ambiwidth=double
 set nocompatible
 set vb t_vb=
