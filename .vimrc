@@ -81,10 +81,15 @@ let g:NeoComplCache_SmartCase = 1
 let g:NeoComplCache_EnableCamelCaseCompletion = 1
 let g:NeoComplCache_EnableUnderbarCompletion = 1
 let g:NeoComplCache_MinSyntaxLength = 1
+" クイックマッチリストが'-'だとCSSを書く時に少し不便だったので
+let g:NeoComplCache_QuickMatchPatterns = { 'default' : '`' }
 imap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
 inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
+" 途中でEnterしたとき、ポップアップを消して改行し、
+" 改行を連続して入力してもインデント部を保持する
+inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
 "vimshell
 let g:VimShell_EnableInteractive = 1
 
