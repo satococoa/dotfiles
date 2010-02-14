@@ -42,6 +42,8 @@ filetype plugin on
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%=%l,%c%V%8P
 set showmatch
 set ts=4 sw=4 sts=4 expandtab
+nnoremap <silent> <Space> :bn<CR>
+nnoremap <silent> <S-Space> :bp<CR>
 "for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
 "for PHP
