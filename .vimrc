@@ -44,41 +44,44 @@ set showmatch
 set ts=4 sw=4 sts=4 expandtab
 nnoremap <silent> <Space> :bn<CR>
 nnoremap <silent> <S-Space> :bp<CR>
-"for ChangeLog
+" for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
-"for PHP
+" for PHP
 let php_sql_query=1
 let php_htmlInStrings=1
 " let php_noShortTags=1
 let php_folding=1
 autocmd BufRead,BufNewFile *.ctp setfiletype php
-"for ruby
+" for ruby
 let g:rubycomplete_buffer_loading=1
 let g:rubycomplete_classes_in_global=1
 let g:rubycomplete_rails=1
 autocmd FileType ruby set ts=2 sw=2 sts=2 expandtab
-"for (x)html
+" for (x)html
 autocmd FileType xhtml,html set ts=2 sw=2 sts=2 expandtab
 " autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
-"for JavaScript
+" for JavaScript
 autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
-"for some plugins
-"yankring
+" for some plugins
+" yankring
 let g:yankring_max_history = 30
 let g:yankring_max_display = 70
 let g:yankring_history_file = '.yankring_history'
-"FuzzyFinder
+" FuzzyFinder
 nnoremap <silent> ,fb :FufBuffer<CR>
 nnoremap <silent> ,ff :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
 nnoremap <silent> ,fd :FufDir<CR>
-"NERD comments
+" Ku
+nnoremap ,kb :<C-u>Ku buffer<CR>
+nnoremap ,kf :<C-u>Ku file<CR>
+" NERD comments
 let NERDSpaceDelims = 1
 let NERDShutUp = 1
-"NERD Tree
+" NERD Tree
 nnoremap <silent> ,tt :NERDTreeToggle<CR>
-"Align.vim
+" Align.vim
 let g:Align_xstrlen = 3
-"neocomplcache
+" neocomplcache
 let g:NeoComplCache_EnableAtStartup = 1
 let g:NeoComplCache_SmartCase = 1
 let g:NeoComplCache_EnableCamelCaseCompletion = 1
@@ -99,3 +102,4 @@ let g:VimShell_EnableInteractive = 1
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree
 "neocomplcache, scala.vim, vimproc, vimshell
+"Ku
