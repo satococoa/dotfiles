@@ -62,6 +62,8 @@ autocmd FileType xhtml,html set ts=2 sw=2 sts=2 expandtab
 " autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
 " for JavaScript
 autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
+" for scala
+autocmd FileType scala set ts=2 sw=2 sts=2 expandtab
 " for some plugins
 " yankring
 let g:yankring_max_history = 30

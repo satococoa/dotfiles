@@ -52,6 +52,6 @@ function! MakeScalaFile()
     
 endfunction
 
-au BufNewFile *.scala call MakeScalaFile()
+" au BufNewFile *.scala call MakeScalaFile()
 
 " vim: set ts=4 sw=4 et:
