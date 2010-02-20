@@ -1,3 +1,5 @@
 .vim/GetLatest/Installed/*
 .vim/.VimballRecord
+.vim/info/ku/history
+.vim/.netrwhist
 .DS_Store
