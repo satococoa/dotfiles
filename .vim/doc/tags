@@ -892,6 +892,8 @@ syntax_complete	neocomplcache.txt	/*syntax_complete*
 tags_complete	neocomplcache.txt	/*tags_complete*
 the-ku-buffer	ku.txt	/*the-ku-buffer*
 the-ku-window	ku.txt	/*the-ku-window*
+vS	surround.txt	/*vS*
+vgS	surround.txt	/*vgS*
 vim_complete	neocomplcache.txt	/*vim_complete*
 vimshell-bugs	vimshell.txt	/*vimshell-bugs*
 vimshell-changelog	vimshell.txt	/*vimshell-changelog*
