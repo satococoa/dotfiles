@@ -64,3 +64,4 @@ function ssh_screen(){
  eval server=\${$#}
  screen -t $server ssh "$@"
 }
+if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
