@@ -1,8 +1,8 @@
 "=============================================================================
 " File: zencoding.vim
 " Author: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-" Last Change: 09-Mar-2010.
-" Version: 0.30
+" Last Change: 12-Mar-2010.
+" Version: 0.32
 " WebPage: http://github.com/mattn/zencoding-vim
 " Description: vim plugins for HTML and CSS hi-speed coding.
 " SeeAlso: http://code.google.com/p/zen-coding/
@@ -89,7 +89,9 @@ for item in [
 \ {'mode': 'i', 'var': 'user_zen_balancetagoutward_key', 'key': 'D', 'plug': 'ZenCodingBalanceTagOutward', 'func': '<esc>:call <sid>zen_balanceTag(1)<cr>a'},
 \ {'mode': 'n', 'var': 'user_zen_balancetagoutward_key', 'key': 'D', 'plug': 'ZenCodingBalanceTagOutward', 'func': ':call <sid>zen_balanceTag(1)<cr>'},
 \ {'mode': 'i', 'var': 'user_zen_next_key', 'key': 'n', 'plug': 'ZenCodingNext', 'func': '<esc>:call <sid>zen_moveNextPrev(0)<cr>'},
+\ {'mode': 'n', 'var': 'user_zen_next_key', 'key': 'n', 'plug': 'ZenCodingNext', 'func': ':call <sid>zen_moveNextPrev(0)<cr>'},
 \ {'mode': 'i', 'var': 'user_zen_prev_key', 'key': 'N', 'plug': 'ZenCodingPrev', 'func': '<esc>:call <sid>zen_moveNextPrev(1)<cr>'},
+\ {'mode': 'n', 'var': 'user_zen_prev_key', 'key': 'N', 'plug': 'ZenCodingPrev', 'func': ':call <sid>zen_moveNextPrev(1)<cr>'},
 \ {'mode': 'i', 'var': 'user_zen_imagesize_key', 'key': 'i', 'plug': 'ZenCodingImageSize', 'func': '<esc>:call <sid>zen_imageSize()<cr>a'},
 \ {'mode': 'n', 'var': 'user_zen_imagesize_key', 'key': 'i', 'plug': 'ZenCodingImageSize', 'func': ':call <sid>zen_imageSize()<cr>'},
 \ {'mode': 'i', 'var': 'user_zen_togglecomment_key', 'key': '/', 'plug': 'ZenCodingToggleComment', 'func': '<esc>:call <sid>zen_toggleComment()<cr>a'},
@@ -662,6 +664,7 @@ let s:zen_settings = {
 \            'bdo:r': {'dir': 'rtl'},
 \            'bdo:l': {'dir': 'ltr'},
 \            'del': {'datetime': '${datetime}'},
+\            'ins': {'datetime': '${datetime}'},
 \            'link:css': [{'rel': 'stylesheet'}, {'type': 'text/css'}, {'href': '|style.css'}, {'media': 'all'}],
 \            'link:print': [{'rel': 'stylesheet'}, {'type': 'text/css'}, {'href': '|print.css'}, {'media': 'print'}],
 \            'link:favicon': [{'rel': 'shortcut icon'}, {'type': 'image/x-icon'}, {'href': '|favicon.ico'}],
@@ -855,6 +858,12 @@ function! s:zen_parseIntoTree(abbr, type)
     return { 'child': [] }
   endif
 
+  if has_key(s:zen_settings[type], 'indentation')
+    let indent = s:zen_settings[type].indentation
+  else
+    let indent = s:zen_settings.indentation
+  endif
+
   let abbr = substitute(abbr, '\([a-zA-Z][a-zA-Z0-9]*\)+\([()]\|$\)', '\="(".s:zen_expandos(submatch(1), type).")".submatch(2)', 'i')
   let mx = '\([+>]\|<\+\)\{-}\s*\((*\)\{-}\s*\([@#]\{-}[a-zA-Z][a-zA-Z0-9:\!\-]*\|{[^}]\+}\)\(\%(\%(#[a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[a-zA-Z0-9_\-\$]\+\)\)*\)\%(\({[^}]\+}\)\)\{0,1}\%(\s*\*\s*\([0-9]\+\)\s*\)\{0,1}\(\%(\s*)\%(\s*\*\s*[0-9]\+\s*\)\{0,1}\)*\)'
   let root = { 'name': '', 'attr': {}, 'child': [], 'snippet': '', 'multiplier': 1, 'parent': {}, 'value': '', 'pos': 0 }
@@ -886,7 +895,11 @@ function! s:zen_parseIntoTree(abbr, type)
     endif
     let current = { 'name': '', 'attr': {}, 'child': [], 'snippet': '', 'multiplier': 1, 'parent': {}, 'value': '', 'pos': 0 }
     if has_key(s:zen_settings[type], 'snippets') && has_key(s:zen_settings[type].snippets, tag_name)
-      let current.snippet = substitute(s:zen_settings[type].snippets[tag_name], '|', '${cursor}', 'g')
+      let snippet = s:zen_settings[type].snippets[tag_name]
+      let snippet = substitute(snippet, '|', '${cursor}', 'g')
+      let lines = split(snippet, "\n")
+      call map(lines, 'substitute(v:val, "\\(    \\|\\t\\)", indent, "g")')
+      let current.snippet = join(lines, "\n")
     else
       let current.name = substitute(tag_name, ':.*$', '', '')
       if has_key(s:zen_settings[type], 'default_attributes')
@@ -910,7 +923,7 @@ function! s:zen_parseIntoTree(abbr, type)
     if len(attributes)
       let attr = attributes
       while len(attr)
-        let item = matchstr(attr, '\(\%(\%(#[a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[a-zA-Z0-9_\-\$]\+\)\)\)')
+        let item = matchstr(attr, '\(\%(\%(#[a-zA-Z0-9_\-\$]\+\)\|\%(\[[^\]]\+\]\)\|\%(\.[a-zA-Z0-9_\-\$]\+\)*\)\)')
         if len(item) == 0
           break
         endif
@@ -918,7 +931,7 @@ function! s:zen_parseIntoTree(abbr, type)
           let current.attr.id = item[1:]
         endif
         if item[0] == '.'
-          let current.attr.class = substitute(item[1:], '\.', '', 'g')
+          let current.attr.class = substitute(item[1:], '\.', ' ', 'g')
         endif
         if item[0] == '['
           let kk = split(item[1:-2], '=')
@@ -1053,10 +1066,10 @@ function! s:zen_toString(...)
       let tmp = '<' . current.name
       for attr in keys(current.attr)
         let val = current.attr[attr]
-        if current.multiplier > 1 && val =~ '\$$'
-          let doller = substitute(val, '^.\{-}\(\$\+\)$', '\1', '')
-          let val = substitute(val, '\(\$\+\)$', '', '')
-          let val .= printf('%0' . len(doller) . 'd', m+1)
+        if current.multiplier > 1
+          while val =~ '\$\([^{]\|$\)'
+            let val = substitute(val, '\(\$\+\)\([^{]\|$\)', '\=printf("%0".len(submatch(1))."d", m+1).submatch(2)', 'g')
+          endwhile
         endif
         let tmp .= ' ' . attr . '="' . val . '"'
         if filter == 'c'
@@ -1124,15 +1137,15 @@ function! s:zen_toString(...)
         let tmp = ''
         for attr in keys(current.attr)
           let val = current.attr[attr]
-          if current.multiplier > 1 && val =~ '\$$'
-            let doller = substitute(val, '^.\{-}\(\$\+\)$', '\1', '')
-            let val = substitute(val, '\(\$\+\)$', '', '')
-            let val .= printf('%0' . len(doller) . 'd', m+1)
+          if current.multiplier > 1
+            while val =~ '\$[^{]*'
+              let val = substitute(val, '\(\$\+\)\([^{]*\)', '\=printf("%0".len(submatch(1))."d", m+1).submatch(2)', 'g')
+            endwhile
           endif
           if attr == 'id'
             let str .= '#' . val
           elseif attr == 'class'
-            let str .= '.' . val
+            let str .= '.' . substitute(val, ' ', '.', 'g')
           else
             if len(tmp) > 0 | let tmp .= ',' | endif
             let tmp .= ' :' . attr . ' => "' . val . '"'
@@ -1141,13 +1154,20 @@ function! s:zen_toString(...)
         if len(tmp)
           let str .= '{' . tmp . ' }'
         endif
-        if stridx(','.s:zen_settings['html'].empty_elements.',', ','.current.name.',') != -1
+        if stridx(','.s:zen_settings.html.empty_elements.',', ','.current.name.',') != -1 && len(current.value) == 0
           let str .= "/"
-        elseif stridx(','.s:zen_settings['html'].block_elements.',', ','.current.name.',') != -1 && len(current.child) == 0
+        elseif stridx(','.s:zen_settings.html.block_elements.',', ','.current.name.',') != -1 && (len(current.child) == 0 && len(current.value) == 0)
           let str .= '<'
         endif
 
         let inner = ''
+        if len(current.value) > 0
+          let lines = split(current.value[1:-2], "\n")
+          let str .= " " . lines[0]
+          for line in lines[1:]
+            let str .= " |\n" . line
+          endfor
+        endif
         if len(current.child) == 1 && len(current.child[0].name) == 0
           let lines = split(current.child[0].value[1:-2], "\n")
           let str .= " " . lines[0]
@@ -1208,6 +1228,9 @@ function! s:zen_getFileType()
   endif
   if synIDattr(synID(line("."), col("."), 1), "name") =~ '^xml'
     let type = 'xml'    
+  endif
+  if has_key(s:zen_settings, type) && has_key(s:zen_settings[type], 'extends')
+    let type = s:zen_settings[type].extends
   endif
   if len(type) == 0 | let type = 'html' | endif
   if type == 'xhtml' | let type = 'html' | endif
@@ -1308,7 +1331,7 @@ function! s:zen_expandAbbr(mode) range
       let expand = substitute(expand, '${datetime}', strftime("%Y-%m-%dT%H:%M:%S %z"), 'g')
     endif
     if line[:-len(part)-1] =~ '^\s\+$'
-      let size = len(line) - len(part)
+      let size = (len(line) - len(part)) / len(s:zen_settings.indentation)
       let indent = repeat(s:zen_settings.indentation, size)
     else
       let indent = ''
@@ -1366,7 +1389,7 @@ function! s:zen_imageSize()
     return
   endif
   let current = s:zen_parseTag(content)
-  let fn = current.attr['src']
+  let fn = current.attr.src
   if fn !~ '^\(/\|http\)'
     let fn = simplify(expand('%:h') . '/' . fn)
   endif
@@ -1399,8 +1422,8 @@ EOF
   if w == -1 && h == -1
     return
   endif
-  let current.attr['width'] = w
-  let current.attr['height'] = h
+  let current.attr.width = w
+  let current.attr.height = h
   let html = s:zen_toString(current, 'html', 1)
   call s:change_content(img_region, html)
 endfunction
@@ -1631,7 +1654,7 @@ function! s:zen_anchorizeURL(flag)
 
   if a:flag == 0
     let a = s:zen_parseTag('<a>')
-    let a.attr['href'] = url
+    let a.attr.href = url
     let a.value = '{' . title . '}'
     let expand = s:zen_toString(a, 'html', 0, '')
     let expand = substitute(expand, '\${cursor}', '', 'g')
@@ -1642,7 +1665,7 @@ function! s:zen_anchorizeURL(flag)
 
     let blockquote = s:zen_parseTag('<blockquote class="quote">')
     let a = s:zen_parseTag('<a>')
-    let a.attr['href'] = url
+    let a.attr.href = url
     let a.value = '{' . title . '}'
     call add(blockquote.child, a)
     call add(blockquote.child, s:zen_parseTag('<br/>'))
