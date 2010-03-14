@@ -8,7 +8,8 @@ if has('gui_macvim')
     set showtabline=2
     set transparency=5
     set antialias
-    set guifont=Monaco:h11
+    set guifont=Osaka-等幅:h11
+    " set guifontwide=Osaka:h11
     set guioptions-=T
     set fileencodings=''
     " MacPortsで入れたRubyを使う
