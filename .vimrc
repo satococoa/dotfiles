@@ -100,8 +100,6 @@ inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
 inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
 "vimshell
 let g:VimShell_EnableInteractive = 1
-"zencoding
-let g:user_zen_expandabbr_key = '<c-e>'
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree
