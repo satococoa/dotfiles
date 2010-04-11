@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: mkcd.vim
+" FILE: altercmd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 20 Sep 2009
+" Last Modified: 19 Mar 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,27 +24,32 @@
 " }}}
 "=============================================================================
 
-function! vimshell#internal#mkcd#execute(program, args, fd, other_info)
-    " Make directory and change the working directory.
-    
-    if empty(a:args)
-        " Move to HOME directory.
-        let l:arguments = $HOME
-    elseif len(a:args) == 2
-        " Substitute current directory.
-        let l:arguments = substitute(getcwd(), a:args[0], a:args[1], 'g')
-    elseif len(a:args) > 2
-        call vimshell#error_line(a:fd, 'Too many arguments.')
-        return
-    else
-        " Filename escape.
-        let l:arguments = substitute(a:args[0], '^\~\ze[/\\]', substitute($HOME, '\\', '/', 'g'), '')
-    endif
+function! vimshell#altercmd#define(original, alternative)"{{{
+  execute 'inoreabbrev <buffer><expr>' a:original
+        \ '(join(vimshell#get_current_args()) ==# "' . a:original  . '")?' 
+        \ s:SID_PREFIX().'recursive_expand_altercmd('.string(a:original).')' ':' string(a:original)
+  let b:vimshell.altercmd_table[a:original] = a:alternative
+endfunction"}}}
 
-    if !isdirectory(l:arguments) && !filereadable(l:arguments)
-        " Make directory.
-        call mkdir(l:arguments)
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+function! s:recursive_expand_altercmd(string)
+  " Recursive expand altercmd.
+  let l:abbrev = b:vimshell.altercmd_table[a:string]
+  let l:expanded = {}
+  while 1
+    let l:key = vimshell#parser#split_args(l:abbrev)[-1]
+    if has_key(l:expanded, l:abbrev) || !has_key(b:vimshell.altercmd_table, l:abbrev)
+      break
     endif
     
-    return vimshell#internal#cd#execute('cd', a:args, a:fd, a:other_info)
+    let l:expanded[l:abbrev] = 1
+    let l:abbrev = b:vimshell.altercmd_table[l:abbrev]
+  endwhile
+
+  return l:abbrev
 endfunction
+
+" vim: foldmethod=marker

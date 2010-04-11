@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: vimsh.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 28 Dec 2009
+" Last Modified: 06 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,68 +22,50 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 1.2, for Vim 7.0
-"-----------------------------------------------------------------------------
-" ChangeLog: "{{{
-"   1.3:
-"     - Improved error handling.
-"
-"   1.2:
-"     - Print all error.
-"     - Improved error print format.
-"
-"   1.1:
-"     - Improved parser.
-"
-"   1.0:
-"     - Initial version.
-""}}}
-"-----------------------------------------------------------------------------
-" TODO: "{{{
-"     - Nothing.
-""}}}
-" Bugs"{{{
-"     -
-""}}}
 "=============================================================================
 
 function! vimshell#internal#vimsh#execute(program, args, fd, other_info)
-    " Create new vimshell or execute script.
-    if empty(a:args)
-        call vimshell#print_prompt()
-        call vimshell#create_shell(0)
+  " Create new vimshell or execute script.
+  if empty(a:args)
+    let l:context = a:other_info
+    let l:context.fd = a:fd
+    call vimshell#print_prompt(l:context)
+    call vimshell#create_shell(0)
+    return 1
+  else
+    " Filename escape.
+    let l:filename = join(a:args, ' ')
+
+    if filereadable(l:filename)
+      let l:scripts = readfile(l:filename)
+
+      let l:context = { 
+            \'has_head_spaces' : 0, 'is_interactive' : 0, 
+            \ 'fd' : { 'stdin' : '', 'stdout': '', 'stderr': ''}, 
+            \}
+      let l:i = 0
+      let l:skip_prompt = 0
+      for l:script in l:scripts
+        try
+          let l:skip_prompt = vimshell#parser#eval_script(l:script, l:context)
+        catch /.*/
+          let l:message = (v:exception !~# '^Vim:')? v:exception : v:exception . ' ' . v:throwpoint
+          call vimshell#error_line({}, printf('%s(%d): %s', join(a:args, ' '), l:i, l:message))
+          return 0
+        endtry
+
+        let l:i += 1
+      endfor
+
+      if l:skip_prompt
+        " Skip prompt.
         return 1
+      endif
     else
-        " Filename escape.
-        let l:filename = join(a:args, ' ')
-
-        if filereadable(l:filename)
-            let l:scripts = readfile(l:filename)
-
-            let l:other_info = { 'has_head_spaces' : 0, 'is_interactive' : 0, 'is_background' : 0 }
-            let l:i = 0
-            let l:skip_prompt = 0
-            for l:script in l:scripts
-                try
-                    let l:skip_prompt = vimshell#parser#eval_script(l:script, l:other_info)
-                catch /.*/
-                    let l:message = (v:exception !~# '^Vim:')? v:exception : v:exception . ' ' . v:throwpoint
-                    call vimshell#error_line({}, printf('%s(%d): %s', join(a:args, ' '), l:i, l:message))
-                    return 0
-                endtry
-
-                let l:i += 1
-            endfor
-
-            if l:skip_prompt
-                " Skip prompt.
-                return 1
-            endif
-        else
-            " Error.
-            call vimshell#error_line(a:fd, printf('Not found the script "%s".', l:filename))
-        endif
+      " Error.
+      call vimshell#error_line(a:fd, printf('Not found the script "%s".', l:filename))
     endif
+  endif
 
-    return 0
+  return 0
 endfunction

@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: mkcd.vim
+" FILE: hook.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 20 Sep 2009
+" Last Modified: 06 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,27 +24,22 @@
 " }}}
 "=============================================================================
 
-function! vimshell#internal#mkcd#execute(program, args, fd, other_info)
-    " Make directory and change the working directory.
-    
-    if empty(a:args)
-        " Move to HOME directory.
-        let l:arguments = $HOME
-    elseif len(a:args) == 2
-        " Substitute current directory.
-        let l:arguments = substitute(getcwd(), a:args[0], a:args[1], 'g')
-    elseif len(a:args) > 2
-        call vimshell#error_line(a:fd, 'Too many arguments.')
-        return
-    else
-        " Filename escape.
-        let l:arguments = substitute(a:args[0], '^\~\ze[/\\]', substitute($HOME, '\\', '/', 'g'), '')
-    endif
+function! vimshell#hook#add(hook_point, func_name)"{{{
+  if !has_key(b:vimshell.hook_functions_table, a:hook_point)
+    throw 'Hook point "' . a:hook_point . '" is not supported.'
+  endif
+  
+  let b:vimshell.hook_functions_table[a:hook_point][a:func_name] = a:func_name
+endfunction"}}}
+function! vimshell#hook#del(hook_point, func_name)"{{{
+  if !has_key(b:vimshell.hook_functions_table, a:hook_point)
+    throw 'Hook point "' . a:hook_point . '" is not supported.'
+  endif
+  if !has_key(b:vimshell.hook_functions_table[a:hook_point], a:func_name)
+    throw 'Hook function "' . a:func_name . '" is not found.'
+  endif
+  
+  call remove(b:vimshell.hook_functions_table[a:hook_point], a:func_name)
+endfunction"}}}
 
-    if !isdirectory(l:arguments) && !filereadable(l:arguments)
-        " Make directory.
-        call mkdir(l:arguments)
-    endif
-    
-    return vimshell#internal#cd#execute('cd', a:args, a:fd, a:other_info)
-endfunction
+" vim: foldmethod=marker

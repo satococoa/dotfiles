@@ -78,9 +78,10 @@ EXAMPLES					*vimshell-examples*
 	let g:VimShell_ExecuteFileList['py'] = 'python'
 	call vimshell#set_execute_file('html,xhtml', 'gexe firefox')
 	
+	let g:VimShell_UserPrompt = 'fnamemodify(getcwd(), ":~")'
+	let g:VimShell_RightPrompt = 'vimshell#vcs#info("(%s)-[%b]", "(%s)-[%b|%a]")'
 	let g:VimShell_EnableInteractive = 1
 	let g:VimShell_EnableSmartCase = 1
-	let g:VimShell_EnableAutoLs = 1
 	
 	if has('win32') || has('win64') 
 	    " Display user name on Windows.
@@ -95,6 +96,17 @@ EXAMPLES					*vimshell-examples*
 	    call vimshell#set_execute_file('tgz,gz', 'gzcat')
 	    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
 	endif
+	
+	autocmd FileType vimshell
+	\ call vimshell#altercmd#define('g', 'git')
+	\| call vimshell#altercmd#define('i', 'iexe')
+	\| call vimshell#altercmd#define('l', 'll')
+	\| call vimshell#altercmd#define('ll', 'ls -l')
+	\| call vimshell#hook#add('chpwd', 'g:my_chpwd')
+	
+	function! g:my_chpwd(context)
+		call vimshell#execute('ls', a:context)
+	endfunction
 <
 ==============================================================================
 INTERNAL COMMANDS				*vimshell-internal-commands*
@@ -116,6 +128,52 @@ ability of vimshell will spread by creating plugin by yourself.
 
 ==============================================================================
 CHANGELOG					*vimshell-changelog*
+
+2010-04-08
+    * Fixed output check when program exited.
+    * Call hook functions if interactive only.
+    * Implemented emptycmd, precmd, preexec hooks.
+    * Deleted g:VimShell_EnableAutoLs option.
+    * Fixed s:check_output() error.
+    * Improved vimshell#print_prompt().
+
+2010-04-06
+    * Fixed help file.
+    * Changed gailias as special command.
+    * Fixed popd error.
+    * Disable output when inputing in iexe.
+    * Implemented hook.
+    * Added chpwd hook.
+
+2010-04-03
+    * Fixed autocd.
+    * Refactoringed.
+    * Implemented recursive altercmd and alias.
+    * Fixed auto complete bug when path contains blanks.
+    * Added execute option description.
+    * Improved bg.
+    * Fixed :VimShellSendString bug.
+
+2010-04-02
+    * Fixed vimshell#altercmd.
+
+2010-04-01
+    * Interpret escape sequence(experimental).
+    * Added internal command description.
+    * Fixed escape color.
+
+2010-03-19
+    * Fixed interrupt error.
+    * Supported comment in .vimshrc.
+    * Implemented altercmd.
+
+2010-03-03
+    * Improved restore current directory.
+    * Added scala support in iexe.
+    * Improved gcd command.
+    * Supported fakecygpty.
+    * Fixed error message in interactive.vim.
+    * Improved cd.
 
 2010-03-02
     * Fixed interactive_command_complete error.

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: parser.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 24 Feb 2010
+" Last Modified: 06 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,36 +24,33 @@
 " }}}
 "=============================================================================
 
-function! vimshell#parser#eval_script(script, other_info)"{{{
+function! vimshell#parser#eval_script(script, context)"{{{
   let l:skip_prompt = 0
   " Split statements.
   for l:statement in vimshell#parser#split_statements(a:script)
-    " Skip blank.
-    let l:statement = matchstr(l:statement, '^\s*\zs.*')
-
     " Get program.
-    let l:program = matchstr(l:statement, '^\%(\\[^[:alnum:].-]\|[[:alnum:]@/._+,#$%~=*-]\)\+')
+    let l:args = vimshell#parser#split_args(l:statement)
+
+    " Expand global alias.
+    for l:arg in l:args
+      if has_key(b:vimshell.galias_table, l:arg)
+        let l:arg = b:vimshell.galias_table[l:arg]
+      endif
+    endfor
+    
+    let l:program = l:args[0]
+
+    if has_key(b:vimshell.alias_table, l:program) && !empty(b:vimshell.alias_table[l:program])
+      " Expand alias.
+      let l:alias = s:recursive_expand_alias(l:program)
+      let l:args = vimshell#parser#split_args(l:alias . ' ' . join(l:args[1:])) 
+      let l:program = l:args[0]
+    endif
     if l:program != '' && l:program[0] == '~'
       " Parse tilde.
       let l:program = substitute($HOME, '\\', '/', 'g') . l:program[1:]
     endif
-
-    let l:script = l:statement[len(l:program) :]
-
-    for galias in keys(b:vimshell_galias_table)
-      let l:script = substitute(l:script, '\s\zs'.galias.'\ze\%(\s\|$\)', b:vimshell_galias_table[galias], 'g')
-    endfor
-
-    " Check alias."{{{
-    if has_key(b:vimshell_alias_table, l:program) && !empty(b:vimshell_alias_table[l:program])
-      let l:alias_prog = matchstr(b:vimshell_alias_table[l:program], '^\s*\zs[^[:blank:]]*')
-
-      if l:program != l:alias_prog
-        " Expand alias.
-        let l:skip_prompt = vimshell#parser#eval_script(b:vimshell_alias_table[l:program] . ' ' . l:script, a:other_info)
-        continue
-      endif
-    endif"}}}
+    let l:script = join(l:args[1:])
 
     if has_key(g:vimshell#special_func_table, l:program)
       " Special commands.
@@ -120,11 +117,129 @@ function! vimshell#parser#eval_script(script, other_info)"{{{
       let l:program = 'cat'
     endif
 
-    let l:skip_prompt = vimshell#execute_command(l:program, l:args, l:fd, a:other_info)
+    let l:skip_prompt = vimshell#parser#execute_command(l:program, l:args, l:fd, a:context)
     redraw
   endfor
 
   return l:skip_prompt
+endfunction"}}}
+
+function! vimshell#parser#execute_command(program, args, fd, other_info)"{{{
+  if empty(a:args)
+    let l:line = a:program
+  else
+    let l:line = printf('%s %s', a:program, join(a:args, ' '))
+  endif
+  let l:program = a:program
+  let l:arguments = a:args
+  let l:dir = substitute(substitute(l:line, '^\~\ze[/\\]', substitute($HOME, '\\', '/', 'g'), ''), '\\\(.\)', '\1', 'g')
+  let l:command = vimshell#getfilename(program)
+
+  " Special commands.
+  if l:line =~ '&\s*$'"{{{
+    " Background execution.
+    return vimshell#execute_internal_command('bg', split(substitute(l:line, '&\s*$', '', '')), a:fd, a:other_info)
+    "}}}
+  elseif has_key(g:vimshell#special_func_table, l:program)"{{{
+    " Other special commands.
+    return call(g:vimshell#special_func_table[l:program], [l:program, l:arguments, a:fd, a:other_info])
+    "}}}
+  elseif has_key(g:vimshell#internal_func_table, l:program)"{{{
+    " Internal commands.
+
+    " Search pipe.
+    let l:args = []
+    let l:i = 0
+    let l:fd = copy(a:fd)
+    for arg in l:arguments
+      if arg == '|'
+        if l:i+1 == len(l:arguments) 
+          call vimshell#error_line(a:fd, 'Wrong pipe used.')
+          return 0
+        endif
+
+        " Create temporary file.
+        let l:temp = tempname()
+        let l:fd.stdout = l:temp
+        call writefile([], l:temp)
+        break
+      endif
+      call add(l:args, arg)
+      let l:i += 1
+    endfor
+    let l:ret = call(g:vimshell#internal_func_table[l:program], [l:program, l:args, l:fd, a:other_info])
+
+    if l:i < len(l:arguments)
+      " Process pipe.
+      let l:prog = l:arguments[l:i + 1]
+      let l:fd = copy(a:fd)
+      let l:fd.stdin = temp
+      let l:ret = vimshell#parser#execute_command(l:prog, l:arguments[l:i+2 :], l:fd, a:other_info)
+      call delete(l:temp)
+    endif
+
+    return l:ret
+    "}}}
+  elseif isdirectory(l:dir)"{{{
+    " Directory.
+    " Change the working directory like zsh.
+
+    " Call internal cd command.
+    return vimshell#execute_internal_command('cd', [l:dir], a:fd, a:other_info)
+    "}}}
+  elseif l:command != '' || executable(l:program)"{{{
+    " Execute external commands.
+
+    " Suffix execution.
+    let l:ext = fnamemodify(l:program, ':e')
+    if !empty(l:ext) && has_key(g:VimShell_ExecuteFileList, l:ext)
+      " Execute file.
+      let l:execute = split(g:VimShell_ExecuteFileList[l:ext])[0]
+      let l:arguments = extend(split(g:VimShell_ExecuteFileList[l:ext])[1:], insert(l:arguments, l:program))
+      return vimshell#parser#execute_command(l:execute, l:arguments, a:fd, a:other_info)
+    endif
+
+    " Search pipe.
+    let l:args = []
+    let l:i = 0
+    let l:fd = copy(a:fd)
+    for arg in l:arguments
+      if arg == '|'
+        if l:i+1 == len(l:arguments) 
+          call vimshell#error_line(a:fd, 'Wrong pipe used.')
+          return 0
+        endif
+
+        " Check internal command.
+        let l:prog = l:arguments[l:i + 1]
+        if !has_key(g:vimshell#special_func_table, l:prog) && !has_key(g:vimshell#internal_func_table, l:prog)
+          " Create temporary file.
+          let l:temp = tempname()
+          let l:fd.stdout = l:temp
+          call writefile([], l:temp)
+          break
+        endif
+      endif
+      call add(l:args, arg)
+      let l:i += 1
+    endfor
+    let l:ret = vimshell#execute_internal_command('exe', insert(l:args, l:program), l:fd, a:other_info)
+
+    if l:i < len(l:arguments)
+      " Process pipe.
+      let l:fd = copy(a:fd)
+      let l:fd.stdin = temp
+      let l:ret = vimshell#parser#execute_command(l:prog, l:arguments[l:i+2 :], l:fd, a:other_info)
+      call delete(l:temp)
+    endif
+
+    return l:ret"}}}
+  else"{{{
+    throw printf('File: "%s" is not found.', l:program)
+  endif
+  "}}}
+
+  return 0
 endfunction"}}}
 
 function! vimshell#parser#split_statements(script)"{{{
@@ -162,6 +277,9 @@ function! vimshell#parser#split_statements(script)"{{{
 
       let l:statement .= a:script[l:i]
       let l:i += 1
+    elseif a:script[l:i] == '#'
+      " Comment.
+      break
     else
       let l:statement .= a:script[l:i]
       let l:i += 1
@@ -267,6 +385,74 @@ function! vimshell#parser#split_args(script)"{{{
   endfor
 
   return l:ret
+endfunction"}}}
+function! vimshell#parser#split_commands(script)"{{{
+  let l:script = a:script
+  let l:max = len(l:script)
+  let l:commands = []
+  let l:command = ''
+  let i = 0
+  while i < l:max
+    if l:script[i] == "'"
+      " Single quote.
+      let l:end = matchend(l:script, "^'\\zs[^']*'", i)
+      if l:end == -1
+        throw 'Quote error'
+      endif
+
+      let l:command .= l:script[i: l:end]
+      let i = l:end
+    elseif l:script[i] == '"'
+      " Double quote.
+      let l:end = matchend(l:script, '^"\zs\%([^"]\|\"\)*"', i)
+      if l:end == -1
+        throw 'Quote error'
+      endif
+
+      let l:command .= l:script[i: l:end]
+      let i = l:end
+    elseif l:script[i] == '`'
+      " Back quote.
+      if l:script[i :] =~ '^`='
+        let l:quote = matchstr(l:script, '^`=\zs[^`]*\ze`', i)
+        let l:end = matchend(l:script, '^`=[^`]*`', i)
+      else
+        let l:quote = matchstr(l:script, '^`\zs[^`]*\ze`', i)
+        let l:end = matchend(l:script, '^`[^`]*`', i)
+      endif
+
+      let l:command .= l:script[i]
+      let i = l:end
+    elseif l:script[i] == '\'
+      " Escape.
+      let l:command .= l:script[i]
+      let i += 1
+
+      if i > l:max
+        throw 'Escape error'
+      endif
+
+      let l:command .= l:script[i]
+      let i += 1
+    elseif l:script[i] == '|'
+      if l:command != ''
+        call add(l:commands, l:command)
+      endif
+      let l:command = ''
+      
+      let l:i += 1
+    else
+
+      let l:command .= l:script[i]
+      let i += 1
+    endif
+  endwhile
+
+  if l:command != ''
+    call add(l:commands, l:command)
+  endif
+
+  return l:commands
 endfunction"}}}
 function! vimshell#parser#check_wildcard()"{{{
   let l:wildcard = matchstr(vimshell#get_cur_text(), '[^[:blank:]]*$')
@@ -452,9 +638,9 @@ function! s:parse_variables(script)"{{{
     if a:script[l:i] == '$'
       " Eval variables.
       if match(a:script, '^$\l', l:i) >= 0
-        let l:script .= string(eval(printf("b:vimshell_variables['%s']", matchstr(a:script, '^$\zs\l\w*', l:i))))
+        let l:script .= string(eval(printf("b:vimshell.variables['%s']", matchstr(a:script, '^$\zs\l\w*', l:i))))
       elseif match(a:script, '^$$', l:i) >= 0
-        let l:script .= string(eval(printf("b:vimshell_system_variables['%s']", matchstr(a:script, '^$$\zs\h\w*', l:i))))
+        let l:script .= string(eval(printf("b:vimshell.system_variables['%s']", matchstr(a:script, '^$$\zs\h\w*', l:i))))
       else
         let l:script .= string(eval(matchstr(a:script, '^$\h\w*', l:i)))
       endif
@@ -582,5 +768,22 @@ function! s:skip_else(args, script, i)"{{{
 
   return [l:script, l:i]
 endfunction"}}}
+
+function! s:recursive_expand_alias(string)
+  " Recursive expand alias.
+  let l:alias = b:vimshell.alias_table[a:string]
+  let l:expanded = {}
+  while 1
+    let l:key = vimshell#parser#split_args(l:alias)[-1]
+    if has_key(l:expanded, l:alias) || !has_key(b:vimshell.alias_table, l:alias)
+      break
+    endif
+    
+    let l:expanded[l:alias] = 1
+    let l:alias = b:vimshell.alias_table[l:alias]
+  endwhile
+
+  return l:alias
+endfunction
 
 " vim: foldmethod=marker
