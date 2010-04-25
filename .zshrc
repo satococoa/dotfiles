@@ -20,6 +20,7 @@ setopt share_history
 function history-all { history -E 1 }
 autoload -U compinit
 compinit
+source $HOME/.zsh/cdd
 if [ "x$TERM" = "xscreen" ]; then
   chpwd () { echo -n "_`dirs`\\" }
   preexec() {
@@ -61,7 +62,10 @@ else
   exec screen -S main -xRR
 fi
 function ssh_screen(){
- eval server=\${$#}
- screen -t $server ssh "$@"
+  eval server=\${$#}
+  screen -t $server ssh "$@"
+}
+function chpwd() {
+  _reg_pwd_screennum
 }
 if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
