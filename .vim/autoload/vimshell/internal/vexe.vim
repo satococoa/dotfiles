@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: clear.vim
+" FILE: vexe.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 09 May 2010
+" Last Modified: 26 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,9 +24,26 @@
 " }}}
 "=============================================================================
 
-function! vimshell#internal#clear#execute(program, args, fd, other_info)
-  " Clean up the screen.
-  % delete _
+function! vimshell#internal#vexe#execute(program, args, fd, other_info)
+  " Execute vim command.
 
-  call vimshell#terminal#clear_highlight()
+  let l:context = a:other_info
+  let l:context.fd = a:fd
+  call vimshell#set_context(l:context)
+  
+  let l:temp = tempname()
+  let l:save_vfile = &verbosefile
+  let &verbosefile = l:temp
+  for l:command in split(join(a:args), '\n')
+    silent execute l:command
+  endfor
+  if &verbosefile == l:temp
+    let &verbosefile = l:save_vfile
+  endif
+  let l:output = readfile(l:temp)
+  call delete(l:temp)
+
+  for l:line in l:output
+    call vimshell#print_line(a:fd, l:line)
+  endfor
 endfunction

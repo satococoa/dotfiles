@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: parser.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 06 Apr 2010
+" Last Modified: 02 May 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,33 +24,39 @@
 " }}}
 "=============================================================================
 
+function! vimshell#parser#check_script(script)"{{{
+  " Parse check only.
+  " Split statements.
+  for l:statement in vimshell#parser#split_statements(a:script)
+    let l:args = vimshell#parser#split_args(l:statement)
+  endfor
+
+  return 0
+endfunction"}}}
 function! vimshell#parser#eval_script(script, context)"{{{
   let l:skip_prompt = 0
   " Split statements.
   for l:statement in vimshell#parser#split_statements(a:script)
-    " Get program.
-    let l:args = vimshell#parser#split_args(l:statement)
+    let l:statement = s:parse_galias(l:statement)
 
-    " Expand global alias.
-    for l:arg in l:args
-      if has_key(b:vimshell.galias_table, l:arg)
-        let l:arg = b:vimshell.galias_table[l:arg]
-      endif
-    endfor
-    
-    let l:program = l:args[0]
+    " Get program.
+    let l:program = matchstr(l:statement, vimshell#get_program_pattern())
+    if l:program  == ''
+      throw 'Error: Invalid command name.'
+    endif
+    let l:script = l:statement[len(l:program) :]
 
     if has_key(b:vimshell.alias_table, l:program) && !empty(b:vimshell.alias_table[l:program])
       " Expand alias.
       let l:alias = s:recursive_expand_alias(l:program)
-      let l:args = vimshell#parser#split_args(l:alias . ' ' . join(l:args[1:])) 
-      let l:program = l:args[0]
+      let l:script = join(vimshell#parser#split_args(l:alias)) . l:script
+      let l:program = matchstr(l:script, vimshell#get_program_pattern())
+      let l:script = l:script[len(l:program) :]
     endif
     if l:program != '' && l:program[0] == '~'
       " Parse tilde.
       let l:program = substitute($HOME, '\\', '/', 'g') . l:program[1:]
     endif
-    let l:script = join(l:args[1:])
 
     if has_key(g:vimshell#special_func_table, l:program)
       " Special commands.
@@ -73,7 +79,7 @@ function! vimshell#parser#eval_script(script, context)"{{{
       endif
 
       " Expand variables.
-      if l:script =~ '$'
+      if l:script =~ '\$'
         let l:script = s:parse_variables(l:script)
       endif
 
@@ -87,11 +93,6 @@ function! vimshell#parser#eval_script(script, context)"{{{
         let [l:fd, l:script] = s:parse_redirection(l:script)
       else
         let l:fd = { 'stdin' : '', 'stdout' : '', 'stderr' : '' }
-      endif
-
-      " Parse pipe.
-      if l:script =~ '|'
-        let l:script = s:parse_pipe(l:script)
       endif
 
       " Split args.
@@ -192,10 +193,10 @@ function! vimshell#parser#execute_command(program, args, fd, other_info)"{{{
 
     " Suffix execution.
     let l:ext = fnamemodify(l:program, ':e')
-    if !empty(l:ext) && has_key(g:VimShell_ExecuteFileList, l:ext)
+    if !empty(l:ext) && has_key(g:vimshell_execute_file_list, l:ext)
       " Execute file.
-      let l:execute = split(g:VimShell_ExecuteFileList[l:ext])[0]
-      let l:arguments = extend(split(g:VimShell_ExecuteFileList[l:ext])[1:], insert(l:arguments, l:program))
+      let l:execute = split(g:vimshell_execute_file_list[l:ext])[0]
+      let l:arguments = extend(split(g:vimshell_execute_file_list[l:ext])[1:], insert(l:arguments, l:program))
       return vimshell#parser#execute_command(l:execute, l:arguments, a:fd, a:other_info)
     endif
 
@@ -235,7 +236,7 @@ function! vimshell#parser#execute_command(program, args, fd, other_info)"{{{
 
     return l:ret"}}}
   else"{{{
-    throw printf('File: "%s" is not found.', l:program)
+    throw printf('Error: File "%s" is not found.', l:program)
   endif
   "}}}
 
@@ -256,7 +257,7 @@ function! vimshell#parser#split_statements(script)"{{{
       let l:i += 1
     elseif a:script[l:i] == "'"
       " Single quote.
-      let [l:string, l:i] = s:skip_quote(a:script, l:i)
+      let [l:string, l:i] = s:skip_single_quote(a:script, l:i)
       let l:statement .= l:string
     elseif a:script[l:i] == '"'
       " Double quote.
@@ -272,7 +273,7 @@ function! vimshell#parser#split_statements(script)"{{{
       let l:i += 1
 
       if l:i >= len(a:script)
-        throw 'Escape error'
+        throw 'Exception: Join to next line (\).'
       endif
 
       let l:statement .= a:script[l:i]
@@ -301,52 +302,31 @@ function! vimshell#parser#split_args(script)"{{{
   while l:i < l:max
     if l:script[l:i] == "'"
       " Single quote.
-      let l:end = matchend(l:script, "^'\\zs[^']*'", l:i)
-      if l:end == -1
-        throw 'Quote error'
-      endif
-
-      let l:arg .= l:script[l:i+1 : l:end-2]
+      let [l:arg_quote, l:i] = s:parse_single_quote(l:script, l:i)
+      let l:arg .= l:arg_quote
       if l:arg == ''
         call add(l:args, '')
       endif
-
-      let l:i = l:end
     elseif l:script[l:i] == '"'
       " Double quote.
-      let l:end = matchend(l:script, '^"\zs\%([^"]\|\"\)*"', l:i)
-      if l:end == -1
-        throw 'Quote error'
-      endif
-
-      let l:arg .= substitute(l:script[l:i+1 : l:end-2], '\\"', '"', 'g')
+      let [l:arg_quote, l:i] = s:parse_double_quote(l:script, l:i)
+      let l:arg .= l:arg_quote
       if l:arg == ''
         call add(l:args, '')
       endif
-
-      let l:i = l:end
     elseif l:script[l:i] == '`'
       " Back quote.
-      if l:script[l:i :] =~ '^`='
-        let l:quote = matchstr(l:script, '^`=\zs[^`]*\ze`', l:i)
-        let l:end = matchend(l:script, '^`=[^`]*`', l:i)
-        let l:arg .= string(eval(l:quote))
-      else
-        let l:quote = matchstr(l:script, '^`\zs[^`]*\ze`', l:i)
-        let l:end = matchend(l:script, '^`[^`]*`', l:i)
-        let l:arg .= substitute(system(l:quote), '\n', ' ', 'g')
-      endif
+      let [l:arg_quote, l:i] = s:parse_back_quote(l:script, l:i)
+      let l:arg .= l:arg_quote
       if l:arg == ''
         call add(l:args, '')
       endif
-
-      let l:i = l:end
     elseif l:script[i] == '\'
       " Escape.
       let l:i += 1
 
       if l:i > l:max
-        throw 'Escape error'
+        throw 'Exception: Join to next line (\).'
       endif
 
       let l:arg .= l:script[i]
@@ -386,6 +366,46 @@ function! vimshell#parser#split_args(script)"{{{
 
   return l:ret
 endfunction"}}}
+function! vimshell#parser#split_pipe(script)"{{{
+  let l:script = ''
+
+  let l:i = 0
+  let l:max = len(a:script)
+  let l:commands = []
+  while l:i < l:max
+    if a:script[l:i] == '|'
+      " Pipe.
+      call add(l:commands, l:script)
+
+      " Search next command.
+      let l:script = ''
+      let l:i += 1
+    elseif a:script[l:i] == "'"
+      " Single quote.
+      let [l:string, l:i] = s:skip_quote(a:script, l:i)
+      let l:script .= l:string
+    elseif a:script[l:i] == '"'
+      " Double quote.
+      let [l:string, l:i] = s:skip_double_quote(a:script, l:i)
+      let l:script .= l:string
+    elseif a:script[l:i] == '`'
+      " Back quote.
+      let [l:string, l:i] = s:skip_back_quote(a:script, l:i)
+      let l:script .= l:string
+    elseif a:script[l:i] == '\' && l:i + 1 < l:max
+      " Escape.
+      let l:script .= '\' . a:script[l:i+1]
+      let l:i += 2
+    else
+      let l:script .= a:script[l:i]
+      let l:i += 1
+    endif
+  endwhile
+
+  call add(l:commands, l:script)
+
+  return l:commands
+endfunction"}}}
 function! vimshell#parser#split_commands(script)"{{{
   let l:script = a:script
   let l:max = len(l:script)
@@ -393,43 +413,13 @@ function! vimshell#parser#split_commands(script)"{{{
   let l:command = ''
   let i = 0
   while i < l:max
-    if l:script[i] == "'"
-      " Single quote.
-      let l:end = matchend(l:script, "^'\\zs[^']*'", i)
-      if l:end == -1
-        throw 'Quote error'
-      endif
-
-      let l:command .= l:script[i: l:end]
-      let i = l:end
-    elseif l:script[i] == '"'
-      " Double quote.
-      let l:end = matchend(l:script, '^"\zs\%([^"]\|\"\)*"', i)
-      if l:end == -1
-        throw 'Quote error'
-      endif
-
-      let l:command .= l:script[i: l:end]
-      let i = l:end
-    elseif l:script[i] == '`'
-      " Back quote.
-      if l:script[i :] =~ '^`='
-        let l:quote = matchstr(l:script, '^`=\zs[^`]*\ze`', i)
-        let l:end = matchend(l:script, '^`=[^`]*`', i)
-      else
-        let l:quote = matchstr(l:script, '^`\zs[^`]*\ze`', i)
-        let l:end = matchend(l:script, '^`[^`]*`', i)
-      endif
-
-      let l:command .= l:script[i]
-      let i = l:end
-    elseif l:script[i] == '\'
+    if l:script[i] == '\'
       " Escape.
       let l:command .= l:script[i]
       let i += 1
 
       if i > l:max
-        throw 'Escape error'
+        throw 'Exception: Join to next line (\).'
       endif
 
       let l:command .= l:script[i]
@@ -455,8 +445,8 @@ function! vimshell#parser#split_commands(script)"{{{
   return l:commands
 endfunction"}}}
 function! vimshell#parser#check_wildcard()"{{{
-  let l:wildcard = matchstr(vimshell#get_cur_text(), '[^[:blank:]]*$')
-  return l:wildcard =~ '[[*?]\|^\\[()|]'
+  let l:args = vimshell#get_current_args()
+  return !empty(l:args) && l:args[-1] =~ '[[*?]\|^\\[()|]'
 endfunction"}}}
 function! vimshell#parser#expand_wildcard(wildcard)"{{{
   " Exclude wildcard.
@@ -539,6 +529,54 @@ function! vimshell#parser#getopt(args, optsyntax)"{{{
 endfunction"}}}
 
 " Parse helper.
+function! s:parse_galias(script)"{{{
+  let l:script = a:script
+  let l:max = len(l:script)
+  let l:args = []
+  let l:arg = ''
+  let l:i = 0
+  while l:i < l:max
+    if l:script[i] == '\'
+      " Escape.
+      let l:i += 1
+
+      if l:i > l:max
+        throw 'Exception: Join to next line (\).'
+      endif
+
+      let l:arg .= l:script[i]
+      let l:i += 1
+    elseif l:script[l:i] != ' '
+      let l:arg .= l:script[l:i]
+      let l:i += 1
+    else
+      " Space.
+      if l:arg != ''
+        call add(l:args, l:arg)
+      endif
+
+      let l:arg = ''
+
+      let l:i += 1
+    endif
+  endwhile
+
+  if l:arg != ''
+    call add(l:args, l:arg)
+  endif
+  
+  " Expand global alias.
+  let i = 0
+  for l:arg in l:args
+    if has_key(b:vimshell.galias_table, l:arg)
+      let l:args[i] = b:vimshell.galias_table[l:arg]
+    endif
+
+    let i += 1
+  endfor
+
+  return join(l:args)
+endfunction"}}}
 function! s:parse_block(script)"{{{
   let l:script = ''
 
@@ -552,7 +590,7 @@ function! s:parse_block(script)"{{{
       let l:script = l:script[: -len(l:head)-1]
       let l:block = matchstr(a:script, '{\zs.*[^\\]\ze}', l:i)
       if l:block == ''
-        throw 'Block error'
+        throw 'Exception: Block is not found.'
       elseif l:block =~ '^\d\+\.\.\d\+$'
         " Range block.
         let l:start = matchstr(l:block, '^\d\+')
@@ -615,7 +653,7 @@ function! s:parse_equal(script)"{{{
       else
         let l:filename = vimshell#getfilename(l:prog)
         if l:filename == ''
-          throw printf('File: "%s" is not found.', l:prog)
+          throw printf('Error: File "%s" is not found.', l:prog)
         else
           let l:script .= l:filename
         endif
@@ -663,7 +701,7 @@ function! s:parse_wildcard(script)"{{{
       let l:head = matchstr(a:script[: l:i-1], '[^[:blank:]]*$')
       let l:wildcard = l:head . matchstr(a:script, '^[^[:blank:]]*', l:i)
       " Trunk l:script.
-      let l:script = l:script[: -len(l:wildcard)+1]
+      let l:script = l:script[: -len(l:wildcard)]
 
       let l:script .= join(vimshell#parser#expand_wildcard(l:wildcard))
       let l:i = matchend(a:script, '^[^[:blank:]]*', l:i)
@@ -704,50 +742,127 @@ function! s:parse_redirection(script)"{{{
 
   return [l:fd, l:script]
 endfunction"}}}
-function! s:parse_pipe(script)"{{{
-  let l:script = ''
 
-  let l:i = 0
+function! s:parse_single_quote(script, i)"{{{
+  if a:script[a:i] != "'"
+    return ['', a:i]
+  endif
+
+  let l:arg = ''
+  let i = a:i + 1
   let l:max = len(a:script)
-  while l:i < l:max
-    if a:script[l:i] == '|'
-      " Pipe.
-      let l:script .= ' | '
-      let l:i += 1
+  while i < l:max
+    if a:script[i] == "'"
+      if i+1 < l:max && a:script[i+1] == "'"
+        " Escape quote.
+        let l:arg .= "'"
+        let i += 2
+      else
+        " Quote end.
+        return [l:arg, i+1]
+      endif
     else
-      let [l:script, l:i] = s:skip_else(l:script, a:script, l:i)
+      let l:arg .= a:script[i]
+      let i += 1
     endif
   endwhile
 
-  return l:script
+  throw 'Exception: Quote ('') is not found.'
+endfunction"}}}
+function! s:parse_double_quote(script, i)"{{{
+  if a:script[a:i] != '"'
+    return ['', a:i]
+  endif
+
+  let l:arg = ''
+  let i = a:i + 1
+  let l:max = len(a:script)
+  while i < l:max
+    if a:script[i] == '"'
+      " Quote end.
+      return [l:arg, i+1]
+    elseif a:script[i] == '\'
+      " Escape.
+      let l:i += 1
+
+      if l:i > l:max
+        throw 'Exception: Join to next line (\).'
+      endif
+
+      let l:arg .= a:script[i]
+      let l:i += 1
+    else
+      let l:arg .= a:script[i]
+      let i += 1
+    endif
+  endwhile
+
+  throw 'Exception: Quote (") is not found.'
+endfunction"}}}
+function! s:parse_back_quote(script, i)"{{{
+  if a:script[a:i] != '`'
+    return ['', a:i]
+  endif
+  
+  let l:arg = ''
+  let l:max = len(a:script)
+  if i + 1 < l:max && a:script[a:i + 1] == '='
+    " Vim eval quote.
+    let i = a:i + 2
+    
+    while i < l:max
+      if a:script[i] == '`'
+        " Quote end.
+        return [eval(l:arg), i+1]
+      else
+        let l:arg .= a:script[i]
+        let i += 1
+      endif
+    endwhile
+  else
+    " Eval quote.
+    let i = a:i + 1
+    
+    while i < l:max
+      if a:script[i] == '`'
+        " Quote end.
+        return [l:arg, i+1]
+      else
+        let l:arg .= a:script[i]
+        let i += 1
+      endif
+    endwhile
+  endif
+
+  throw 'Exception: Quote (`) is not found.'
 endfunction"}}}
 
 " Skip helper.
-function! s:skip_quote(script, i)"{{{
+function! s:skip_single_quote(script, i)"{{{
   let l:end = matchend(a:script, "^'[^']*'", a:i)
   if l:end == -1
-    throw 'Quote error'
+    throw 'Exception: Quote ('') is not found.'
   endif
   return [matchstr(a:script, "^'[^']*'", a:i), l:end]
 endfunction"}}}
 function! s:skip_double_quote(script, i)"{{{
   let l:end = matchend(a:script, '^"\%([^"]\|\"\)*"', a:i)
   if l:end == -1
-    throw 'Quote error'
+    throw 'Exception: Quote (") is not found.'
   endif
   return [matchstr(a:script, '^"\%([^"]\|\"\)*"', a:i), l:end]
 endfunction"}}}
 function! s:skip_back_quote(script, i)"{{{
   let l:end = matchend(a:script, '^`[^`]*`', a:i)
   if l:end == -1
-    throw 'Quote error'
+    throw 'Exception: Quote (`) is not found.'
   endif
   return [matchstr(a:script, '^`[^`]*`', a:i), l:end]
 endfunction"}}}
 function! s:skip_else(args, script, i)"{{{
   if a:script[a:i] == "'"
     " Single quote.
-    let [l:string, l:i] = s:skip_quote(a:script, a:i)
+    let [l:string, l:i] = s:skip_single_quote(a:script, a:i)
     let l:script = a:args . l:string
   elseif a:script[a:i] == '"'
     " Double quote.
@@ -769,7 +884,7 @@ function! s:skip_else(args, script, i)"{{{
   return [l:script, l:i]
 endfunction"}}}
 
-function! s:recursive_expand_alias(string)
+function! s:recursive_expand_alias(string)"{{{
   " Recursive expand alias.
   let l:alias = b:vimshell.alias_table[a:string]
   let l:expanded = {}
@@ -784,6 +899,6 @@ function! s:recursive_expand_alias(string)
   endwhile
 
   return l:alias
-endfunction
+endfunction"}}}
 
 " vim: foldmethod=marker

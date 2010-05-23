@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: history_complete.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 09 Feb 2009
+" Last Modified: 17 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -79,10 +79,10 @@ function! vimshell#complete#history_complete#omnifunc_whole(findstart, base)"{{{
   let l:ignorecase_save = &ignorecase
 
   " Complete.
-  if g:VimShell_SmartCase && a:base =~ '\u'
+  if g:vimshell_smart_case && a:base =~ '\u'
     let &ignorecase = 0
   else
-    let &ignorecase = g:VimShell_IgnoreCase
+    let &ignorecase = g:vimshell_ignore_case
   endif
 
   " Collect words.
@@ -103,13 +103,13 @@ function! vimshell#complete#history_complete#omnifunc_whole(findstart, base)"{{{
       endfor
 
       if l:matched
-        call add(l:complete_words, { 'word' : hist, 'menu' : 'history' })
+        call add(l:complete_words, { 'word' : hist, 'menu' : 'history', 'icase' : &ignorecase })
       endif
     endfor
     let l:complete_words = l:complete_words[:100]
   else
     for hist in g:vimshell#hist_buffer[:100]
-      call add(l:complete_words, { 'word' : hist, 'menu' : 'history' })
+      call add(l:complete_words, { 'word' : hist, 'menu' : 'history', 'icase' : &ignorecase })
     endfor
   endif
 
@@ -131,10 +131,10 @@ function! vimshell#complete#history_complete#omnifunc_insert(findstart, base)"{{
   let l:ignorecase_save = &ignorecase
 
   " Complete.
-  if g:VimShell_SmartCase && a:base =~ '\u'
+  if g:vimshell_smart_case && a:base =~ '\u'
     let &ignorecase = 0
   else
-    let &ignorecase = g:VimShell_IgnoreCase
+    let &ignorecase = g:vimshell_ignore_case
   endif
   let l:complete_words = []
   if a:base != ''

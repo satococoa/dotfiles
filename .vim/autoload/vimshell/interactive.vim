@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: interactive.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 09 Apr 2010
+" Last Modified: 18 May 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -38,10 +38,8 @@ let s:character_regex = ''
 
 augroup VimShellInteractive
   autocmd!
-  autocmd CursorHold * call s:check_output()
+  autocmd CursorHold * call s:check_all_output()
 augroup END
-
-command! -range VimShellSendString call s:send_string(<line1>, <line2>)
 
 function! vimshell#interactive#get_cur_text()"{{{
   if getline('.') == '...'
@@ -176,11 +174,6 @@ function! vimshell#interactive#execute_pty_inout(is_insert)"{{{
     return
   endif
 
-  if b:interactive.process.eof
-    call vimshell#interactive#exit()
-    return
-  endif
-
   let l:in = vimshell#interactive#get_cur_line(line('.'))
 
   if l:in != ''
@@ -226,21 +219,18 @@ function! vimshell#interactive#execute_pty_inout(is_insert)"{{{
     call setline('$', '...')
   endif
 
-  if b:interactive.process.is_valid && b:interactive.process.eof
-    call vimshell#interactive#exit()
-  elseif a:is_insert
-    startinsert!
-  else
-    normal! $
+  if b:interactive.process.is_valid
+    if b:interactive.process.eof
+      call vimshell#interactive#exit()
+    elseif a:is_insert
+      startinsert!
+    else
+      normal! $
+    endif
   endif
 endfunction"}}}
 function! vimshell#interactive#send_string(string)"{{{
   if !b:interactive.process.is_valid
-    return
-  endif
-
-  if b:interactive.process.eof
-    call vimshell#interactive#exit()
     return
   endif
 
@@ -256,10 +246,11 @@ function! vimshell#interactive#send_string(string)"{{{
   endif
 
   try
+    let b:interactive.skip_echoback = l:in[: -2]
+    
     if l:in =~ "\<C-d>$"
       " EOF.
       call b:interactive.process.write(l:in[:-2] . (b:interactive.is_pty ? "\<C-z>" : "\<C-d>"))
-      let b:interactive.skip_echoback = l:in[:-2]
       call vimshell#interactive#execute_pty_out(1)
 
       call vimshell#interactive#exit()
@@ -271,7 +262,6 @@ function! vimshell#interactive#send_string(string)"{{{
       endif
 
       call b:interactive.process.write(l:in)
-      let b:interactive.skip_echoback = l:in
     endif
   catch
     call vimshell#interactive#exit()
@@ -289,9 +279,7 @@ function! vimshell#interactive#send_string(string)"{{{
     call setline('$', '...')
   endif
 
-  if b:interactive.process.is_valid && b:interactive.process.eof
-    call vimshell#interactive#exit()
-  else
+  if !b:interactive.process.eof
     startinsert!
   endif
 endfunction"}}}
@@ -301,24 +289,29 @@ function! vimshell#interactive#execute_pty_out(is_insert)"{{{
     return
   endif
 
-  if b:interactive.process.eof
-    call vimshell#interactive#exit()
-    return
-  endif
-  
   let l:outputed = 0
-  let l:read = b:interactive.process.read(-1, 40)
-  while l:read != ''
+  if b:interactive.cached_output != ''
+    " Use cache.
+    let l:read = b:interactive.cached_output
     let l:outputed = 1
+    let b:interactive.cached_output = ''
 
     call s:print_buffer(b:interactive.fd, l:read)
     redraw
-
+  else
     let l:read = b:interactive.process.read(-1, 40)
-  endwhile
+    while l:read != ''
+      let l:outputed = 1
+
+      call s:print_buffer(b:interactive.fd, l:read)
+      redraw
+
+      let l:read = b:interactive.process.read(-1, 40)
+    endwhile
+  endif
 
   if l:outputed
-    if has_key(b:interactive, 'skip_echoback') && line('.') < line('$') && b:interactive.skip_echoback ==# getline(line('.'))
+    if has_key(b:interactive, 'skip_echoback') && b:interactive.skip_echoback ==# getline(line('.'))
       delete
       redraw
     endif
@@ -326,11 +319,15 @@ function! vimshell#interactive#execute_pty_out(is_insert)"{{{
     let b:interactive.prompt_history[line('$')] = getline('$')
     $
     
-    if a:is_insert
+    if !b:interactive.process.eof && a:is_insert
       startinsert!
     else
       normal! $
     endif
+  endif
+  
+  if b:interactive.process.eof
+    call vimshell#interactive#exit()
   endif
 endfunction"}}}
 
@@ -339,7 +336,14 @@ function! vimshell#interactive#execute_pipe_out()"{{{
     return
   endif
 
-  try
+  if has_key(b:interactive, 'cached_output') && b:interactive.cached_output != ''
+    " Use cache.
+    let l:read = b:interactive.cached_output
+    let b:interactive.cached_output = ''
+
+    call s:print_buffer(b:interactive.fd, l:read)
+    redraw
+  else
     if !b:interactive.process.stdout.eof
       let l:read = b:interactive.process.stdout.read(-1, 40)
       while l:read != ''
@@ -359,10 +363,7 @@ function! vimshell#interactive#execute_pipe_out()"{{{
         let l:read = b:interactive.process.stderr.read(-1, 40)
       endwhile
     endif
-  catch
-    call vimshell#interactive#exit()
-    return
-  endtry
+  endif
 
   if b:interactive.process.stdout.eof && b:interactive.process.stderr.eof
     call vimshell#interactive#exit()
@@ -389,7 +390,13 @@ function! vimshell#interactive#exit()"{{{
   let b:interactive.status = eval(l:status)
   if &filetype != 'vimshell'
     call append(line('$'), '*Exit*')
+    
     $
+    normal! $
+
+    stopinsert
+
+    setlocal nomodifiable
   endif
 endfunction"}}}
 function! vimshell#interactive#force_exit()"{{{
@@ -400,140 +407,44 @@ function! vimshell#interactive#force_exit()"{{{
   " Kill processes.
   try
     " 15 == SIGTERM
-    call b:interactive.process.vp_kill(15)
+    call b:interactive.process.kill(15)
   catch
   endtry
 
   if &filetype != 'vimshell'
+    setlocal modifiable
+    
     call append(line('$'), '*Killed*')
     $
+    normal! $
+    
+    stopinsert
+    setlocal nomodifiable
   endif
 endfunction"}}}
-function! vimshell#interactive#hang_up()"{{{
-  let l:bufnr = 1
-  while l:bufnr <= bufnr('$')
-    if !buflisted(l:bufnr) && type(getbufvar(l:bufnr, 'vimproc')) != type('')
-      let l:vimproc = getbufvar(l:bufnr, 'b:interactive')
-      if b:interactive.process.is_valid
-        " Kill process.
-        try
-          " 15 == SIGTERM
-          call l:vimproc.process.kill(15)
-        catch /No such process/
-        endtry
-      endif
+function! vimshell#interactive#hang_up(afile)"{{{
+  if type(getbufvar(a:afile, 'interactive')) != type('')
+    let l:vimproc = getbufvar(a:afile, 'interactive')
+    if l:vimproc.process.is_valid
+      " Kill process.
+      try
+        " 15 == SIGTERM
+        call l:vimproc.process.kill(15)
+      catch /No such process/
+      endtry
     endif
+    
+    if bufname('%') == a:afile && getbufvar(a:afile, '&filetype') != 'vimshell'
+      setlocal modifiable
+      
+      call append(line('$'), '*Killed*')
+      $
+      normal! $
 
-    let l:bufnr += 1
-  endwhile
-endfunction"}}}
-
-function! vimshell#interactive#interrupt()"{{{
-  if !b:interactive.process.is_valid
-    return
+      stopinsert
+      setlocal nomodifiable
+    endif
   endif
-
-  " Kill process.
-  try
-    " 1 == SIGINT
-    call b:interactive.process.kill(1)
-  catch /No such process/
-  endtry
-
-  call vimshell#interactive#execute_pty_out(1)
-endfunction"}}}
-
-function! vimshell#interactive#highlight_escape_sequence()"{{{
-  let l:pos = getpos('.')
-
-  let l:register_save = @"
-  let l:color_table = [ 0x00, 0x5F, 0x87, 0xAF, 0xD7, 0xFF ]
-  let l:grey_table = [
-        \0x08, 0x12, 0x1C, 0x26, 0x30, 0x3A, 0x44, 0x4E, 
-        \0x58, 0x62, 0x6C, 0x76, 0x80, 0x8A, 0x94, 0x9E, 
-        \0xA8, 0xB2, 0xBC, 0xC6, 0xD0, 0xDA, 0xE4, 0xEE
-        \]
-
-  while search("\<ESC>\\[[0-9;]*m", 'c')
-    normal! dfm
-
-    let [lnum, col] = getpos('.')[1:2]
-    if len(getline('.')) == col
-      let col += 1
-    endif
-    let syntax_name = 'EscapeSequenceAt_' . bufnr('%') . '_' . lnum . '_' . col
-    execute 'syntax region' syntax_name 'start=+\%' . lnum . 'l\%' . col . 'c+ end=+\%$+' 'contains=ALL'
-
-    let highlight = ''
-    for color_code in split(matchstr(@", '[0-9;]\+'), ';')
-      if color_code == 0"{{{
-        let highlight .= ' cterm=NONE ctermfg=NONE ctermbg=NONE gui=NONE guifg=NONE guibg=NONE'
-      elseif color_code == 1
-        let highlight .= ' cterm=BOLD gui=BOLD'
-      elseif color_code == 4
-        let highlight .= ' cterm=UNDERLINE gui=UNDERLINE'
-      elseif color_code == 7
-        let highlight .= ' cterm=REVERSE gui=REVERSE'
-      elseif color_code == 8
-        let highlight .= ' ctermfg=0 ctermbg=0 guifg=#000000 guibg=#000000'
-      elseif 30 <= color_code && color_code <= 37 
-        " Foreground color.
-        let highlight .= printf(' ctermfg=%d guifg=%s', color_code - 30, g:VimShell_EscapeColors[color_code - 30])
-      elseif color_code == 38
-        " Foreground 256 colors.
-        let l:color = split(matchstr(@", '[0-9;]\+'), ';')[2]
-        if l:color >= 232
-          " Grey scale.
-          let l:gcolor = l:grey_table[(l:color - 232)]
-          let highlight .= printf(' ctermfg=%d guifg=#%02x%02x%02x', l:color, l:gcolor, l:gcolor, l:gcolor)
-        elseif l:color >= 16
-          " RGB.
-          let l:gcolor = l:color - 16
-          let l:red = l:color_table[l:gcolor / 36]
-          let l:green = l:color_table[(l:gcolor % 36) / 6]
-          let l:blue = l:color_table[l:gcolor % 6]
-
-          let highlight .= printf(' ctermfg=%d guifg=#%02x%02x%02x', l:color, l:red, l:green, l:blue)
-        else
-          let highlight .= printf(' ctermfg=%d guifg=%s', l:color, g:VimShell_EscapeColors[l:color])
-        endif
-        break
-      elseif color_code == 39
-        " TODO
-      elseif 40 <= color_code && color_code <= 47 
-        " Background color.
-        let highlight .= printf(' ctermbg=%d guibg=%s', color_code - 40, g:VimShell_EscapeColors[color_code - 40])
-      elseif color_code == 48
-        " Background 256 colors.
-        let l:color = split(matchstr(@", '[0-9;]\+'), ';')[2]
-        if l:color >= 232
-          " Grey scale.
-          let l:gcolor = l:grey_table[(l:color - 232)]
-          let highlight .= printf(' ctermbg=%d guibg=#%02x%02x%02x', l:color, l:gcolor, l:gcolor, l:gcolor)
-        elseif l:color >= 16
-          " RGB.
-          let l:gcolor = l:color - 16
-          let l:red = l:color_table[l:gcolor / 36]
-          let l:green = l:color_table[(l:gcolor % 36) / 6]
-          let l:blue = l:color_table[l:gcolor % 6]
-
-          let highlight .= printf(' ctermbg=%d guibg=#%02x%02x%02x', l:color, l:red, l:green, l:blue)
-        else
-          let highlight .= printf(' ctermbg=%d guibg=%s', l:color, g:VimShell_EscapeColors[l:color])
-        endif
-        break
-      elseif color_code == 49
-        " TODO
-      endif"}}}
-    endfor
-    if highlight != ''
-      execute 'highlight link' syntax_name 'Normal'
-      execute 'highlight' syntax_name highlight
-    endif
-  endwhile
-  let @" = l:register_save
-
-  call setpos('.', l:pos)
 endfunction"}}}
 
 function! s:print_buffer(fd, string)"{{{
@@ -634,15 +545,19 @@ function! s:error_buffer(fd, string)"{{{
     for l:line in split(getline('$') . l:string, '\n', 1)
       call append('$', '')
       for l:l in split(l:line, '\r', 1)
-        call setline('$', '!!! ' . l:l . ' !!!')
+        call setline('$', '!!!' . l:l . '!!!')
         redraw
       endfor
     endfor
   else
-    let l:lines = map(split(getline('$') . l:string, '\n', 1), '"!!! " . v:val . " !!!"')
+    let l:lines = split(l:string, '\n', 1)
 
-    call setline('$', l:lines[0])
-    call append('$', l:lines[1:])
+    if getline('$') =~ '!!!$'
+      call setline('$', getline('$')[: -4] . l:lines[0] . '!!!')
+    else
+      call setline('$', getline('$') . '!!!' . l:lines[0] . '!!!')
+    endif
+    call append('$', map(l:lines[1:], '"!!!" . v:val . "!!!"'))
   endif
 
   call vimshell#terminal#interpret_escape_sequence()
@@ -651,65 +566,104 @@ function! s:error_buffer(fd, string)"{{{
   $
 endfunction"}}}
 
-" Command functions.
-function! s:send_string(line1, line2)"{{{
-  " Check alternate buffer.
-  let l:filetype = getwinvar(winnr('#'), '&filetype')
-  if l:filetype =~ '^int-'
-    let l:line = getline(a:line1)
-    let l:string = join(getline(a:line1, a:line2), "\<LF>") . "\<LF>"
-    execute winnr('#') 'wincmd w'
-
-    " Save prompt.
-    let l:prompt = vimshell#interactive#get_prompt(line('$'))
-    let l:prompt_nr = line('$')
-    
-    " Send string.
-    call vimshell#interactive#send_string(l:string)
-    
-    call setline(l:prompt_nr, l:prompt . l:line)
-  endif
-endfunction"}}}
-
-function! s:on_exit()"{{{
-  augroup interactive
-    autocmd! * <buffer>
-  augroup END
-
-  call vimshell#interactive#exit()
-endfunction"}}}
-
 " Autocmd functions.
-function! s:check_output()"{{{
+function! s:check_all_output()"{{{
   let l:bufnr_save = bufnr('%')
 
   let l:bufnr = 1
   while l:bufnr <= bufnr('$')
-    if l:bufnr != bufnr('%') && buflisted(l:bufnr) && bufwinnr(l:bufnr) >= 0 && type(getbufvar(l:bufnr, 'interactive')) != type('')
-      " Check output.
+    if buflisted(l:bufnr) && bufwinnr(l:bufnr) > 0 && type(getbufvar(l:bufnr, 'interactive')) != type('')
       let l:filetype = getbufvar(l:bufnr, '&filetype')
-      let l:is_background = getbufvar(l:bufnr, 'interactive').is_background
-      if l:is_background || l:filetype =~ '^int-'
-        let l:pos = getpos('.')
-
-        execute 'buffer' l:bufnr
-
-        if l:is_background
-          " Background execute.
-          call vimshell#interactive#execute_pipe_out()
-        else
-          " Interactive execute.
-          call vimshell#interactive#execute_pty_out(0)
-        endif
-
-        if bufexists(l:bufnr_save)
-          execute 'buffer' l:bufnr_save
-        endif
+      let l:interactive = getbufvar(l:bufnr, 'interactive')
+      if l:interactive.is_background || l:filetype =~ '^int-'
+        " Check output.
+        call vimshell#interactive#check_output(l:interactive, l:bufnr, l:bufnr_save)
       endif
     endif
 
     let l:bufnr += 1
   endwhile
+  
+  if exists('b:interactive') && b:interactive.process.is_valid
+    call feedkeys("g\<ESC>", 'n')
+  endif
+endfunction"}}}
+function! vimshell#interactive#check_output(interactive, bufnr, bufnr_save)"{{{
+  let l:read = ''
+  
+  if a:interactive.is_background
+    " Background execute.
+    
+    if a:interactive.process.stdout.eof && a:interactive.process.stderr.eof
+      call vimshell#interactive#exit()
+      return
+    endif
+
+    " Check pipe output.
+    if !a:interactive.process.stdout.eof
+      let l:output = a:interactive.process.stdout.read(-1, 40)
+      while l:output != ''
+        let l:read .= l:output
+        let l:output = a:interactive.process.stdout.read(-1, 40)
+      endwhile
+      let l:read .= l:output
+    endif
+  else
+    " Interactive execute.
+    
+    if a:interactive.process.is_valid && a:interactive.process.eof
+      call vimshell#interactive#exit()
+      return
+    endif
+
+    " Check pty output.
+    let l:output = a:interactive.process.read(-1, 40)
+    while l:output != ''
+      let l:read .= l:output
+      let l:output = a:interactive.process.read(-1, 40)
+    endwhile
+    let l:read .= l:output
+  endif
+
+  if l:read != ''
+    let a:interactive.cached_output = l:read
+    
+    if a:bufnr != a:bufnr_save
+      let l:pos = getpos('.')
+      execute bufwinnr(a:bufnr) . 'wincmd w'
+    endif
+
+    if mode() !=# 'i'
+      let l:intbuffer_pos = getpos('.')
+    endif
+    
+    if a:interactive.is_background
+      setlocal modifiable
+      call vimshell#interactive#execute_pipe_out()
+      setlocal nomodifiable
+    else
+      " Check input.
+      let l:cur_text = vimshell#interactive#get_cur_text()
+      if l:cur_text != '' && l:cur_text !~# '*\%(Killed\|Exit\)*'
+        return
+      endif
+
+      call vimshell#interactive#execute_pty_out(mode() ==# 'i')
+    endif
+
+    if !a:interactive.process.eof && mode() ==# 'i'
+      startinsert!
+    endif
+    
+    if mode() !=# 'i'
+      call setpos('.', l:intbuffer_pos)
+    endif
+    
+    if a:bufnr != a:bufnr_save && bufexists(a:bufnr_save)
+      call setpos('.', l:pos)
+      execute bufwinnr(a:bufnr_save) . 'wincmd w'
+    endif
+  endif
 endfunction"}}}
 
 " vim: foldmethod=marker

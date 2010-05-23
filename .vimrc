@@ -98,8 +98,6 @@ inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
 " 途中でEnterしたとき、ポップアップを消して改行し、
 " 改行を連続して入力してもインデント部を保持する
 inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
-"vimshell
-let g:VimShell_EnableInteractive = 1
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree

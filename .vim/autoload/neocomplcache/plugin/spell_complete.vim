@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: clear.vim
-" AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 09 May 2010
+" FILE: spell_complete.vim
+" AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
+" Last Modified: 12 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -22,11 +22,32 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
+" Version: 1.00, for Vim 7.0
+"-----------------------------------------------------------------------------
+" ChangeLog: "{{{
+"   1.00:
+"    - Initial version.
+" }}}
 "=============================================================================
 
-function! vimshell#internal#clear#execute(program, args, fd, other_info)
-  " Clean up the screen.
-  % delete _
+function! neocomplcache#plugin#spell_complete#initialize()"{{{
+  " Initialize.
+endfunction"}}}
 
-  call vimshell#terminal#clear_highlight()
-endfunction
+function! neocomplcache#plugin#spell_complete#finalize()"{{{
+endfunction"}}}
+
+function! neocomplcache#plugin#spell_complete#get_keyword_list(cur_keyword_str)"{{{
+  if !&spell || len(a:cur_keyword_str) < 4
+    return []
+  endif
+
+  let l:list = []
+  for l:keyword in spellsuggest(a:cur_keyword_str)
+    call add(l:list, { 'word' : l:keyword, 'menu' : '[Spell]', 'icase' : 1 })
+  endfor
+
+  return l:list
+endfunction"}}}
+
+" vim: foldmethod=marker

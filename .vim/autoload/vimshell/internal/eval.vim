@@ -1,7 +1,7 @@
 "=============================================================================
-" FILE: clear.vim
+" FILE: eval.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>(Modified)
-" Last Modified: 09 May 2010
+" Last Modified: 13 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,9 +24,27 @@
 " }}}
 "=============================================================================
 
-function! vimshell#internal#clear#execute(program, args, fd, other_info)
-  " Clean up the screen.
-  % delete _
+function! vimshell#internal#eval#execute(program, args, fd, other_info)
+  " Evaluate arguments.
 
-  call vimshell#terminal#clear_highlight()
+  let l:line = join(a:args)
+  let l:context = {
+        \ 'has_head_spaces' : l:line =~ '^\s\+',
+        \ 'is_interactive' : a:other_info.is_interactive, 
+        \ 'is_insert' : a:other_info.is_insert, 
+        \ 'fd' : { 'stdin' : '', 'stdout': '', 'stderr': ''}, 
+        \}
+
+  try
+    let l:skip_prompt = vimshell#parser#eval_script(l:line, l:context)
+  catch /.*/
+    let l:message = v:exception . ' ' . v:throwpoint
+    call vimshell#error_line({}, l:message)
+    return
+  endtry
+
+  if l:skip_prompt
+    " Skip prompt.
+    return 1
+  endif
 endfunction
