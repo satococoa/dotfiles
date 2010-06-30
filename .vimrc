@@ -84,13 +84,7 @@ nnoremap <silent> ,tt :NERDTreeToggle<CR>
 " Align.vim
 let g:Align_xstrlen = 3
 " neocomplcache
-let g:NeoComplCache_EnableAtStartup = 1
-let g:NeoComplCache_SmartCase = 1
-let g:NeoComplCache_EnableCamelCaseCompletion = 1
-let g:NeoComplCache_EnableUnderbarCompletion = 1
-let g:NeoComplCache_MinSyntaxLength = 1
-" クイックマッチリストが'-'だとCSSを書く時に少し不便だったので
-let g:NeoComplCache_QuickMatchPatterns = { 'default' : '`' }
+let g:neocomplcache_enable_at_startup = 1
 imap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 smap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
 inoremap <expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
