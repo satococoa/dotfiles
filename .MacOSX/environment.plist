@@ -8,7 +8,5 @@
 	<string>@im=uim</string>
 	<key>GTK_IM_MODULE</key>
 	<string>uim</string>
-	<key>SCALA_HOME</key>
-	<string>/opt/local/share/scala-2.8</string>
 </dict>
 </plist>

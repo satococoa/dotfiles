@@ -2,13 +2,16 @@ case "${OSTYPE}" in
   darwin*)
   alias ls="ls -G -w"
   export LSCOLORS=DxGxcxdxCxegedabagacad
-  alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
   ;;
   linux*)
   umask 002
   alias ls="ls --color=auto"
+  export EDITOR=/usr/bin/vim
+  export LS_COLORS="di=01;33"
   ;;
 esac
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+export MANPATH=/usr/local/share/man:/usr/share/man:/usr/X11/share/man
 bindkey -e
 PROMPT="${USER}@${HOST}%(!.#.$) "
 RPROMPT="[%~]"
@@ -68,4 +71,3 @@ function ssh_screen(){
 function chpwd() {
   _reg_pwd_screennum
 }
-if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
