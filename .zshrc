@@ -2,7 +2,6 @@ case "${OSTYPE}" in
   darwin*)
   alias ls="ls -G -w"
   export LSCOLORS=DxGxcxdxCxegedabagacad
-  export GEM_HOME=/usr/local/Cellar/gems/1.9
   ;;
   linux*)
   umask 002
@@ -72,3 +71,4 @@ function ssh_screen(){
 function chpwd() {
   _reg_pwd_screennum
 }
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
