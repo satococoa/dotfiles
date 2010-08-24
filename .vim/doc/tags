@@ -70,6 +70,7 @@
 :Neco	neocomplcache.txt	/*:Neco*
 :NeoComplCacheAutoCompletionLength	neocomplcache.txt	/*:NeoComplCacheAutoCompletionLength*
 :NeoComplCacheCachingBuffer	neocomplcache.txt	/*:NeoComplCacheCachingBuffer*
+:NeoComplCacheCachingDictionary	neocomplcache.txt	/*:NeoComplCacheCachingDictionary*
 :NeoComplCacheCachingDisable	neocomplcache.txt	/*:NeoComplCacheCachingDisable*
 :NeoComplCacheCachingEnable	neocomplcache.txt	/*:NeoComplCacheCachingEnable*
 :NeoComplCacheCachingSyntax	neocomplcache.txt	/*:NeoComplCacheCachingSyntax*
@@ -524,10 +525,12 @@ g:neocomplcache_plugin_completion_length	neocomplcache.txt	/*g:neocomplcache_plu
 g:neocomplcache_plugin_disable	neocomplcache.txt	/*g:neocomplcache_plugin_disable*
 g:neocomplcache_plugin_rank	neocomplcache.txt	/*g:neocomplcache_plugin_rank*
 g:neocomplcache_quick_match_patterns	neocomplcache.txt	/*g:neocomplcache_quick_match_patterns*
+g:neocomplcache_quick_match_table	neocomplcache.txt	/*g:neocomplcache_quick_match_table*
 g:neocomplcache_same_filetype_lists	neocomplcache.txt	/*g:neocomplcache_same_filetype_lists*
 g:neocomplcache_snippets_dir	neocomplcache.txt	/*g:neocomplcache_snippets_dir*
 g:neocomplcache_tags_filter_patterns	neocomplcache.txt	/*g:neocomplcache_tags_filter_patterns*
 g:neocomplcache_temporary_dir	neocomplcache.txt	/*g:neocomplcache_temporary_dir*
+g:neocomplcache_text_mode_filetypes	neocomplcache.txt	/*g:neocomplcache_text_mode_filetypes*
 g:neocomplcache_vim_completefuncs	neocomplcache.txt	/*g:neocomplcache_vim_completefuncs*
 g:rails_abbreviations	rails.txt	/*g:rails_abbreviations*
 g:rails_ctags_arguments	rails.txt	/*g:rails_ctags_arguments*
@@ -542,8 +545,8 @@ g:rails_syntax	rails.txt	/*g:rails_syntax*
 g:rails_tabstop	rails.txt	/*g:rails_tabstop*
 g:rails_url	rails.txt	/*g:rails_url*
 g:vimshell_escape_colors	vimshell.txt	/*g:vimshell_escape_colors*
-g:vimshell_history_max_size	vimshell.txt	/*g:vimshell_history_max_size*
 g:vimshell_ignore_case	vimshell.txt	/*g:vimshell_ignore_case*
+g:vimshell_max_command_history	vimshell.txt	/*g:vimshell_max_command_history*
 g:vimshell_max_list	vimshell.txt	/*g:vimshell_max_list*
 g:vimshell_smart_case	vimshell.txt	/*g:vimshell_smart_case*
 g:vimshell_split_height	vimshell.txt	/*g:vimshell_split_height*
@@ -734,12 +737,14 @@ macros/rails.vim	rails.txt	/*macros\/rails.vim*
 multiple-items-example	yankring.txt	/*multiple-items-example*
 neocomplcache	neocomplcache.txt	/*neocomplcache*
 neocomplcache#cancel_popup()	neocomplcache.txt	/*neocomplcache#cancel_popup()*
-neocomplcache#close_popup	neocomplcache.txt	/*neocomplcache#close_popup*
+neocomplcache#close_popup()	neocomplcache.txt	/*neocomplcache#close_popup()*
 neocomplcache#complete_common_string()	neocomplcache.txt	/*neocomplcache#complete_common_string()*
-neocomplcache#manual_filename_complete	neocomplcache.txt	/*neocomplcache#manual_filename_complete*
-neocomplcache#manual_keyword_complete	neocomplcache.txt	/*neocomplcache#manual_keyword_complete*
-neocomplcache#manual_omni_complete	neocomplcache.txt	/*neocomplcache#manual_omni_complete*
-neocomplcache#undo_completion	neocomplcache.txt	/*neocomplcache#undo_completion*
+neocomplcache#manual_filename_complete()	neocomplcache.txt	/*neocomplcache#manual_filename_complete()*
+neocomplcache#manual_keyword_complete()	neocomplcache.txt	/*neocomplcache#manual_keyword_complete()*
+neocomplcache#manual_omni_complete()	neocomplcache.txt	/*neocomplcache#manual_omni_complete()*
+neocomplcache#smart_close_popup()	neocomplcache.txt	/*neocomplcache#smart_close_popup()*
+neocomplcache#sources#snippets_complete#expandable()	neocomplcache.txt	/*neocomplcache#sources#snippets_complete#expandable()*
+neocomplcache#undo_completion()	neocomplcache.txt	/*neocomplcache#undo_completion()*
 neocomplcache-bugs	neocomplcache.txt	/*neocomplcache-bugs*
 neocomplcache-changelog	neocomplcache.txt	/*neocomplcache-changelog*
 neocomplcache-commands	neocomplcache.txt	/*neocomplcache-commands*
@@ -894,7 +899,6 @@ rails-type-navigation	rails.txt	/*rails-type-navigation*
 rails-vim-integration	rails.txt	/*rails-vim-integration*
 rails.txt	rails.txt	/*rails.txt*
 snippets_complete	neocomplcache.txt	/*snippets_complete*
-spell_complete	neocomplcache.txt	/*spell_complete*
 surround	surround.txt	/*surround*
 surround-author	surround.txt	/*surround-author*
 surround-customizing	surround.txt	/*surround-customizing*
@@ -936,6 +940,7 @@ yankring-commands	yankring.txt	/*yankring-commands*
 yankring-configure	yankring.txt	/*yankring-configure*
 yankring-contents	yankring.txt	/*yankring-contents*
 yankring-custom-maps	yankring.txt	/*yankring-custom-maps*
+yankring-custom-menus	yankring.txt	/*yankring-custom-menus*
 yankring-description	yankring.txt	/*yankring-description*
 yankring-globals	yankring.txt	/*yankring-globals*
 yankring-history	yankring.txt	/*yankring-history*
