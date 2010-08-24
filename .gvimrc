@@ -8,11 +8,12 @@ if has('gui_macvim')
     set showtabline=2
     set transparency=5
     set antialias
-    set guifont=M+1VM+IPAG\ circle\ Regular:h13
+    set guifont=VL\ Gothic\ Regular:h13
+    set guifontwide=VL\ Gothic\ Regular:h13
     set guioptions-=T
     set fileencodings=''
-    " MacPortsで入れたRubyを使う
-    let $RUBY_DLL = "/opt/local/lib/libruby.1.8.7.dylib"
+    " brewで入れたRubyを使う
+    let $RUBY_DLL = "/usr/local/lib/libruby.dylib"
 elseif has('gui_win32')
     set guifont=MS_Gothic:h9:cSHIFTJIS
     "set guifont=M+2VM+IPAG_circle:h8:cSHIFTJIS
