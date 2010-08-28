@@ -10,8 +10,6 @@ case "${OSTYPE}" in
   export LS_COLORS="di=01;33"
   ;;
 esac
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-export MANPATH=/usr/local/share/man:/usr/share/man:/usr/X11/share/man
 bindkey -e
 PROMPT="${USER}@${HOST}%(!.#.$) "
 RPROMPT="[%~]"
