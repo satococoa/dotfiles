@@ -7,7 +7,7 @@ case "${OSTYPE}" in
   linux*)
   umask 002
   alias ls="ls --color=auto"
-  export EDITOR=/usr/bin/vim
+  export EDITOR=/usr/local/bin/vim
   export LS_COLORS="di=01;33"
   ;;
 esac
