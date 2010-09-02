@@ -1,6 +1,7 @@
 case "${OSTYPE}" in
   darwin*)
   alias ls="ls -G -w"
+  alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
   export LSCOLORS=DxGxcxdxCxegedabagacad
   ;;
   linux*)
@@ -10,6 +11,7 @@ case "${OSTYPE}" in
   export LS_COLORS="di=01;33"
   ;;
 esac
+alias r='rails'
 bindkey -e
 PROMPT="${USER}@${HOST}%(!.#.$) "
 RPROMPT="[%~]"
