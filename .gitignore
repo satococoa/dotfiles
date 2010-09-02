@@ -2,5 +2,6 @@
 .vim/.VimballRecord
 .vim/info/ku/history
 .vim/.netrwhist
+.vim/autoload/proc.*
 .DS_Store
 .zsh/cdd_pwd_list*
