@@ -33,7 +33,7 @@ function! vimshell#complete#helper#files(cur_keyword_str, ...)"{{{
 
   " Not Filename pattern.
   if a:cur_keyword_str =~ 
-        \'\*\*\|\*$\|\.\.\+$\|[/\\][/\\]\f*$\|[^[:print:]]\f*$\|/c\%[ygdrive/]$\|\\|$\|\a:[^/]*$'
+        \'\*\*\|\*$\|\.\.\+$\|[/\\][/\\]\f*$\|/c\%[ygdrive/]$\|\\|$\|\a:[^/]*$'
     return []
   endif
 
@@ -226,10 +226,8 @@ function! vimshell#complete#helper#executables(cur_keyword_str, ...)"{{{
     let l:dict = l:keyword
     let l:dict.menu = 'command'
     if a:cur_keyword_str !~ '[/\\]'
-      let l:dict.word = vimshell#iswin() ? 
-            \ fnamemodify(l:keyword.word, ':t:r') : fnamemodify(l:keyword.word, ':t')
-      let l:dict.abbr = vimshell#iswin() ? 
-            \ fnamemodify(l:keyword.abbr, ':t:r') . '*' : fnamemodify(l:keyword.abbr, ':t')
+      let l:dict.word = fnamemodify(l:keyword.word, ':t')
+      let l:dict.abbr = fnamemodify(l:keyword.abbr, ':t') . (vimshell#iswin() ? '*' : '')
     endif
 
     call add(l:ret, l:dict)

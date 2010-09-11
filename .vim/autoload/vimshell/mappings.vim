@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 22 Aug 2010
+" Last Modified: 05 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -109,7 +109,7 @@ function! vimshell#mappings#define_default_mappings()"{{{
   imap <buffer> <C-]>               <C-]><SID>(bs-ctrl-])
   imap <buffer> <CR> <C-]><Plug>(vimshell_enter)
   " History completion.
-  imap <buffer> <C-r>  <Plug>(vimshell_history_complete_whole)
+  imap <buffer> <C-s>  <Plug>(vimshell_history_complete_whole)
   imap <buffer> <C-q>  <Plug>(vimshell_history_complete_insert)
   " Command completion.
   imap <buffer> <TAB>  <Plug>(vimshell_command_complete)
@@ -124,7 +124,7 @@ function! vimshell#mappings#define_default_mappings()"{{{
   " Insert last word.
   imap <buffer> <C-t> <Plug>(vimshell_insert_last_word)
   " Run help.
-  imap <buffer> <C-s> <Plug>(vimshell_run_help)
+  imap <buffer> <C-x><C-h> <Plug>(vimshell_run_help)
   " Clear.
   imap <buffer> <C-l> <Plug>(vimshell_clear)
   " Interrupt.
@@ -183,13 +183,22 @@ function! s:execute_line(is_insert)"{{{
       " History output execution.
       call setline('$', vimshell#get_prompt() . matchstr(getline('.'), '^\s*\d\+:\s\zs.*'))
     else
-      " Search cursor file.
-      let l:filename = expand('<cfile>')
-      if has('conceal') && l:filename =~ '\[\%[%\]]'
-        let l:filename = matchstr(getline('.'), '\f\+', 3)
+      if getline('.') =~ '^\f\+:'
+        " Grep pattern.
+        let l:line = split(getline('.'), ':')
+        let l:filename = l:line[0]
+        let l:pattern = l:line[1]
+      else
+        " Search cursor file.
+        let l:filename = expand('<cfile>')
+        if has('conceal') && l:filename =~ '\[\%[%\]]'
+          let l:filename = matchstr(getline('.'), '\f\+', 3)
+        endif
+        let l:pattern = ''
       endif
+      
       let l:filename = substitute(substitute(l:filename, ' ', '\\ ', 'g'), '\\', '/', 'g')
-      call s:open_file(l:filename)
+      call s:open_file(l:filename, l:pattern)
     endif
   elseif line('.') != line('$')
     " History execution.
@@ -443,7 +452,7 @@ function! s:expand_wildcard()"{{{
     return ''
   endif
   let l:wildcard = vimshell#get_current_args()[-1]
-  let l:expanded = vimshell#parser#expand_wildcard(l:wildcard)
+  let l:expanded = vimproc#parser#expand_wildcard(l:wildcard)
 
   return (pumvisible() ? "\<C-e>" : '')
         \ . repeat("\<BS>", len(l:wildcard)) . join(l:expanded)
@@ -485,7 +494,7 @@ function! s:delete_backward_line()"{{{
   
   return l:prefix . repeat("\<BS>", len(vimshell#get_cur_text()))
 endfunction"}}}
-function! s:open_file(filename)"{{{
+function! s:open_file(filename, pattern)"{{{
   " Execute cursor file.
   if a:filename == ''
     return
@@ -510,7 +519,7 @@ function! s:open_file(filename)"{{{
     call setline('$', vimshell#get_prompt() . 'cd ' . l:filename)
   else
     " Edit file.
-    call setline('$', vimshell#get_prompt() . 'vim ' . l:filename)
+    call setline('$', vimshell#get_prompt() . 'vim ' . l:filename . (a:pattern != '' ? ' '.a:pattern : ''))
   endif
 endfunction"}}}
 function! s:interrupt(is_insert)"{{{
@@ -541,15 +550,15 @@ function! s:insert_enter()"{{{
     return
   endif
   
-  if vimshell#get_prompt_command() == ''
-    startinsert!
-    return
-  endif
-  
-  if col('.') < len(vimshell#get_prompt())
-    let l:pos = getpos('.')
-    let l:pos[2] = len(vimshell#get_prompt()) + 1
-    call setpos('.', l:pos)
+  if col('.') <= len(vimshell#get_prompt())
+    if len(vimshell#get_prompt()) + 1 <= col('$')
+      startinsert!
+      return
+    else
+      let l:pos = getpos('.')
+      let l:pos[2] = len(vimshell#get_prompt()) + 1
+      call setpos('.', l:pos)
+    endif
   endif
 
   startinsert

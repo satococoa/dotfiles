@@ -1,6 +1,6 @@
 *vimshell.txt*	Powerful shell implemented by VimScript
 
-Version: 7.2
+Version: 8.0
 Author : Shougo <Shougo.Matsu@gmail.com>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -184,6 +184,41 @@ BUGS							*vimshell-bugs*
 ==============================================================================
 CHANGELOG						*vimshell-changelog*
 
+2010-09-09
+- Implemented <Plug>(vimshell_int_clear).
+
+2010-09-05
+- Ver.8.0 development is started.
+- Use vimproc Ver.5.
+- Changed completion keymappings.
+- Fixed for scala.
+
+ChangeLog 7.2{{{
+2010-09-04
+- Deleted VimShellBang and VimShellRead commands.
+
+2010-09-03
+- Fixed cursor.
+
+2010-09-02
+- Improved insert enter.
+- Improved interactive cursor.
+- Improved interactive update.
+
+2010-09-01
+- Improved insert enter.
+- Improved output.
+
+2010-08-29
+- Improved syntax.
+
+2010-08-26
+- Supported grep pattern.
+- Added syntax highlight.
+
+2010-08-25
+- Fixed filename completion.
+
 2010-08-23
 - Fixed alias parse.
 - Fixed texe error.
@@ -217,7 +252,7 @@ CHANGELOG						*vimshell-changelog*
 - Improved wildcard.
 - Fixed wildcard parse.
 - Implemented file modifier.
-
+"}}}
 ChangeLog 7.1: {{{
 2010-08-15
 - Improved error detection.

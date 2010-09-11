@@ -2,7 +2,7 @@
 " FILE: vimproc.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com> (Modified)
 "          Yukihiro Nakadaira <yukihiro.nakadaira at gmail.com> (Original)
-" Last Modified: 23 Aug 2010
+" Last Modified: 05 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,31 +23,36 @@
 "     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
-" Version: 4.3, for Vim 7.0
+" Version: 5.0, for Vim 7.0
 "=============================================================================
 
+" Saving 'cpoptions' {{{
+let s:save_cpo = &cpo
+set cpo&vim
+" }}}
+
 function! vimproc#version()
-  return str2nr(printf('%2d%02d', 4, 3))
+  return str2nr(printf('%2d%02d', 5, 0))
 endfunction
 
 let s:is_win = has('win32') || has('win64')
 let s:last_status = 0
 
-if exists('g:vimproc_dll_path')
-  let s:dll_path = g:vimproc_dll_path
-else
-  let s:dll_path = expand("<sfile>:p:h") . ((s:is_win || has('win32unix'))? '/proc.dll' : '/proc.so')
+" Global options definition."{{{
+if !exists('g:vimproc_dll_path')
+  let g:vimproc_dll_path = expand("<sfile>:p:h") . (has('win32') || has('win64') || has('win32unix') ? '/proc.dll' : '/proc.so')
 endif
+"}}}
 
-if !filereadable(s:dll_path)
-  execute 'echoerr' printf('"%s" is not found. Please make it.', s:dll_path)
+if !filereadable(g:vimproc_dll_path)
+  execute 'echoerr' printf('"%s" is not found. Please make it.', g:vimproc_dll_path)
   finish
 endif
 
 if has('iconv')
   " Dll path should be encoded with default encoding.  Vim does not convert
   " it from &enc to default encoding.
-  let s:dll_path = iconv(s:dll_path, &encoding, "default")
+  let g:vimproc_dll_path = iconv(g:vimproc_dll_path, &encoding, "default")
 endif
 
 "-----------------------------------------------------------
@@ -161,7 +166,7 @@ function! vimproc#system(cmdline, ...)"{{{
   if type(a:cmdline) == type('')
     if a:cmdline =~ '&\s*$'
       return vimproc#system_bg(a:cmdline)
-    elseif (!has('unix') || a:cmdline !~ '^\s*man ') && exists('g:loaded_vimshell')
+    elseif (!has('unix') || a:cmdline !~ '^\s*man ')
       if a:0 == 0
         return vimproc#parser#system(a:cmdline)
       elseif a:0 == 1
@@ -169,11 +174,6 @@ function! vimproc#system(cmdline, ...)"{{{
       else
         return vimproc#parser#system(a:cmdline, a:1, a:2)
       endif
-    else
-      let l:output = (a:0 == 0) ? system(a:cmdline) : system(a:cmdline, a:1)
-      let s:last_status = v:shell_error
-      let s:last_errmsg = ''
-      return l:output
     endif
   endif
 
@@ -203,7 +203,7 @@ function! vimproc#system(cmdline, ...)"{{{
   
   let l:output = ''
   let s:last_errmsg = ''
-  while !l:subproc.stdout.eof && !l:subproc.stderr.eof
+  while !l:subproc.stdout.eof || !l:subproc.stderr.eof
     if l:timeout > 0
       " Check timeout.
       let l:end = split(reltimestr(reltime(l:start)))[0] * 1000
@@ -233,15 +233,6 @@ function! vimproc#system(cmdline, ...)"{{{
   call l:subproc.stderr.close()
 
   let [l:cond, s:last_status] = l:subproc.waitpid()
-  if l:cond != 'exit'
-    try
-      " Kill process.
-      " 15 == SIGTERM
-      call l:subproc.kill(15)
-    catch
-      " Ignore error.
-    endtry
-  endif
 
   " Newline convert.
   if has('mac')
@@ -258,13 +249,8 @@ function! vimproc#system_bg(cmdline)"{{{
       let l:cmdline = (a:cmdline =~ '&\s*$')? a:cmdline[: match(a:cmdline, '&\s*$') - 1] : a:cmdline
       silent execute '!start' l:cmdline
       return ''
-    elseif (!has('unix') || a:cmdline !~ '^\s*man ') && exists('g:loaded_vimshell')
-      return vimproc#parser#system_bg(a:cmdline)
     else
-      let l:output = system(a:cmdline)
-      let s:last_status = v:shell_error
-      let s:last_errmsg = ''
-      return l:output
+      return vimproc#parser#system_bg(a:cmdline)
     endif
   endif
   
@@ -305,90 +291,70 @@ function! vimproc#popen2(args)"{{{
     return vimproc#parser#popen2(a:args)
   endif
   
-  let [l:pid, l:fd_stdin, l:fd_stdout] = s:vp_pipe_open(2, s:convert_args(a:args))
-  let l:proc = {}
-  let l:proc.pid = l:pid
-  let l:proc.stdin = s:fdopen(l:fd_stdin, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
-  let l:proc.stdout = s:fdopen(l:fd_stdout, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
-  let l:proc.kill = s:funcref('vp_kill')
-  let l:proc.waitpid = s:funcref('vp_waitpid')
-  let l:proc.is_valid = 1
-
-  return proc
+  return s:popen(3, a:args)
 endfunction"}}}
-function! vimproc#plineopen2(commands)"{{{
-  if type(a:commands) == type('')
-    return vimproc#parser#plineopen2(a:commands)
-  endif
-
-  let l:pid_list = []
-  let l:stdin_list = []
-  let l:stdout_list = []
-  for l:command in a:commands
-    let [l:pid, l:fd_stdin, l:fd_stdout] = s:vp_pipe_open(2, s:convert_args(l:command.args))
-    
-    call add(l:pid_list, l:pid)
-    call add(l:stdin_list, s:fdopen(l:fd_stdin, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
-    call add(l:stdout_list, s:fdopen(l:fd_stdout, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
-  endfor
-
-  " Set pipe redirection.
-  let i = 0
-  let max = len(l:pid_list) - 1
-  while i < max
-    let l:stdin_list[i].redirect_fd = []
-    let l:stdout_list[i].redirect_fd = [ l:stdin_list[i+1] ]
-
-    let i += 1
-  endwhile
-  
-  let l:stdin_list[i].redirect_fd = []
-  let l:stdout_list[i].redirect_fd = []
-  let l:proc = {}
-  let l:proc.pid_list = l:pid_list
-  let l:proc.pid = l:pid_list[-1]
-  let l:proc.stdin = s:fdopen_pipes(l:stdin_list, 'vp_pipes_front_close', 'read_pipes', 'write_pipes')
-  let l:proc.stdout = s:fdopen_pipes(l:stdout_list, 'vp_pipes_back_close', 'read_pipes', 'write_pipes')
-  let l:proc.kill = s:funcref('vp_pipes_kill')
-  let l:proc.waitpid = s:funcref('vp_waitpid')
-  let l:proc.is_valid = 1
-
-  return proc
-endfunction"}}}
-
 function! vimproc#popen3(args)"{{{
   if type(a:args) == type('')
     return vimproc#parser#popen3(a:args)
   endif
 
-  let [l:pid, l:fd_stdin, l:fd_stdout, l:fd_stderr] = s:vp_pipe_open(3, s:convert_args(a:args))
+  return s:popen(3, a:args)
+endfunction"}}}
+function! s:popen(npipe, args)"{{{
+  let l:pipe = s:vp_pipe_open(a:npipe, s:convert_args(a:args))
+  if a:npipe == 3
+    let [l:pid, l:fd_stdin, l:fd_stdout, l:fd_stderr] = l:pipe
+  else
+    let [l:pid, l:fd_stdin, l:fd_stdout] = l:pipe
+  endif
+  
   let l:proc = {}
   let l:proc.pid = l:pid
   let l:proc.stdin = s:fdopen(l:fd_stdin, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
   let l:proc.stdout = s:fdopen(l:fd_stdout, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
-  let l:proc.stderr = s:fdopen(l:fd_stderr, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
+  if a:npipe == 3
+    let l:proc.stderr = s:fdopen(l:fd_stderr, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write')
+  endif
   let l:proc.kill = s:funcref('vp_kill')
   let l:proc.waitpid = s:funcref('vp_waitpid')
   let l:proc.is_valid = 1
 
   return proc
+endfunction"}}}
+
+function! vimproc#plineopen2(commands)"{{{
+  if type(a:commands) == type('')
+    return vimproc#parser#plineopen2(a:commands)
+  endif
+
+  return s:plineopen(2, a:commands)
 endfunction"}}}
 function! vimproc#plineopen3(commands)"{{{
   if type(a:commands) == type('')
     return vimproc#parser#plineopen3(a:commands)
   endif
 
+  return s:plineopen(3, a:commands)
+endfunction"}}}
+function! s:plineopen(npipe, commands)"{{{
   let l:pid_list = []
   let l:stdin_list = []
   let l:stdout_list = []
   let l:stderr_list = []
   for l:command in a:commands
-    let [l:pid, l:fd_stdin, l:fd_stdout, l:fd_stderr] = s:vp_pipe_open(3, s:convert_args(l:command.args))
+    let l:pipe = s:vp_pipe_open(a:npipe, s:convert_args(l:command.args))
+    if a:npipe == 3
+      let [l:pid, l:fd_stdin, l:fd_stdout, l:fd_stderr] = l:pipe
+    else
+      let [l:pid, l:fd_stdin, l:fd_stdout] = l:pipe
+    endif
     
     call add(l:pid_list, l:pid)
     call add(l:stdin_list, s:fdopen(l:fd_stdin, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
     call add(l:stdout_list, s:fdopen(l:fd_stdout, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
-    call add(l:stderr_list, s:fdopen(l:fd_stderr, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
+    if a:npipe == 3
+      call add(l:stderr_list, s:fdopen(l:fd_stderr, 'vp_pipe_close', 'vp_pipe_read', 'vp_pipe_write'))
+    endif
   endfor
 
   " Set pipe redirection.
@@ -397,20 +363,26 @@ function! vimproc#plineopen3(commands)"{{{
   while i < max
     let l:stdin_list[i].redirect_fd = []
     let l:stdout_list[i].redirect_fd = [ l:stdin_list[i+1] ]
-    let l:stderr_list[i].redirect_fd = []
+    if a:npipe == 3
+      let l:stderr_list[i].redirect_fd = []
+    endif
 
     let i += 1
   endwhile
   let l:stdin_list[i].redirect_fd = []
   let l:stdout_list[i].redirect_fd = []
-  let l:stderr_list[i].redirect_fd = []
+  if a:npipe == 3
+    let l:stderr_list[i].redirect_fd = []
+  endif
 
   let l:proc = {}
   let l:proc.pid_list = l:pid_list
   let l:proc.pid = l:pid_list[-1]
   let l:proc.stdin = s:fdopen_pipes(l:stdin_list, 'vp_pipes_front_close', 'read_pipes', 'write_pipes')
   let l:proc.stdout = s:fdopen_pipes(l:stdout_list, 'vp_pipes_back_close', 'read_pipes', 'write_pipes')
-  let l:proc.stderr = s:fdopen_pipes(l:stderr_list, 'vp_pipes_back_close', 'read_pipes', 'write_pipes')
+  if a:npipe == 3
+    let l:proc.stderr = s:fdopen_pipes(l:stderr_list, 'vp_pipes_back_close', 'read_pipes', 'write_pipes')
+  endif
   let l:proc.kill = s:funcref('vp_pipes_kill')
   let l:proc.waitpid = s:funcref('vp_waitpid')
   let l:proc.is_valid = 1
@@ -641,7 +613,7 @@ function! s:libcall(func, args)"{{{
   " End Of Value
   let l:EOV = "\xFF"
   let l:args = empty(a:args) ? '' : (join(reverse(copy(a:args)), l:EOV) . l:EOV)
-  let l:stack_buf = libcall(s:dll_path, a:func, l:args)
+  let l:stack_buf = libcall(g:vimproc_dll_path, a:func, l:args)
   " Why this does not work?
   " let result = split(stack_buf, EOV, 1)
   let l:result = split(l:stack_buf, '[\xFF]', 1)
@@ -832,7 +804,6 @@ function! s:read_pgroup(...) dict"{{{
   if self.proc.current_proc.stdout.eof && self.proc.current_proc.stderr.eof
     " Get status.
     let [l:cond, l:status] = self.proc.current_proc.waitpid()
-    let l:status = str2nr(l:status)
 
     if empty(self.proc.statements)
           \ || (self.proc.condition ==# 'true' && l:status)
@@ -1023,7 +994,7 @@ function! s:vp_waitpid() dict
   
   let [l:cond, l:status] = s:libcall('vp_waitpid', [self.pid])
   let self.is_valid = 0
-  return [l:cond, l:status]
+  return [l:cond, str2nr(l:status)]
 endfunction
 
 function! s:vp_pgroup_waitpid() dict
@@ -1032,7 +1003,7 @@ function! s:vp_pgroup_waitpid() dict
         \ [self.cond, self.status] : self.current_proc.waitpid()
   
   let self.is_valid = 0
-  return [l:cond, l:status]
+  return [l:cond, str2nr(l:status)]
 endfunction
 
 function! s:vp_socket_open(host, port)
@@ -1057,6 +1028,10 @@ endfunction
 
 " Initialize.
 if !exists('s:dlhandle')
-  let s:dll_handle = s:vp_dlopen(s:dll_path)
+  let s:dll_handle = s:vp_dlopen(g:vimproc_dll_path)
 endif
 
+" Restore 'cpoptions' {{{
+let &cpo = s:save_cpo
+" }}}
+" vim:foldmethod=marker:fen:sw=2:sts=2

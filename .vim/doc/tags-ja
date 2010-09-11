@@ -39,13 +39,13 @@
 :NeoComplCachePrintSource	neocomplcache.jax	/*:NeoComplCachePrintSource*
 :NeoComplCacheToggle	neocomplcache.jax	/*:NeoComplCacheToggle*
 :NeoComplCacheUnLock	neocomplcache.jax	/*:NeoComplCacheUnLock*
+:VimProcBang	vimproc.jax	/*:VimProcBang*
+:VimProcRead	vimproc.jax	/*:VimProcRead*
 :VimShell	vimshell.jax	/*:VimShell*
-:VimShellBang	vimshell.jax	/*:VimShellBang*
 :VimShellCreate	vimshell.jax	/*:VimShellCreate*
 :VimShellExecute	vimshell.jax	/*:VimShellExecute*
 :VimShellInteractive	vimshell.jax	/*:VimShellInteractive*
 :VimShellPop	vimshell.jax	/*:VimShellPop*
-:VimShellRead	vimshell.jax	/*:VimShellRead*
 :VimShellSendBuffer	vimshell.jax	/*:VimShellSendBuffer*
 :VimShellSendString	vimshell.jax	/*:VimShellSendString*
 :VimShellTerminal	vimshell.jax	/*:VimShellTerminal*
@@ -293,8 +293,6 @@ vimproc#get_last_errmsg()	vimproc.jax	/*vimproc#get_last_errmsg()*
 vimproc#get_last_status()	vimproc.jax	/*vimproc#get_last_status()*
 vimproc#kill()	vimproc.jax	/*vimproc#kill()*
 vimproc#open()	vimproc.jax	/*vimproc#open()*
-vimproc#parser#system()	vimproc.jax	/*vimproc#parser#system()*
-vimproc#parser#system_bg()	vimproc.jax	/*vimproc#parser#system_bg()*
 vimproc#pgroup_open()	vimproc.jax	/*vimproc#pgroup_open()*
 vimproc#plineopen2()	vimproc.jax	/*vimproc#plineopen2()*
 vimproc#plineopen3()	vimproc.jax	/*vimproc#plineopen3()*
@@ -307,6 +305,7 @@ vimproc#system_bg()	vimproc.jax	/*vimproc#system_bg()*
 vimproc#version()	vimproc.jax	/*vimproc#version()*
 vimproc-bugs	vimproc.jax	/*vimproc-bugs*
 vimproc-changelog	vimproc.jax	/*vimproc-changelog*
+vimproc-commands	vimproc.jax	/*vimproc-commands*
 vimproc-contents	vimproc.jax	/*vimproc-contents*
 vimproc-examples	vimproc.jax	/*vimproc-examples*
 vimproc-functions	vimproc.jax	/*vimproc-functions*
@@ -315,7 +314,7 @@ vimproc-interface	vimproc.jax	/*vimproc-interface*
 vimproc-introduction	vimproc.jax	/*vimproc-introduction*
 vimproc-todo	vimproc.jax	/*vimproc-todo*
 vimproc-variables	vimproc.jax	/*vimproc-variables*
-vimproc.txt	vimproc.jax	/*vimproc.txt*
+vimproc.jax	vimproc.jax	/*vimproc.jax*
 vimshell-alter-command	vimshell.jax	/*vimshell-alter-command*
 vimshell-buffer-key-mappings	vimshell.jax	/*vimshell-buffer-key-mappings*
 vimshell-bugs	vimshell.jax	/*vimshell-bugs*
