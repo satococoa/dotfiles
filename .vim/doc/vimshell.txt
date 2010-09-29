@@ -184,6 +184,41 @@ BUGS							*vimshell-bugs*
 ==============================================================================
 CHANGELOG						*vimshell-changelog*
 
+2010-09-29
+- Added g:vimshell_enable_auto_slash.
+- Fixed vimshell switch bug.
+- Improved <Plug>(vimshell_switch).
+
+2010-09-28
+- Fixed <Plug>(vimshell_delete_backward_line) error.
+- Fixed glob().
+- Fixed conceal cursor.
+- Fixed glob().
+- Implemented insert / (experimental).
+
+2010-09-27
+- Improved filename completion.
+- Fixed complete executable.
+
+2010-09-23
+- Fixed send_string().
+- Fixed completion error.
+- Fixed eof.
+- Refactoringed vimshell completion.
+
+2010-09-21
+- Supported b:interactive.is_close_immediately for iexe buffers.
+- Fixed typo.
+- Merged from ujihisa.
+- Changed completion keymappings.
+- Changed clear keymappings.
+
+2010-09-16
+- Improved command split behavior.
+
+2010-09-15
+- Fixed japanese documentation.
+
 2010-09-09
 - Implemented <Plug>(vimshell_int_clear).
 

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: vimshell.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 03 Sep 2010
+" Last Modified: 29 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -59,6 +59,8 @@ let s:update_time_save = &updatetime
 
 " Disable bell.
 set vb t_vb=
+
+let s:last_vimfiler_bufnr = -1
 "}}}
 
 function! vimshell#head_match(checkstr, headstr)"{{{
@@ -101,11 +103,12 @@ function! s:default_settings()"{{{
   setlocal noreadonly
   setlocal iskeyword+=-,+,.,\\,!,~
   setlocal wrap
-  setlocal omnifunc=vimshell#complete#auto_complete#omnifunc
+  setlocal omnifunc=vimshell#complete#command_complete#omnifunc
   
   " Set autocommands.
   augroup vimshell
     autocmd BufWinEnter,WinEnter <buffer> call s:restore_current_dir()
+    autocmd WinLeave,BufWinLeave <buffer> call s:event_bufwin_leave()
     autocmd CursorHoldI <buffer>     call vimshell#interactive#check_insert_output()
     autocmd CursorMovedI <buffer>    call vimshell#interactive#check_moved_output()
     autocmd InsertEnter <buffer>    call s:insert_enter()
@@ -149,9 +152,9 @@ function! vimshell#create_shell(split_flag, directory)"{{{
   let b:vimshell = {}
 
   " Change current directory.
-  let b:vimshell.save_dir = getcwd()
-  let l:current = (a:directory != '')? a:directory : getcwd()
-  lcd `=fnamemodify(l:current, ':p')`
+  let l:current = (a:directory != '')? fnamemodify(a:directory, ':p') : getcwd()
+  let b:vimshell.save_dir = l:current
+  lcd `=l:current`
 
   let b:vimshell.alias_table = {}
   let b:vimshell.galias_table = {}
@@ -225,41 +228,17 @@ function! vimshell#switch_shell(split_flag, directory)"{{{
     return
   endif
 
-  " Search VimShell window.
-  let l:cnt = 1
-  while l:cnt <= winnr('$')
-    if getwinvar(l:cnt, '&filetype') == 'vimshell'
-
-      execute l:cnt . 'wincmd w'
-
-      if a:directory != ''
-        " Change current directory.
-        lcd `=fnamemodify(a:directory, ':p')`
-        call vimshell#print_prompt(l:context)
-      endif
-      call vimshell#start_insert()
-      return
-    endif
-
-    let l:cnt += 1
-  endwhile
-
   " Search VimShell buffer.
+  if buflisted(s:last_vimfiler_bufnr)
+        \ && getbufvar(s:last_vimfiler_bufnr, '&filetype') == 'vimshell'
+    call s:switch_vimshell(s:last_vimfiler_bufnr, a:split_flag, a:directory)
+    return
+  endif
+  
   let l:cnt = 1
   while l:cnt <= bufnr('$')
     if getbufvar(l:cnt, '&filetype') == 'vimshell'
-      if a:split_flag
-        execute winheight(0)*g:vimshell_split_height / 100 'sbuffer' l:cnt
-      else
-        execute 'buffer' l:cnt
-      endif
-
-      if a:directory != ''
-        " Change current directory.
-        lcd `=fnamemodify(a:directory, ':p')`
-        call vimshell#print_prompt(l:context)
-      endif
-      call vimshell#start_insert()
+      call s:switch_vimshell(l:cnt, a:split_flag, a:directory)
       return
     endif
 
@@ -273,7 +252,7 @@ endfunction"}}}
 function! vimshell#available_commands()"{{{
   return s:internal_commands
 endfunction"}}}
-function! vimshell#execute_internal_command(command, args, fd, other_info)"{{{
+function! vimshell#execute_internal_command(command, args, fd, context)"{{{
   if empty(s:internal_commands)
     call s:init_internal_commands()
   endif
@@ -286,10 +265,10 @@ function! vimshell#execute_internal_command(command, args, fd, other_info)"{{{
   
   let l:commands = [ { 'args' : insert(a:args, a:command), 'fd' : l:fd } ]
 
-  if empty(a:other_info)
+  if empty(a:context)
     let l:context = { 'has_head_spaces' : 0, 'is_interactive' : 1 }
   else
-    let l:context = a:other_info
+    let l:context = a:context
   endif
 
   return vimshell#parser#execute_command(l:commands, l:context)
@@ -764,6 +743,23 @@ function! s:init_internal_commands()"{{{
     endif
   endfor
 endfunction"}}}
+function! s:switch_vimshell(bufnr, split_flag, directory)"{{{
+  if a:split_flag
+    execute winheight(0)*g:vimshell_split_height / 100 'sbuffer' a:bufnr
+  else
+    execute 'buffer' a:bufnr
+  endif
+
+  if a:directory != ''
+    " Change current directory.
+    let l:current = fnamemodify(a:directory, ':p')
+    let b:vimshell.save_dir = l:current
+    lcd `=l:current`
+
+    call vimshell#print_prompt(l:context)
+  endif
+  call vimshell#start_insert()
+endfunction"}}}
 
 " Auto commands function.
 function! s:restore_current_dir()"{{{
@@ -772,6 +768,9 @@ function! s:restore_current_dir()"{{{
   endif
 
   lcd `=fnamemodify(b:vimshell.save_dir, ':p')`
+endfunction"}}}
+function! s:event_bufwin_leave()"{{{
+  let s:last_vimfiler_bufnr = bufnr('%')
 endfunction"}}}
 function! s:insert_enter()"{{{
   if &updatetime > g:vimshell_interactive_update_time

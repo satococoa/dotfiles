@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: interactive.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 22 Aug 2010
+" Last Modified: 23 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -91,11 +91,9 @@ function! vimshell#interactive#execute_pty_inout(is_insert)"{{{
     
     if l:in =~ "\<C-d>$"
       " EOF.
-      call b:interactive.process.write(l:in[:-2] . (b:interactive.is_pty ? "\<C-z>" : "\<C-d>"))
-      let b:interactive.skip_echoback = l:in[:-2]
-      call vimshell#interactive#execute_pty_out(a:is_insert)
+      let l:eof = (b:interactive.is_pty ? "\<C-d>" : "\<C-z>")
 
-      call vimshell#interactive#exit()
+      call b:interactive.process.write(l:in[:-2] . l:eof)
       return
     else
       call b:interactive.process.write(l:in . "\<LF>")
@@ -106,7 +104,8 @@ function! vimshell#interactive#execute_pty_inout(is_insert)"{{{
   endtry
 
   call vimshell#interactive#execute_pty_out(a:is_insert)
-  if !b:interactive.process.eof
+  if exists('b:interactive') && has_key(b:interactive.process, 'eof')
+        \ && !b:interactive.process.eof
     if a:is_insert
       startinsert!
     else
@@ -122,7 +121,7 @@ function! vimshell#interactive#send_string(string)"{{{
   setlocal modifiable
   
   let l:in = a:string
-
+  
   if b:interactive.encoding != '' && &encoding != b:interactive.encoding
     " Convert encoding.
     let l:in = iconv(l:in, &encoding, b:interactive.encoding)
@@ -131,11 +130,9 @@ function! vimshell#interactive#send_string(string)"{{{
   try
     if l:in =~ "\<C-d>$"
       " EOF.
-      call b:interactive.process.write(l:in[:-2] . (b:interactive.is_pty ? "\<C-z>" : "\<C-d>"))
-      call vimshell#interactive#execute_pty_out(1)
-
-      call vimshell#interactive#exit()
-      return
+      let l:eof = (b:interactive.is_pty ? "\<C-d>" : "\<C-z>")
+      
+      call b:interactive.process.write(l:in[:-2] . l:eof)
     else
       call b:interactive.process.write(l:in)
     endif
@@ -147,11 +144,11 @@ function! vimshell#interactive#send_string(string)"{{{
   call vimshell#interactive#execute_pty_out(1)
 endfunction"}}}
 function! vimshell#interactive#send_input()"{{{
-  let l:input = input('Please input send string: ')
+  let l:input = input('Please input send string: ', vimshell#interactive#get_cur_line(line('.')))
   call vimshell#imdisable()
+  call setline('.', vimshell#interactive#get_prompt() . ' ')
 
-  let b:interactive.echoback_linenr = line('.')
-
+  normal! $h
   call vimshell#interactive#send_string(l:input)
 endfunction"}}}
 function! vimshell#interactive#send_char(char)"{{{
@@ -329,16 +326,22 @@ function! vimshell#interactive#exit()"{{{
   let b:interactive.status = str2nr(l:status)
   let b:interactive.cond = l:cond
   if &filetype !=# 'vimshell'
-    syn match   InteractiveMessage   '\*\%(Exit\|Killed\)\*'
-    hi def link InteractiveMessage WarningMsg
-    
-    call append(line('$'), '*Exit*')
-    
-    $
-    normal! $
-
     stopinsert
-    setlocal nomodifiable
+
+    if exists("b:interactive.is_close_immediately") && b:interactive.is_close_immediately
+      " Close buffer immediately.
+      bdelete
+    else
+      syn match   InteractiveMessage   '\*\%(Exit\|Killed\)\*'
+      hi def link InteractiveMessage WarningMsg
+
+      call append(line('$'), '*Exit*')
+
+      $
+      normal! $
+
+      setlocal nomodifiable
+    endif
   endif
 endfunction"}}}
 function! vimshell#interactive#force_exit()"{{{

@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: int_mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 08 Sep 2010
+" Last Modified: 23 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -87,7 +87,7 @@ function! vimshell#int_mappings#define_default_mappings()"{{{
   imap <buffer> <C-]>               <C-]><SID>(bs-ctrl-])
   imap <buffer> <CR>      <C-]><Plug>(vimshell_int_execute_line)
   imap <buffer> <C-c>     <Plug>(vimshell_int_interrupt)
-  imap <buffer> <C-s>  <Plug>(vimshell_int_history_complete)
+  imap <buffer> <C-l>  <Plug>(vimshell_int_history_complete)
   imap <buffer> <C-v>  <Plug>(vimshell_int_send_input)
   inoremap <buffer> <C-n>     <C-n>
   imap <buffer><expr> <TAB>  pumvisible() ? "\<C-n>" : "\<Plug>(vimshell_int_command_complete)"
@@ -197,7 +197,7 @@ function! s:paste_prompt()"{{{
 endfunction"}}}
 function! s:restart_command()"{{{
   if exists('b:interactive') && !empty(b:interactive.process) && b:interactive.process.is_valid
-    " Delete zombee process.
+    " Delete zombie process.
     call vimshell#interactive#force_exit()
   endif
   
@@ -224,11 +224,10 @@ function! s:restart_command()"{{{
   startinsert!
 endfunction"}}}
 function! s:command_complete()"{{{
-  let l:linenr = line('.')
   let l:prompt = vimshell#interactive#get_prompt()
   let l:command = b:interactive.command
   let l:cur_text = vimshell#interactive#get_cur_text()
-  call setline(l:linenr, l:prompt)
+  call setline('.', l:prompt)
   call vimshell#interactive#send_string(l:cur_text .
         \ (b:interactive.is_pty ? "\<TAB>" : "\<TAB>\<TAB>"))
   if !vimshell#head_match(getline('$'), l:prompt)

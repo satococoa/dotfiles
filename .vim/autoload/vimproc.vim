@@ -2,7 +2,7 @@
 " FILE: vimproc.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com> (Modified)
 "          Yukihiro Nakadaira <yukihiro.nakadaira at gmail.com> (Original)
-" Last Modified: 05 Sep 2010
+" Last Modified: 28 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -118,7 +118,7 @@ function! vimproc#get_command_name(command, ...)"{{{
   
   let l:pattern = printf('[/~]\?\f\+[%s]\f*$', s:is_win ? '/\\' : '/')
   if l:command =~ l:pattern
-    if s:is_win && fnamemodify(l:command, ':e') ==? 'lnk'
+    if !executable(l:command)
       let l:command = resolve(l:command)
     endif
 
@@ -148,7 +148,7 @@ function! vimproc#get_command_name(command, ...)"{{{
       let l:file = fnamemodify(l:file, ':p')
     endif
     
-    if (s:is_win && fnamemodify(l:file, ':e') ==? 'lnk')
+    if !executable(l:command)
       let l:file = resolve(l:file)
     endif
 
@@ -614,17 +614,15 @@ function! s:libcall(func, args)"{{{
   let l:EOV = "\xFF"
   let l:args = empty(a:args) ? '' : (join(reverse(copy(a:args)), l:EOV) . l:EOV)
   let l:stack_buf = libcall(g:vimproc_dll_path, a:func, l:args)
-  " Why this does not work?
-  " let result = split(stack_buf, EOV, 1)
   let l:result = split(l:stack_buf, '[\xFF]', 1)
   if !empty(l:result) && l:result[-1] != ''
     let s:lasterr = l:result
     let l:msg = string(l:result)
-    if has('iconv') && s:is_win
+    if has('iconv') && &termencoding != '' && &termencoding != &encoding
       " Kernel error message is encoded with system codepage.
-      " XXX: other normal error message may be encoded with &enc.
-      let l:msg = iconv(l:msg, 'default', &enc)
+      let l:msg = iconv(l:msg, &termencoding, &encoding)
     endif
+    
     throw printf('proc: %s: %s', a:func, l:msg)
   endif
   return l:result[:-2]
@@ -632,6 +630,10 @@ endfunction"}}}
 
 function! s:SID_PREFIX()
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+function! s:print_error(string)
+  echohl Error | echomsg a:string | echohl None
 endfunction
 
 " Get funcref.
@@ -685,8 +687,8 @@ function! s:vp_pipe_open(npipe, argv)"{{{
     let [l:pid; l:fdlist] = s:libcall('vp_pipe_open',
           \ [a:npipe, len(a:argv)] + a:argv)
   endif
-
-  return [pid] + fdlist
+  
+  return [l:pid] + l:fdlist
 endfunction"}}}
 
 function! s:vp_pipe_close() dict

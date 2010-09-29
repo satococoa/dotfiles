@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: iexe.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 05 Sep 2010
+" Last Modified: 21 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -99,7 +99,7 @@ function! s:command.execute(commands, context)"{{{
   endif
 
   if exists('b:interactive') && !empty(b:interactive.process) && b:interactive.process.is_valid
-    " Delete zombee process.
+    " Delete zombie process.
     call vimshell#interactive#force_exit()
   endif
 
@@ -151,13 +151,20 @@ function! s:command.execute(commands, context)"{{{
         \ 'echoback_linenr' : 0,
         \ 'stdout_cache' : '',
         \ 'command' : fnamemodify(l:use_cygpty ? l:args[1] : l:args[0], ':t:r'),
+        \ 'is_close_immediately' : has_key(a:context, 'is_close_immediately')
+        \    && a:context.is_close_immediately,
         \}
 
   call vimshell#interactive#execute_pty_out(1)
 
-  if !has_key(a:context, 'is_from_command') || !a:context.is_from_command
+  wincmd p
+
+  if has_key(a:context, 'is_single_command') && a:context.is_single_command
+    call vimshell#print_prompt(a:context)
     wincmd p
-  elseif b:interactive.process.is_valid
+  endif
+  
+  if b:interactive.process.is_valid
     startinsert!
   endif
 endfunction"}}}

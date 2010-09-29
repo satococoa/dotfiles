@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: less.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 18 Aug 2010
+" Last Modified: 16 Sep 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -48,7 +48,7 @@ function! s:command.execute(commands, context)"{{{
 
   " Background execute.
   if exists('b:interactive') && !empty(b:interactive.process) && b:interactive.process.is_valid
-    " Delete zombee process.
+    " Delete zombie process.
     call vimshell#interactive#force_exit()
   endif
   
@@ -169,9 +169,13 @@ function! s:init(commands, context, syntax, interactive)"{{{
   nmap <buffer><C-d>     <Plug>(vimshell_less_next_half_screen)
   
   call s:on_execute()
+  
+  wincmd p
 
-  if !has_key(a:context, 'is_from_command') || !a:context.is_from_command
+  if has_key(a:context, 'is_single_command') && a:context.is_single_command
+    call vimshell#print_prompt(l:context)
     wincmd p
+    stopinsert
   endif
 endfunction"}}}
 
