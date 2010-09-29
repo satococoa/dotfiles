@@ -92,8 +92,16 @@ inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
 " 途中でEnterしたとき、ポップアップを消して改行し、
 " 改行を連続して入力してもインデント部を保持する
 inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
+" git-vim
+nnoremap <silent> ,gd :GitDiff<CR>
+nnoremap <silent> ,gD :GitDiff --cached<CR>
+nnoremap <silent> ,gs :GitStatus<CR>
+nnoremap <silent> ,gl :GitLog<CR>
+nnoremap <silent> ,ga :GitAdd<CR>
+nnoremap <silent> ,gA :GitAdd <cfile><CR>
+nnoremap <silent> ,gc :GitCommit<CR>
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree
 "neocomplcache, scala.vim, vimproc, vimshell
-"Ku, zencoding.vim
+"Ku, zencoding.vim, git-vim, mru.vim
