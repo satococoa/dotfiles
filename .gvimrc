@@ -23,6 +23,8 @@ elseif has('gui_win32')
     set guioptions='m'
     set vb t_vb=
     highlight CursorLine guifg=NONE guibg=NONE gui=underline
+    let g:git_bin='C:/Git/bin/git.exe'
+    let $PATH = $PATH.';C:/Ruby192/bin'
 else
     set columns=140
     set lines=60
