@@ -72,6 +72,7 @@ let g:yankring_history_file = '.yankring_history'
 " FuzzyFinder
 nnoremap <silent> ,fb :FufBuffer<CR>
 nnoremap <silent> ,ff :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
+nnoremap <silent> ,fc :FufCoverageFile<CR>
 nnoremap <silent> ,fd :FufDir<CR>
 " Ku
 nnoremap ,kb :<C-u>Ku buffer<CR>
