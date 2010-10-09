@@ -1,7 +1,9 @@
 [user]
-	email = e.satoshi@gmail.com
-	name = Satoshi Ebisawa
+    email = e.satoshi@gmail.com
+    name = Satoshi Ebisawa
 [color]
-	status = auto
-	branch = auto
-	diff = auto
+    status = auto
+    branch = auto
+    diff = auto
+    interactive = auto
+    grep = auto
