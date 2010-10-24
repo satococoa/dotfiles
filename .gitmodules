@@ -1,0 +1,42 @@
+[submodule ".vim/bundle/vim-ruby"]
+	path = .vim/bundle/vim-ruby
+	url = http://github.com/vim-ruby/vim-ruby.git
+[submodule ".vim/bundle/vim-rails"]
+	path = .vim/bundle/vim-rails
+	url = http://github.com/tpope/vim-rails.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = http://github.com/tpope/vim-surround.git
+[submodule ".vim/bundle/fuf"]
+	path = .vim/bundle/fuf
+	url = http://github.com/vim-scripts/FuzzyFinder.git
+[submodule ".vim/bundle/l9"]
+	path = .vim/bundle/l9
+	url = http://github.com/vim-scripts/L9.git
+[submodule ".vim/bundle/nerd-commenter"]
+	path = .vim/bundle/nerd-commenter
+	url = http://github.com/vim-scripts/The-NERD-Commenter.git
+[submodule ".vim/bundle/nerd-tree"]
+	path = .vim/bundle/nerd-tree
+	url = http://github.com/vim-scripts/The-NERD-tree.git
+[submodule ".vim/bundle/neocomplcache"]
+	path = .vim/bundle/neocomplcache
+	url = http://github.com/Shougo/neocomplcache.git
+[submodule ".vim/bundle/vimproc"]
+	path = .vim/bundle/vimproc
+	url = http://github.com/Shougo/vimproc.git
+[submodule ".vim/bundle/vimshell"]
+	path = .vim/bundle/vimshell
+	url = http://github.com/Shougo/vimshell.git
+[submodule ".vim/bundle/zencoding-vim"]
+	path = .vim/bundle/zencoding-vim
+	url = http://github.com/mattn/zencoding-vim.git
+[submodule ".vim/bundle/git-vim"]
+	path = .vim/bundle/git-vim
+	url = http://github.com/motemen/git-vim.git
+[submodule ".vim/bundle/mru-vim"]
+	path = .vim/bundle/mru-vim
+	url = http://github.com/vim-scripts/mru.vim.git
+[submodule ".vim/bundle/vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = http://github.com/pangloss/vim-javascript.git

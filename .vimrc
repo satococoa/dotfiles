@@ -1,3 +1,6 @@
+" pathogen
+call pathogen#runtime_append_all_bundles()
+
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,sjis,iso-2022-jp
@@ -105,5 +108,5 @@ nnoremap <silent> ,gc :GitCommit<CR>
 
 "導入済み:surround.vim, rails.vim, vim-ruby, yankring,
 "FuzzyFinder, NERD commenter, NERD Tree
-"neocomplcache, scala.vim, vimproc, vimshell
-"Ku, zencoding.vim, git-vim, mru.vim
+"neocomplcache, vimproc, vimshell
+"zencoding.vim, git-vim, mru.vim
