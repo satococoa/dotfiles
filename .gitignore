@@ -1,7 +1,3 @@
-.vim/GetLatest/Installed/*
-.vim/.VimballRecord
-.vim/info/ku/history
-.vim/.netrwhist
-.vim/autoload/proc.*
+.vim/bundle/*/doc
 .DS_Store
 .zsh/cdd_pwd_list*
