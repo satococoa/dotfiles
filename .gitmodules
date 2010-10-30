@@ -46,3 +46,6 @@
 [submodule ".vim/bundle/vim-ref"]
 	path = .vim/bundle/vim-ref
 	url = http://github.com/thinca/vim-ref.git
+[submodule ".vim/bundle/vim-quickrun"]
+	path = .vim/bundle/vim-quickrun
+	url = http://github.com/thinca/vim-quickrun.git
