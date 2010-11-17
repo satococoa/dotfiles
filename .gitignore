@@ -1,3 +1,4 @@
 .vim/bundle/*/doc
+.vim/.netrwhist
 .DS_Store
 .zsh/cdd_pwd_list*
