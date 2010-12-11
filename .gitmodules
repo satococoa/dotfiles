@@ -49,3 +49,6 @@
 [submodule ".vim/bundle/vim-quickrun"]
 	path = .vim/bundle/vim-quickrun
 	url = http://github.com/thinca/vim-quickrun.git
+[submodule ".vim/bundle/eregex-vim"]
+	path = .vim/bundle/eregex-vim
+	url = https://github.com/othree/eregex.vim.git
