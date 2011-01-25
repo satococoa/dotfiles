@@ -49,29 +49,19 @@ filetype plugin on
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%=%l,%c%V%8P
 set showmatch
 set modeline
-set ts=4 sw=4 sts=4 expandtab
+set ts=2 sw=2 sts=2 expandtab
 nnoremap <silent> <Space> :bn<CR>
 nnoremap <silent> <S-Space> :bp<CR>
 " for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
 " for PHP
-let php_sql_query=1
-let php_htmlInStrings=1
-" let php_noShortTags=1
 let php_folding=1
+autocmd FileType php set ts=4 sw=4 sts=4 expandtab
 autocmd BufRead,BufNewFile *.ctp setfiletype php
 " for ruby
 let g:rubycomplete_buffer_loading=1
 let g:rubycomplete_classes_in_global=1
 let g:rubycomplete_rails=1
-autocmd FileType ruby set ts=2 sw=2 sts=2 expandtab
-" for (x)html
-autocmd FileType xhtml,html set ts=2 sw=2 sts=2 expandtab
-" autocmd BufNewFile *.html 0r $HOME/.vim/template/skelton.html
-" for JavaScript
-autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
-" for scala
-autocmd FileType scala set ts=2 sw=2 sts=2 expandtab
 " for some plugins
 " yankring
 let g:yankring_max_history = 30
