@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/eregex-vim"]
 	path = .vim/bundle/eregex-vim
 	url = https://github.com/othree/eregex.vim.git
+[submodule ".vim/bundle/matchit"]
+	path = .vim/bundle/matchit
+	url = https://github.com/vim-scripts/matchit.zip.git
