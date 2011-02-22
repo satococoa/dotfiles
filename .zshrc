@@ -13,6 +13,8 @@ case "${OSTYPE}" in
 esac
 alias r='rails'
 bindkey -e
+bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
 PROMPT="${USER}@${HOST}%(!.#.$) "
 RPROMPT="[%~]"
 HISTFILE=$HOME/.zsh-history
