@@ -8,8 +8,8 @@ if has('gui_macvim')
     set showtabline=2
     set transparency=5
     set antialias
-    set guifont=VL\ Gothic\ Regular:h13
-    set guifontwide=VL\ Gothic\ Regular:h13
+    set guifont=VL\ Gothic\ Regular:h14
+    set guifontwide=VL\ Gothic\ Regular:h14
     set guioptions-=T
     set fileencodings=''
     " rvmで入れたRubyを使う
