@@ -135,8 +135,9 @@ augroup vimrc-auto-mkdir  " {{{
     endif
   endfunction  " }}}
 augroup END  " }}}
-
-"導入済み:surround.vim, rails.vim, vim-ruby, yankring,
-"FuzzyFinder, NERD commenter, NERD Tree
-"neocomplcache, vimproc, vimshell
-"zencoding.vim, git-vim, mru.vim
+" Quickrun
+let g:quickrun_config = {}
+let g:quickrun_config['markdown'] = {
+\ 'command': 'bluecloth',
+\ 'exec': '%c -f %s'
+\ }
