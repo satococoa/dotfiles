@@ -3,6 +3,7 @@ case "${OSTYPE}" in
   alias ls="ls -G -w"
   alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
   export LSCOLORS=DxGxcxdxCxegedabagacad
+  export NODE_PATH=/usr/local/lib/node:$NODE_PATH 
   ;;
   linux*)
   umask 002
