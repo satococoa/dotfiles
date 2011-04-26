@@ -1,4 +1,4 @@
-.vim/bundle/*/doc
+.vim/bundle
 .vim/.netrwhist
 .DS_Store
 .zsh/cdd_pwd_list*

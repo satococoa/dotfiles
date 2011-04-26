@@ -1,9 +1,11 @@
-" pathogen
-filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-set helpfile=$VIMRUNTIME/doc/help.txt
-filetype plugin on
+"Vundle
+set rtp+=~/.vim/vundle/
+call vundle#rc()
+
+" Bundles
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+Bundle 'rails.vim'
 
 set encoding=utf-8
 set fileencoding=utf-8
