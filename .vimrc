@@ -7,17 +7,21 @@ Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'rails.vim'
 Bundle 'eregex.vim'
-Bundle 'http://github.com/motemen/git-vim.git'
 Bundle 'matchit.zip'
-Bundle 'neocomplcache'
 Bundle 'The-NERD-tree'
 Bundle 'The-NERD-Commenter'
-Bundle 'unite.vim'
 Bundle 'quickrun.vim'
 Bundle 'ref.vim'
-Bundle 'ruby.vim'
 Bundle 'surround.vim'
 Bundle 'ZenCoding.vim'
+Bundle 'coffee.vim'
+Bundle 'YankRing.vim'
+
+Bundle 'motemen/git-vim'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/unite.vim'
+Bundle 'h1mesuke/vim-alignta'
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -86,16 +90,11 @@ nnoremap <silent> ,fb :FufBuffer<CR>
 nnoremap <silent> ,ff :FufFile <C-r>=expand('%:~:.')[:-1-len(expand('%:~:.:t'))]<CR><CR>
 nnoremap <silent> ,fc :FufCoverageFile<CR>
 nnoremap <silent> ,fd :FufDir<CR>
-" Ku
-nnoremap ,kb :<C-u>Ku buffer<CR>
-nnoremap ,kf :<C-u>Ku file<CR>
 " NERD comments
 let NERDSpaceDelims = 1
 let NERDShutUp = 1
 " NERD Tree
 nnoremap <silent> ,tt :NERDTreeToggle<CR>
-" Align.vim
-let g:Align_xstrlen = 3
 " neocomplcache
 let g:neocomplcache_enable_at_startup = 1
 imap <silent><C-l>     <Plug>(neocomplcache_snippets_expand)
@@ -117,17 +116,17 @@ nnoremap <silent> ,gc :GitCommit<CR>
 " 入力モードで開始する
 " " let g:unite_enable_start_insert=1
 " バッファ一覧
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> <space>b :<C-u>Unite buffer<CR>
 " ファイル一覧
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> <space>f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 " レジスタ一覧
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> <space>r :<C-u>Unite -buffer-name=register register<CR>
 " 最近使用したファイル一覧
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+nnoremap <silent> <space>m :<C-u>Unite file_mru<CR>
 " 常用セット
-nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+nnoremap <silent> <space>u :<C-u>Unite buffer file_mru<CR>
 " 全部乗せ
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> <space>a :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 " ウィンドウを分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
 au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
