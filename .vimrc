@@ -6,6 +6,18 @@ call vundle#rc()
 Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'rails.vim'
+Bundle 'eregex.vim'
+Bundle 'http://github.com/motemen/git-vim.git'
+Bundle 'matchit.zip'
+Bundle 'neocomplcache'
+Bundle 'The-NERD-tree'
+Bundle 'The-NERD-Commenter'
+Bundle 'unite.vim'
+Bundle 'quickrun.vim'
+Bundle 'ref.vim'
+Bundle 'ruby.vim'
+Bundle 'surround.vim'
+Bundle 'ZenCoding.vim'
 
 set encoding=utf-8
 set fileencoding=utf-8
