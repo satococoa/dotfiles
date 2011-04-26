@@ -12,7 +12,6 @@ Bundle 'The-NERD-tree'
 Bundle 'The-NERD-Commenter'
 Bundle 'surround.vim'
 Bundle 'ZenCoding.vim'
-Bundle 'coffee.vim'
 Bundle 'YankRing.vim'
 
 Bundle 'thinca/vim-ref'
@@ -23,6 +22,7 @@ Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/vim-alignta'
 Bundle 'tpope/vim-markdown'
+Bundle 'kchmck/vim-coffee-script'
 
 set encoding=utf-8
 set fileencoding=utf-8
