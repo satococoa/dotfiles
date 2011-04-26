@@ -10,18 +10,19 @@ Bundle 'eregex.vim'
 Bundle 'matchit.zip'
 Bundle 'The-NERD-tree'
 Bundle 'The-NERD-Commenter'
-Bundle 'quickrun.vim'
-Bundle 'ref.vim'
 Bundle 'surround.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'coffee.vim'
 Bundle 'YankRing.vim'
 
+Bundle 'thinca/vim-ref'
+Bundle 'thinca/vim-quickrun'
 Bundle 'motemen/git-vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/unite.vim'
 Bundle 'h1mesuke/vim-alignta'
+Bundle 'tpope/vim-markdown'
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -114,7 +115,7 @@ nnoremap <silent> ,gA :GitAdd <cfile><CR>
 nnoremap <silent> ,gc :GitCommit<CR>
 " unite.vim
 " 入力モードで開始する
-" " let g:unite_enable_start_insert=1
+let g:unite_enable_start_insert=1
 " バッファ一覧
 nnoremap <silent> <space>b :<C-u>Unite buffer<CR>
 " ファイル一覧
