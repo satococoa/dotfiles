@@ -25,6 +25,7 @@ Bundle 'tpope/vim-markdown'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
+Bundle 'ujihisa/shadow.vim'
 
 set encoding=utf-8
 set fileencoding=utf-8
