@@ -72,6 +72,7 @@ filetype plugin on
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%=%l,%c%V%8P
 set showmatch
 set modeline
+set modelines=5
 set ts=2 sw=2 sts=2 expandtab
 nnoremap <silent> <Space> :bn<CR>
 nnoremap <silent> <S-Space> :bp<CR>
