@@ -7,3 +7,5 @@
     diff = auto
     interactive = auto
     grep = auto
+[core]
+	editor = /usr/bin/vim
