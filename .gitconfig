@@ -8,4 +8,4 @@
     interactive = auto
     grep = auto
 [core]
-	editor = /usr/bin/vim
+    editor = /usr/bin/vim
