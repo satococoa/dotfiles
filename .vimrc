@@ -14,7 +14,7 @@ Bundle 'surround.vim'
 Bundle 'ZenCoding.vim'
 Bundle 'YankRing.vim'
 Bundle 'jade.vim'
-Bundle 'vim-stylus.vim'
+Bundle 'vim-stylus'
 Bundle 'Railscasts-Theme-GUIand256color'
 
 Bundle 'thinca/vim-ref'
