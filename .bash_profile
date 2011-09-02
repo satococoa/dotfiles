@@ -9,7 +9,7 @@ if [ -f ~/.bashrc ]; then
 fi
 if [ -f ~/.bash/git-completion.bash ]; then
   source ~/.bash/git-completion.bash
-  PS1="\h:\W\$(__git_ps1) \$ "
+  PS1="\h:\W\$(__git_ps1) \u\$ "
 fi
 
 alias r='rails'
