@@ -1,6 +1,8 @@
 "Vundle
+filetype off
 set rtp+=~/.vim/vundle/
 call vundle#rc()
+Bundle 'gmarik/vundle'
 
 " Bundles
 Bundle 'L9'
@@ -27,10 +29,12 @@ Bundle 'h1mesuke/vim-alignta'
 Bundle 'tpope/vim-markdown'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'stonean/slim'
+Bundle 'bbommarito/slim'
 Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'ujihisa/shadow.vim'
+
+filetype plugin indent on
 
 set encoding=utf-8
 set fileencoding=utf-8
