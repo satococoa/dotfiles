@@ -33,6 +33,7 @@ Bundle 'bbommarito/vim-slim'
 Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'ujihisa/shadow.vim'
+Bundle 'groenewege/vim-less'
 
 filetype plugin indent on
 
