@@ -15,4 +15,5 @@
 	ci = commit
 	st = status
 	br = branch
+	difc = diff --cached
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
