@@ -12,3 +12,4 @@ if [ -f ~/.bash/git-completion.bash ]; then
 fi
 
 alias r='rails'
+alias titanium="$HOME/Library/Application\ Support/Titanium/mobilesdk/osx/1.7.2/titanium.py"
