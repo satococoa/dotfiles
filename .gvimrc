@@ -12,19 +12,7 @@ if has('gui_macvim')
     set guifontwide=VL\ Gothic\ Regular:h14
     set guioptions-=T
     set fileencodings=''
-    " rvmで入れたRubyを使う
-    let $RUBY_DLL = $HOME.'/.rvm/rubies/ruby-1.9.2-p0/lib/libruby.dylib'
-elseif has('gui_win32')
-    set guifont=MS_Gothic:h9:cSHIFTJIS
-    "set guifont=M+2VM+IPAG_circle:h8:cSHIFTJIS
-    set columns=140
-    set lines=60
-    set hlsearch
-    set guioptions='m'
-    set vb t_vb=
-    highlight CursorLine guifg=NONE guibg=NONE gui=underline
-    let g:git_bin='C:/Git/bin/git.exe'
-    let $PATH = $PATH.';C:/Ruby192/bin'
+    " let $RUBY_DLL = $HOME.'/.rvm/rubies/ruby-1.9.2-p0/lib/libruby.dylib'
 else
     set columns=140
     set lines=60
