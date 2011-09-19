@@ -12,7 +12,7 @@ if has('gui_macvim')
     set guifontwide=VL\ Gothic\ Regular:h14
     set guioptions-=T
     set fileencodings=''
-    " let $RUBY_DLL = $HOME.'/.rvm/rubies/ruby-1.9.2-p0/lib/libruby.dylib'
+    let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.2-p290/lib/libruby.dylib'
 else
     set columns=140
     set lines=60
