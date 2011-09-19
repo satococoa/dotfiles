@@ -14,3 +14,9 @@ fi
 alias r='rails'
 alias g='git'
 alias titanium="$HOME/Library/Application\ Support/Titanium/mobilesdk/osx/1.7.2/titanium.py"
+
+# for ruby-build
+export CONFIGURE_OPTS='--enable-shared'
+if [ -f ~/.rbenv/completions/rbenv.bash ]; then
+  source ~/.rbenv/completions/rbenv.bash
+fi
