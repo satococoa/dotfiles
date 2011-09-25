@@ -8,8 +8,11 @@ if has('gui_macvim')
     set showtabline=2
     set transparency=5
     set antialias
-    set guifont=VL\ Gothic\ Regular:h14
-    set guifontwide=VL\ Gothic\ Regular:h14
+    " set guifont=VL\ Gothic\ Regular:h14
+    " set guifontwide=VL\ Gothic\ Regular:h14
+    set guifont=Ricty:h16
+    set guifontwide=Ricty:h16
+    set linespace=2
     set guioptions-=T
     set fileencodings=''
     let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.2-p290/lib/libruby.dylib'
