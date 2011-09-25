@@ -8,7 +8,7 @@
     interactive = auto
     grep = auto
 [core]
-	editor = mvim -f
+	editor = vim
 	excludesfile = /Users/satoshi/.gitignore
 [alias]
 	co = checkout
