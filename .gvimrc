@@ -2,8 +2,8 @@ colorscheme h2u_black
 set hlsearch
 set vb t_vb=
 if has('gui_macvim')
-    set columns=120
-    set lines=36
+    set columns=100
+    set lines=40
     set imdisable
     set showtabline=2
     set transparency=5
@@ -15,7 +15,7 @@ if has('gui_macvim')
     set linespace=2
     set guioptions-=T
     set fileencodings=''
-    let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.2-p290/lib/libruby.dylib'
+    let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.3-preview1/lib/libruby.dylib'
 else
     set columns=140
     set lines=60
