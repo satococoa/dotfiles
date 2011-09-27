@@ -1,4 +1,4 @@
-colorscheme h2u_black
+colorscheme railscasts
 set hlsearch
 set vb t_vb=
 if has('gui_macvim')
