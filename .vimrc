@@ -18,6 +18,7 @@ Bundle 'YankRing.vim'
 Bundle 'jade.vim'
 Bundle 'vim-stylus'
 Bundle 'Railscasts-Theme-GUIand256color'
+Bundle 'Indent-Guides'
 
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-quickrun'
