@@ -81,8 +81,6 @@ set showmatch
 set modeline
 set modelines=5
 set ts=2 sw=2 sts=2 expandtab
-nnoremap <silent> <Space> :bn<CR>
-nnoremap <silent> <S-Space> :bp<CR>
 " for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
 " for PHP
