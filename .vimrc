@@ -67,6 +67,7 @@ set cursorline
 set showcmd
 set title
 set nopaste
+set autoread
 set background=dark
 highlight Pmenu ctermbg=lightcyan ctermfg=black
 highlight PmenuSel ctermbg=blue ctermfg=black
