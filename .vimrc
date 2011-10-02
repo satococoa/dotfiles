@@ -22,7 +22,6 @@ Bundle 'Indent-Guides'
 
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-quickrun'
-Bundle 'motemen/git-vim'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/unite.vim'
@@ -35,6 +34,7 @@ Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'ujihisa/shadow.vim'
 Bundle 'groenewege/vim-less'
+Bundle 'tpope/vim-fugitive.git'
 
 filetype plugin indent on
 
@@ -116,14 +116,6 @@ inoremap <expr><silent><C-g>     neocomplcache#undo_completion()
 " 途中でEnterしたとき、ポップアップを消して改行し、
 " 改行を連続して入力してもインデント部を保持する
 inoremap <expr><CR> pumvisible() ? "\<C-y>\<CR>X\<BS>" : "\<CR>X\<BS>"
-" git-vim
-nnoremap <silent> ,gd :GitDiff<CR>
-nnoremap <silent> ,gD :GitDiff --cached<CR>
-nnoremap <silent> ,gs :GitStatus<CR>
-nnoremap <silent> ,gl :GitLog<CR>
-nnoremap <silent> ,ga :GitAdd<CR>
-nnoremap <silent> ,gA :GitAdd <cfile><CR>
-nnoremap <silent> ,gc :GitCommit<CR>
 " unite.vim
 " 入力モードで開始する
 let g:unite_enable_start_insert=1
