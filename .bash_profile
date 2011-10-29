@@ -12,7 +12,9 @@ fi
 
 alias r='rails'
 alias g='git'
+alias be='bundle exec'
 alias titanium="$HOME/Library/Application\ Support/Titanium/mobilesdk/osx/1.7.2/titanium.py"
+alias nave="$HOME/.nave/nave.sh"
 
 # for ruby-build
 export CONFIGURE_OPTS='--enable-shared'
