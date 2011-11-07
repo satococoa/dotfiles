@@ -35,6 +35,7 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'ujihisa/shadow.vim'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive.git'
+Bundle 'h1mesuke/unite-outline'
 
 filetype plugin indent on
 
@@ -123,6 +124,8 @@ let g:unite_enable_start_insert=1
 nnoremap <silent> <space>b :<C-u>Unite buffer<CR>
 " ファイル一覧
 nnoremap <silent> <space>f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" アウトライン
+nnoremap <silent> <space>o :<C-u>Unite outline<CR>
 " レジスタ一覧
 nnoremap <silent> <space>r :<C-u>Unite -buffer-name=register register<CR>
 " 最近使用したファイル一覧
