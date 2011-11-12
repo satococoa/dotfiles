@@ -1,3 +1,4 @@
+export EDITOR=/usr/bin/vim
 export CLICOLOR=1
 export LSCOLORS=DxGxcxdxCxegedabagacad
 export HISTSIZE=5000

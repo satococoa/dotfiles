@@ -19,6 +19,7 @@ Bundle 'jade.vim'
 Bundle 'vim-stylus'
 Bundle 'railscasts'
 Bundle 'Indent-Guides'
+Bundle 'vim-scala'
 
 Bundle 'thinca/vim-ref'
 Bundle 'thinca/vim-quickrun'
