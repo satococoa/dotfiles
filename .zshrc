@@ -1,18 +1,3 @@
-case "${OSTYPE}" in
-  darwin*)
-  alias ls="ls -G -w"
-  alias gvim='env LANG=ja_JP.UTF-8 open -a /Applications/MacVim.app "$@"'
-  export LSCOLORS=DxGxcxdxCxegedabagacad
-  export NODE_PATH=/usr/local/lib/node:$NODE_PATH 
-  ;;
-  linux*)
-  umask 002
-  alias ls="ls --color=auto"
-  export EDITOR=/usr/local/bin/vim
-  export LS_COLORS="di=01;33"
-  ;;
-esac
-alias r='rails'
 bindkey -e
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
@@ -26,52 +11,44 @@ setopt share_history
 function history-all { history -E 1 }
 autoload -U compinit
 compinit
+
+case "${OSTYPE}" in
+  darwin*)
+  alias ls="ls -G -w"
+  export LSCOLORS=DxGxcxdxCxegedabagacad
+  export EDITOR=/usr/bin/vim
+  ;;
+  linux*)
+  umask 002
+  alias ls="ls --color=auto"
+  export EDITOR=/usr/local/bin/vim
+  export LS_COLORS="di=01;33"
+  ;;
+esac
+
 source $HOME/.zsh/cdd
-if [ "x$TERM" = "xscreen" ]; then
-  chpwd () { echo -n "_`dirs`\\" }
-  preexec() {
-    # see [zsh-workers:13180]
-    # http://www.zsh.org/mla/workers/2000/msg03993.html
-    emulate -L zsh
-    local -a cmd; cmd=(${(z)2})
-    case $cmd[1] in
-      fg)
-        if (( $#cmd == 1 )); then
-          cmd=(builtin jobs -l %+)
-        else
-          cmd=(builtin jobs -l $cmd[2])
-        fi
-        ;;
-      %*) 
-        cmd=(builtin jobs -l $cmd[1])
-        ;;
-      cd)
-        if (( $#cmd == 2)); then
-          cmd[1]=$cmd[2]
-        fi
-        ;&
-      *)
-        echo -n "k$cmd[1]:t\\"
-        return
-        ;;
-    esac
+source $HOME/.zsh/ssh_screen
 
-    local -A jt; jt=(${(kv)jobtexts})
+# aliases
+alias r='rails'
+alias g='git'
+alias be='bundle exec'
 
-    $cmd >>(read num rest
-      cmd=(${(z)${(e):-\$jt$num}})
-      echo -n "k$cmd[1]:t\\") 2>/dev/null
-  }
-  chpwd
-  alias ssh=ssh_screen
-else
-  exec screen -S main -xRR
+# git completion
+autoload bashcompinit
+bashcompinit
+if [ -f ~/.bash/git-completion.bash ]; then
+  source ~/.bash/git-completion.bash
+  RPROMPT="$(__git_ps1)[%~]"
 fi
-function ssh_screen(){
-  eval server=\${$#}
-  screen -t $server ssh "$@"
-}
-function chpwd() {
-  _reg_pwd_screennum
-}
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+#rbenv
+export CONFIGURE_OPTS='--enable-shared'
+if [ -f ~/.rbenv/completions/rbenv.zsh ]; then
+  source ~/.rbenv/completions/rbenv.zsh
+fi
+eval "$(rbenv init -)"
+
+#nvm
+. ~/.nvm/nvm.sh
+
