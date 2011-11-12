@@ -9,7 +9,6 @@ export HISTCONTROL=ignoreboth
 alias r='rails'
 alias g='git'
 alias be='bundle exec'
-alias titanium="$HOME/Library/Application\ Support/Titanium/mobilesdk/osx/1.7.2/titanium.py"
 
 if [ -f ~/.bashrc ]; then
   source ~/.bashrc
