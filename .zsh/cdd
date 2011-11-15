@@ -124,3 +124,4 @@ compctl -K _cdd cdd
 functions _cdd() {
   reply=(`grep -v "^$WINDOW:" "$CDD_PWD_FILE"`)
 }
+

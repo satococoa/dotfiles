@@ -68,6 +68,9 @@ if [ "x$TERM" = "xscreen" ]; then
 else
   exec screen -S main -xRR
 fi
+function chpwd() {
+  _reg_pwd_screennum
+}
 
 # aliases
 alias r='rails'

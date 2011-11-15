@@ -2,6 +2,3 @@ function ssh_screen(){
   eval server=\${$#}
   screen -t $server ssh "$@"
 }
-function chpwd() {
-  _reg_pwd_screennum
-}
