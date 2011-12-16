@@ -15,7 +15,7 @@ if has('gui_macvim')
     set linespace=2
     set guioptions-=T
     set fileencodings=''
-    let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.3-preview1/lib/libruby.dylib'
+    let $RUBY_DLL = $HOME.'/.rbenv/versions/1.9.3-p0/lib/libruby.dylib'
 else
     set columns=140
     set lines=60
