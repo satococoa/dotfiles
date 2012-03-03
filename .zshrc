@@ -77,15 +77,23 @@ alias r='rails'
 alias g='git'
 alias be='bundle exec'
 
+# z
+. /usr/local/etc/profile.d/z.sh
+function _Z_precmd {
+  z --add "$(pwd -P)"
+}
+precmd_functions=($precmd_functions _Z_precmd)
+
 # git completion
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' formats "(%b)"
 zstyle ':vcs_info:*' actionformats "(%b|%a)"
-precmd() {
+function _GIT_precmd {
   psvar=()
   LANG=en_US.UTF-8 vcs_info
   psvar[1]=$vcs_info_msg_0_
 }
+precmd_functions=($precmd_functions _GIT_precmd)
 RPROMPT="%1v[%~]"
 autoload bashcompinit
 bashcompinit
