@@ -1,4 +1,4 @@
-"Vundle
+" Vundle
 filetype off
 set rtp+=~/.vim/vundle/
 call vundle#rc()
@@ -84,6 +84,7 @@ set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%y%=%l,%c
 set showmatch
 set modeline
 set modelines=5
+set cmdheight=1
 set ts=2 sw=2 sts=2 expandtab
 " for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"

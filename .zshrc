@@ -28,50 +28,25 @@ case "${OSTYPE}" in
   ;;
 esac
 
-source $HOME/.zsh/cdd
-source $HOME/.zsh/ssh_screen
-
-# screen自動起動
-if [ "x$TERM" = "xscreen" ]; then
-  chpwd () { echo -n "_`dirs`\\" }
-  preexec() {
-    # see [zsh-workers:13180]
-    # http://www.zsh.org/mla/workers/2000/msg03993.html
-    emulate -L zsh
-    local -a cmd; cmd=(${(z)2})
-    case $cmd[1] in
-      fg)
-        if (( $#cmd == 1 )); then
-          cmd=(builtin jobs -l %+)
-        else
-          cmd=(builtin jobs -l $cmd[2])
-        fi
-        ;;
-      %*)
-        cmd=(builtin jobs -l $cmd[1])
-        ;;
-      cd)
-        if (( $#cmd == 2)); then
-          cmd[1]=$cmd[2]
-        fi
-        ;&
-      *)
-        echo -n "k$cmd[1]:t\\"
-        return
-        ;;
-    esac
-    local -A jt; jt=(${(kv)jobtexts})
-    $cmd >>(read num rest
-      cmd=(${(z)${(e):-\$jt$num}})
-      echo -n "k$cmd[1]:t\\") 2>/dev/null
-  }
-  chpwd
-  alias ssh=ssh_screen
-else
-  exec screen -S main -xRR
+# tmux自動起動
+if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && which tmux > /dev/null; then
+  if ( tmux has-session ); then
+    session=`tmux list-sessions | grep -e '^[0-9].*]$' | head -n 1 | sed -e 's/^\([0-9]\+\).*$/\1/'`
+    if [ -n "$session" ]; then
+      echo "Attache tmux session $session."
+      tmux attach-session -t $session
+    else
+      echo "Session has been already attached."
+      tmux list-sessions
+    fi
+  else
+    echo "Create new tmux session."
+    tmux
+  fi
 fi
+source $HOME/.zsh/cdd
 function chpwd() {
-  _reg_pwd_screennum
+  _cdd_chpwd
 }
 
 # aliases
@@ -103,13 +78,13 @@ if [ -f ~/.bash/git-completion.bash ]; then
   source ~/.bash/git-completion.bash
 fi
 
-#rbenv
+# rbenv
 export CONFIGURE_OPTS='--enable-shared'
 if [ -f ~/.rbenv/completions/rbenv.zsh ]; then
   source ~/.rbenv/completions/rbenv.zsh
 fi
 eval "$(rbenv init -)"
 
-#nvm
-. ~/.nvm/nvm.sh
+# nvm
+source ~/.nvm/nvm.sh
 
