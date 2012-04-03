@@ -1,4 +1,0 @@
-function ssh_screen(){
-  eval server=\${$#}
-  screen -t $server ssh "$@"
-}
