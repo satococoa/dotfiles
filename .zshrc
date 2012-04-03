@@ -15,6 +15,8 @@ compinit
 case "${OSTYPE}" in
   darwin*)
   alias ls="ls -G -w"
+  alias vi="/Applications/MacVim.app/Contents/MacOS/Vim"
+  alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
   export LSCOLORS=DxGxcxdxCxegedabagacad
   export EDITOR=/usr/bin/vim
   ;;
