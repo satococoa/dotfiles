@@ -38,6 +38,8 @@ Bundle 'ujihisa/shadow.vim'
 Bundle 'groenewege/vim-less'
 Bundle 'tpope/vim-fugitive.git'
 Bundle 'h1mesuke/unite-outline'
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
 
 filetype plugin indent on
 
