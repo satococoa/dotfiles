@@ -79,7 +79,7 @@ if [ -f ~/.bash/git-completion.bash ]; then
 fi
 
 # rbenv
-export CONFIGURE_OPTS='--enable-shared'
+export CONFIGURE_OPTS='--enable-shared --with-openssl-dir=/usr/local --with-readline-dir=/usr/local --with-gcc=clang'
 if [ -f ~/.rbenv/completions/rbenv.zsh ]; then
   source ~/.rbenv/completions/rbenv.zsh
 fi
