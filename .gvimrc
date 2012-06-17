@@ -10,8 +10,8 @@ if has('gui_macvim')
     set antialias
     " set guifont=VL\ Gothic\ Regular:h14
     " set guifontwide=VL\ Gothic\ Regular:h14
-    set guifont=Ricty:h16
-    set guifontwide=Ricty:h16
+    set guifont=Ricty:h18
+    set guifontwide=Ricty:h18
     set linespace=2
     set guioptions-=T
     set fileencodings=''
