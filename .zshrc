@@ -88,3 +88,5 @@ eval "$(rbenv init -)"
 # nvm
 source ~/.nvm/nvm.sh
 
+# rubymotion
+export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'
