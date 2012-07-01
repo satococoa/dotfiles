@@ -74,19 +74,10 @@ precmd_functions=($precmd_functions _GIT_precmd)
 RPROMPT="%1v[%~]"
 autoload bashcompinit
 bashcompinit
-if [ -f ~/.bash/git-completion.bash ]; then
-  source ~/.bash/git-completion.bash
-fi
 
 # rbenv
-export CONFIGURE_OPTS='--enable-shared --with-openssl-dir=/usr/local --with-readline-dir=/usr/local --with-gcc=clang'
-if [ -f ~/.rbenv/completions/rbenv.zsh ]; then
-  source ~/.rbenv/completions/rbenv.zsh
-fi
+export CONFIGURE_OPTS='--with-readline-dir=/usr/local/Cellar/readline/6.2.2'
 eval "$(rbenv init -)"
-
-# nvm
-source ~/.nvm/nvm.sh
 
 # rubymotion
 export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'

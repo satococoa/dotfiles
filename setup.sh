@@ -5,3 +5,5 @@ for file in $files;do
   _path=`basename \`pwd\``/$file
   ln -s $_path ~/$file
 done
+cd
+mv .gitconfig_global .gitconfig
