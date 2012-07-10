@@ -88,6 +88,9 @@ set modeline
 set modelines=5
 set cmdheight=1
 set ts=2 sw=2 sts=2 expandtab
+" コロンとセミコロンの入れ替え(USキーボード)
+" noremap ; :
+" noremap : ;
 " for ChangeLog
 let g:changelog_username="Satoshi Ebisawa <e.satoshi@gmail.com>"
 " for PHP
