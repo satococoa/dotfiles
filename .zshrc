@@ -81,3 +81,6 @@ eval "$(rbenv init -)"
 
 # rubymotion
 export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'
+
+# PATH
+export PATH="/usr/local/share/python:${PATH}"
