@@ -55,11 +55,7 @@ alias g='git'
 alias be='bundle exec'
 
 # z
-. /usr/local/etc/profile.d/z.sh
-function _Z_precmd {
-  z --add "$(pwd -P)"
-}
-precmd_functions=($precmd_functions _Z_precmd)
+. `brew --prefix`/etc/profile.d/z.sh
 
 # git completion
 autoload -Uz vcs_info
