@@ -31,7 +31,7 @@ esac
 # tmux自動起動
 if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && which tmux > /dev/null; then
   if ( tmux has-session ); then
-    session=`tmux list-sessions | grep -e '^[0-9].*]$' | head -n 1 | sed -e 's/^\([0-9]\+\).*$/\1/'`
+    session=`tmux list-sessions | grep -e '^[0-9].*]$' | head -n 1 | sed -e 's/^\([0-9]*\).*$/\1/'`
     if [ -n "$session" ]; then
       echo "Attache tmux session $session."
       tmux attach-session -t $session
