@@ -79,4 +79,4 @@ eval "$(rbenv init -)"
 export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'
 
 # PATH
-export PATH="/usr/local/share/python:${PATH}"
+export PATH="/usr/local/share/npm/bin:/usr/local/share/python:${PATH}"
