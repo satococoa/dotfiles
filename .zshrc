@@ -73,7 +73,7 @@ bashcompinit
 
 # rbenv
 export CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-openssl-dir=/usr/local/opt/openssl'
-eval "$(rbenv init -)"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # rubymotion
 export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'
