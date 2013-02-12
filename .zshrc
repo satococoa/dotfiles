@@ -72,7 +72,7 @@ autoload bashcompinit
 bashcompinit
 
 # rbenv
-export CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-openssl-dir=/usr/local/opt/openssl'
+export RUBY_CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-openssl-dir=/usr/local/opt/openssl'
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # rubymotion
