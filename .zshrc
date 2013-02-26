@@ -76,7 +76,7 @@ export RUBY_CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-o
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # rubymotion
-export RUBYMOTION_LIB='~/dev/motion/RubyMotion/lib'
+export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
 # PATH
 export PATH="/usr/local/share/npm/bin:/usr/local/share/python:${PATH}"
