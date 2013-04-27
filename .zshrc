@@ -1,13 +1,14 @@
 bindkey -e
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
-PROMPT="${USER}@${HOST}%(!.#.$) "
+PROMPT="%(?!☀  <!☂  <) "
 RPROMPT="[%~]"
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt extended_history
 setopt share_history
+setopt correct
 function history-all { history -E 1 }
 autoload -U compinit
 compinit
