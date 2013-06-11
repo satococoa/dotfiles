@@ -1,7 +1,7 @@
 bindkey -e
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
-PROMPT="%(?!%F{yellow}☀%f !%F{cyan}☂ %f) < "
+PROMPT="%(?!%F{yellow}☀%f !%F{cyan}☂ %f) $ "
 RPROMPT="[%~]"
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
