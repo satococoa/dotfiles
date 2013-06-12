@@ -10,6 +10,7 @@ setopt extended_history
 setopt share_history
 # setopt correct
 function history-all { history -E 1 }
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
 compinit
 
@@ -56,7 +57,7 @@ alias g='git'
 alias be='bundle exec'
 
 # z
-. `brew --prefix`/etc/profile.d/z.sh
+. /usr/local/etc/profile.d/z.sh
 
 # git completion
 autoload -Uz vcs_info
