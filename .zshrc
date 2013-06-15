@@ -81,4 +81,4 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
 # PATH
-export PATH="/usr/local/share/npm/bin:/usr/local/share/python:${PATH}"
+export PATH="/Applications/MacVim.app/Contents/MacOS:/usr/local/share/npm/bin:/usr/local/share/python:${PATH}"
