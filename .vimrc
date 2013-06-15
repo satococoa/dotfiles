@@ -31,7 +31,6 @@ Bundle 'h1mesuke/vim-alignta'
 Bundle 'tpope/vim-markdown'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'bbommarito/vim-slim'
 Bundle 'othree/html5.vim'
 Bundle 'pangloss/vim-javascript'
 Bundle 'ujihisa/shadow.vim'
@@ -40,6 +39,7 @@ Bundle 'tpope/vim-fugitive.git'
 Bundle 'h1mesuke/unite-outline'
 Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
+Bundle 'slim-template/vim-slim'
 
 filetype plugin indent on
 
