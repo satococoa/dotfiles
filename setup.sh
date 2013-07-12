@@ -6,4 +6,4 @@ for file in $files;do
   ln -s $_path ~/$file
 done
 cd
-mv .gitconfig_global .gitconfig
+mv ~/.gitignore_global ~/.gitignore
