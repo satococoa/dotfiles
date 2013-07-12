@@ -1,3 +1,5 @@
 .DS_Store
 tags
 vendor/bundle
+vendor/gems
+.idea

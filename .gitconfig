@@ -9,7 +9,7 @@
   grep = auto
 [core]
   editor = vim
-  excludesfile = /Users/satoshi/.gitignore
+  excludesfile = ~/.gitignore
 [alias]
   co = checkout
   ci = commit
