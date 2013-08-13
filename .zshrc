@@ -81,5 +81,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # rubymotion
 export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
+# golang
+export GOROOT="/usr/local/Cellar/go/1.1.1"
+
 # PATH
 export PATH="/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:${PATH}"

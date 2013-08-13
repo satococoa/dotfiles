@@ -1,6 +1,7 @@
 " Vundle
 filetype off
 set rtp+=~/.vim/vundle/
+set rtp+=$GOROOT/misc/vim
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
