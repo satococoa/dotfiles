@@ -41,6 +41,7 @@ Bundle 'h1mesuke/unite-outline'
 Bundle 'mattn/gist-vim'
 Bundle 'mattn/webapi-vim'
 Bundle 'slim-template/vim-slim'
+Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
 
