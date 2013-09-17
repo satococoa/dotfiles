@@ -83,6 +83,7 @@ export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
 # golang
 export GOROOT="/usr/local/Cellar/go/1.1.2"
+export GOPATH="$HOME/.go"
 
 # PATH
 export PATH="/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:${PATH}"
