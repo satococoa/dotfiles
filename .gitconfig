@@ -1,22 +1,22 @@
 [user]
-  email = e.satoshi@gmail.com
-  name = Satoshi Ebisawa
+	email = e.satoshi@gmail.com
+	name = Satoshi Ebisawa
 [color]
-  status = auto
-  branch = auto
-  diff = auto
-  interactive = auto
-  grep = auto
+	status = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	grep = auto
 [core]
 	editor = subl -n -w
-  excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore
 [alias]
-  co = checkout
-  ci = commit
-  st = status
-  br = branch
-  difc = diff --cached
-  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	difc = diff --cached
+	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 [github]
 	user = satococoa
 [push]
