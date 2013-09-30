@@ -8,7 +8,7 @@
   interactive = auto
   grep = auto
 [core]
-  editor = vim
+	editor = subl -n -w
   excludesfile = ~/.gitignore
 [alias]
   co = checkout
