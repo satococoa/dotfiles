@@ -8,7 +8,6 @@
 	interactive = auto
 	grep = auto
 [core]
-	editor = subl -n -w
 	excludesfile = ~/.gitignore
 [alias]
 	co = checkout
