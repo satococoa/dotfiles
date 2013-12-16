@@ -10,7 +10,7 @@ setopt extended_history
 setopt share_history
 # setopt correct
 function history-all { history -E 1 }
-fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh-completions /usr/local/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
 
