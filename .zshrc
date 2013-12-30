@@ -78,6 +78,9 @@ export RUBY_CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-o
 export RUBY_MAKE_OPTS='-j 2'
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# bundler
+export BUNDLE_JOBS=4
+
 # rubymotion
 export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
