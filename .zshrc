@@ -85,11 +85,11 @@ export BUNDLE_JOBS=4
 export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
 # golang
-export GOROOT="/usr/local/Cellar/go/1.2"
 export GOPATH="$HOME/.go"
+export PATH=$PATH:$GOPATH/bin
 
 # aws
 if which aws_zsh_completer.sh > /dev/null; then source aws_zsh_completer.sh; fi
 
 # PATH
-export PATH="/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:${PATH}"
+export PATH=/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:$PATH
