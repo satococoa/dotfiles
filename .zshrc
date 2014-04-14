@@ -74,7 +74,7 @@ autoload bashcompinit
 bashcompinit
 
 # rbenv
-export RUBY_CONFIGURE_OPTS='--with-readline-dir=/usr/local/opt/readline --with-openssl-dir=/usr/local/opt/openssl'
+export CONFIGURE_OPTS='--disable-install-rdoc'
 export RUBY_MAKE_OPTS='-j 2'
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
