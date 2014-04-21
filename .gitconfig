@@ -12,10 +12,13 @@
 [alias]
 	co = checkout
 	ci = commit
-	st = status
+	st = status --branch --short
 	br = branch
 	difc = diff --cached
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	gr = grep --line-number --show-function --color --heading --break
+	l = log --stat --decorate
+	lp = log --stat --decorate --patch
 [github]
 	user = satococoa
 [push]
