@@ -76,7 +76,7 @@ bashcompinit
 # rbenv
 export CONFIGURE_OPTS='--disable-install-rdoc'
 export RUBY_MAKE_OPTS='-j 2'
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 
 # bundler
 export BUNDLE_JOBS=4
