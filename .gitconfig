@@ -9,6 +9,8 @@
 	grep = auto
 [core]
 	excludesfile = ~/.gitignore
+	quotepath = false
+	precomposeunicode = true
 [alias]
 	co = checkout
 	ci = commit
