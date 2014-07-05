@@ -1,1 +1,4 @@
-gem: --no-ri --no-rdoc
+install: --no-document
+update: --no-document
+gemsrc_use_ghq: true
+

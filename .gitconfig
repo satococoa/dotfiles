@@ -25,3 +25,5 @@
 	user = satococoa
 [push]
 	default = simple
+[ghq]
+	root = /Users/satoshi/dev/src
