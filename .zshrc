@@ -89,7 +89,7 @@ export GOPATH="$HOME/.go"
 export PATH=$PATH:$GOPATH/bin
 
 # swift
-alias swift="/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift"
+alias swift="/Applications/Xcode6-Beta2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift"
 
 # aws
 if which aws_zsh_completer.sh > /dev/null; then source aws_zsh_completer.sh; fi
