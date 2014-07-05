@@ -168,3 +168,5 @@ augroup vimrc-auto-mkdir  " {{{
     endif
   endfunction  " }}}
 augroup END  " }}}
+" no un~ file
+set noundofile
