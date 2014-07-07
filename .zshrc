@@ -6,6 +6,7 @@ RPROMPT="[%~]"
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=100000
+setopt hist_ignore_dups
 setopt extended_history
 setopt share_history
 # setopt correct
