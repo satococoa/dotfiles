@@ -6,8 +6,4 @@ for file in ${files[@]};do
   _path=$DIR/$file
   ln -s $_path ~/$file
 done
-if ! [ -d ~/.rbenv ]; then
-  mkdir ~/.rbenv
-fi
-ln -s $DIR/.rbenv/default-gems ~/.rbenv/default-gems
 $(cd ~; mv ~/.gitignore_global ~/.gitignore)
