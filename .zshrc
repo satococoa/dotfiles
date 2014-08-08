@@ -86,7 +86,7 @@ export BUNDLE_JOBS=4
 export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 
 # golang
-export GOPATH="$HOME/.go"
+export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
 
 # swift
