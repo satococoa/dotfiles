@@ -18,7 +18,7 @@ function history-all { history -E 1 }
 fpath=(/usr/local/share/zsh-completions /usr/local/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
-typeset -U path
+typeset -U path PATH
 
 case "${OSTYPE}" in
   darwin*)
@@ -99,7 +99,7 @@ alias swift="/Applications/Xcode6-Beta5.app/Contents/Developer/Toolchains/XcodeD
 if which aws_zsh_completer.sh > /dev/null; then source aws_zsh_completer.sh; fi
 
 # PATH
-export PATH=/Applications/MacVim.app/Contents/MacOS:/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 
 # peco
 function peco-select-history() {
