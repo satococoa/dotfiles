@@ -7,6 +7,10 @@ HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_dups
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_expire_dups_first
+setopt hist_ignore_space
 setopt extended_history
 setopt share_history
 # setopt correct
@@ -14,6 +18,7 @@ function history-all { history -E 1 }
 fpath=(/usr/local/share/zsh-completions /usr/local/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit
+typeset -U path
 
 case "${OSTYPE}" in
   darwin*)
