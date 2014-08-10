@@ -1,6 +1,6 @@
 #!/bin/sh
-echo '(cd ~/dotfiles && git pull)'
-(cd ~/dotfiles && git pull)
+echo '(cd ~/dev/src/github.com/satococoa/dotfiles && git pull)'
+(cd ~/dev/src/github.com/satococoa/dotfiles && git pull)
 echo 'brew update'
 brew update
 echo 'brew upgrade'
