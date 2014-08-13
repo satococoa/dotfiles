@@ -79,6 +79,7 @@ bashcompinit
 
 # rbenv
 export CONFIGURE_OPTS='--disable-install-rdoc'
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl) --with-readline-dir=$(brew --prefix readline)"
 export RUBY_MAKE_OPTS='-j 2'
 if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 
