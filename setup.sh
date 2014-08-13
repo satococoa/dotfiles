@@ -18,7 +18,7 @@ brew tap motemen/ghq
 brew tap peco/peco
 brew tap sanemat/font
 
-brews=(ghq git go hub jq peco rbenv ruby-build reattach-to-user-namespace ricty tmux z zsh-completions direnv mercurial)
+brews=(ghq git go hub jq peco readline openssl rbenv ruby-build reattach-to-user-namespace ricty tmux z zsh-completions direnv mercurial)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
