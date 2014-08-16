@@ -102,6 +102,8 @@ if which aws_zsh_completer.sh > /dev/null; then source aws_zsh_completer.sh; fi
 # PATH
 export PATH=/usr/local/bin:$PATH
 
+export ATOM_PATH=~/Applications
+
 # peco
 function peco-select-history() {
   local tac
