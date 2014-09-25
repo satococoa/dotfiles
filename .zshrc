@@ -97,7 +97,7 @@ export PATH=$PATH:$GOPATH/bin
 alias swift="/Applications/Xcode6-Beta5.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift"
 
 # aws
-if which aws_zsh_completer.sh > /dev/null; then source aws_zsh_completer.sh; fi
+if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; fi
 
 # PATH
 export PATH=/usr/local/bin:$PATH
