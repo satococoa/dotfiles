@@ -11,7 +11,7 @@ echo 'brew cask cleanup'
 brew cask cleanup
 echo 'gem update'
 gem update
-echo 'gem cleanup'
-gem cleanup
+# echo 'gem cleanup'
+# gem cleanup
 echo 'sudo motion update'
 sudo motion update
