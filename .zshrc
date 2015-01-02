@@ -93,9 +93,6 @@ export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
 export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
 
-# swift
-alias swift="/Applications/Xcode6-Beta5.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift"
-
 # aws
 if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; fi
 
