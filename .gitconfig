@@ -11,6 +11,12 @@
 	excludesfile = ~/.gitignore
 	quotepath = false
 	precomposeunicode = true
+[push]
+	default = simple
+[pull]
+	rebase = true
+[merge]
+	ff = false
 [alias]
 	co = checkout
 	ci = commit
@@ -23,7 +29,5 @@
 	lp = log --stat --decorate --patch
 [github]
 	user = satococoa
-[push]
-	default = simple
 [ghq]
 	root = ~/dev/src
