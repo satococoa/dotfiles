@@ -98,7 +98,6 @@ if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; 
 
 # PATH
 export PATH=/usr/local/bin:$PATH
-
 export ATOM_PATH=~/Applications
 
 # peco
