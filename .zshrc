@@ -99,6 +99,8 @@ if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; 
 # PATH
 export PATH=/usr/local/bin:$PATH
 export ATOM_PATH=~/Applications
+export STUDIO_JDK=/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk
+alias android-studio="open -a Android\ Studio"
 
 # peco
 function peco-select-history() {
