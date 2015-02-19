@@ -18,7 +18,7 @@ brew tap motemen/ghq
 brew tap peco/peco
 brew tap sanemat/font
 
-brews=(ghq git go hub jq peco readline openssl rbenv ruby-build rbenv-gemset reattach-to-user-namespace ricty tmux z zsh-completions direnv mercurial)
+brews=(ghq git go hub jq peco readline openssl rbenv ruby-build rbenv-gemset reattach-to-user-namespace tmux z zsh-completions direnv mercurial)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
@@ -28,7 +28,7 @@ done
 # cask
 brew install caskroom/cask/brew-cask
 
-casks=(alfred android-file-transfer appcleaner atom butter crashlytics dropbox hipchat iterm2 licecap testflight vagrant virtualbox)
+casks=(alfred android-file-transfer appcleaner atom butter dropbox hipchat iterm2 licecap vagrant virtualbox)
 for cask in ${casks[@]}; do
   echo "brew cask install $cask ..."
   brew cask install $cask
