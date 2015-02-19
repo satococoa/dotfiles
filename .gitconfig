@@ -17,6 +17,7 @@
 	rebase = true
 [merge]
 	ff = false
+  tool = p4merge
 [alias]
 	co = checkout
 	ci = commit
@@ -31,3 +32,8 @@
 	user = satococoa
 [ghq]
 	root = ~/dev/src
+[mergetool "p4merge"]
+  cmd = ~/Applications/p4merge.app/Contents/MacOS/p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  keepTemporaries = false
+  trustExitCode = false
+  keepBackup = false
