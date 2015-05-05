@@ -102,6 +102,9 @@ export ATOM_PATH=~/Applications
 export STUDIO_JDK=/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk
 alias android-studio="open -a Android\ Studio"
 
+# mono
+export MONO_GAC_PREFIX="/usr/local"
+
 # peco
 function peco-select-history() {
   local tac
