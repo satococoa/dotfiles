@@ -13,5 +13,3 @@ echo 'gem update'
 gem update
 # echo 'gem cleanup'
 # gem cleanup
-echo 'sudo motion update'
-sudo motion update
