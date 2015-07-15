@@ -28,7 +28,7 @@ done
 # cask
 brew install caskroom/cask/brew-cask
 
-casks=(flashlight android-file-transfer appcleaner atom butter dropbox iterm2 licecap vagrant virtualbox)
+casks=(android-file-transfer appcleaner atom butter dropbox iterm2 licecap vagrant virtualbox)
 for cask in ${casks[@]}; do
   echo "brew cask install $cask ..."
   brew cask install $cask
