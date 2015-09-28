@@ -105,6 +105,9 @@ alias android-studio="open -a Android\ Studio"
 # mono
 export MONO_GAC_PREFIX="/usr/local"
 
+# nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
 # peco
 function peco-select-history() {
   local tac
