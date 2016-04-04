@@ -105,6 +105,10 @@ alias android-studio="open -a Android\ Studio"
 # mono
 export MONO_GAC_PREFIX="/usr/local"
 
+# google cloud SDK
+source '/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+
 # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
