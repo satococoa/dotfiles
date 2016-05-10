@@ -25,12 +25,3 @@ for brew in ${brews[@]}; do
   brew install $brew
 done
 
-# cask
-brew install caskroom/cask/brew-cask
-
-casks=(android-file-transfer appcleaner atom butter dropbox iterm2 licecap vagrant virtualbox)
-for cask in ${casks[@]}; do
-  echo "brew cask install $cask ..."
-  brew cask install $cask
-done
-brew cask alfred link
