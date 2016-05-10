@@ -12,11 +12,8 @@ $(cd ~; mv ~/.gitignore_global ~/.gitignore)
 # homebrew
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
-brew tap homebrew/dupes
-brew tap homebrew/versions
 brew tap motemen/ghq
 brew tap peco/peco
-brew tap sanemat/font
 
 brews=(ghq git go hub jq peco readline openssl rbenv ruby-build rbenv-gemset reattach-to-user-namespace tmux z zsh-completions direnv mercurial)
 
