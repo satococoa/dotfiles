@@ -7,7 +7,3 @@ echo 'brew upgrade --all'
 brew upgrade --all
 echo 'brew cleanup'
 brew cleanup
-echo 'gem update'
-gem update
-# echo 'gem cleanup'
-# gem cleanup
