@@ -86,9 +86,6 @@ if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 # bundler
 export BUNDLE_JOBS=4
 
-# rubymotion
-export RUBYMOTION_LIB="$HOME/dev/github/RubyMotion/lib"
-
 # golang
 export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
@@ -99,11 +96,7 @@ if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; 
 # PATH
 export PATH=/usr/local/bin:$PATH
 export ATOM_PATH=~/Applications
-export STUDIO_JDK=/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk
 alias android-studio="open -a Android\ Studio"
-
-# mono
-export MONO_GAC_PREFIX="/usr/local"
 
 # google cloud SDK
 source '/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
