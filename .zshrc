@@ -95,8 +95,6 @@ if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; 
 
 # PATH
 export PATH=/usr/local/bin:$PATH
-export ATOM_PATH=~/Applications
-alias android-studio="open -a Android\ Studio"
 
 # google cloud SDK
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
