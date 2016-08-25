@@ -97,8 +97,10 @@ if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; 
 export PATH=/usr/local/bin:$PATH
 
 # google cloud SDK
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
+if [ -e /usr/local/google-cloud-sdk ]; then
+  source '/usr/local/google-cloud-sdk/path.zsh.inc'
+  source '/usr/local/google-cloud-sdk/completion.zsh.inc'
+fi
 
 # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
@@ -139,3 +141,4 @@ function peco-src () {
 zle -N peco-src
 bindkey '^]' peco-src
 eval "$(direnv hook $0)"
+
