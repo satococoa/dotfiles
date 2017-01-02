@@ -35,6 +35,10 @@ set readline_prefix (brew --prefix readline)
 set -x RUBY_CONFIGURE_OPTS "--with-openssl-dir=$openssl_prefix --with-readline-dir=$readline_prefix"
 set -x RUBY_MAKE_OPTS '-j 2'
 
+# anyenv
+set -U fish_user_paths $HOME/.anyenv/bin $fish_user_paths
+status --is-interactive; and source (anyenv init -|psub)
+
 # direnv
 eval (direnv hook $SHELL)
 
