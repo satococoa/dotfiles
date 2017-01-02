@@ -44,6 +44,11 @@ set -U fish_user_paths $HOME/.nodebrew/current/bin $fish_user_paths
 # direnv
 eval (direnv hook $SHELL)
 
+# aws-cli
+if test -x (which aws_completer)
+  complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
+end
+
 # peco
 # https://github.com/oh-my-fish/plugin-peco/blob/master/functions/peco_select_history.fish
 function peco_select_history
