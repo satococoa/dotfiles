@@ -34,12 +34,6 @@ set openssl_prefix (brew --prefix openssl)
 set readline_prefix (brew --prefix readline)
 set -x RUBY_CONFIGURE_OPTS "--with-openssl-dir=$openssl_prefix --with-readline-dir=$readline_prefix"
 set -x RUBY_MAKE_OPTS '-j 2'
-if which rbenv > /dev/null
-  rbenv init - | source
-end
-
-# nodebrew
-set -U fish_user_paths $HOME/.nodebrew/current/bin $fish_user_paths
 
 # direnv
 eval (direnv hook $SHELL)
