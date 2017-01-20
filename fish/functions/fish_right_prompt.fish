@@ -1,5 +1,5 @@
 function fish_right_prompt
-	set_color $fish_color_cwd
+  set_color $fish_color_cwd
   printf '%s' (prompt_pwd)
   set_color normal
 
