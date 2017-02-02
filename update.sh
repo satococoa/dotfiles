@@ -3,7 +3,7 @@ echo '(cd ~/dev/src/github.com/satococoa/dotfiles && git pull)'
 (cd ~/dev/src/github.com/satococoa/dotfiles && git pull)
 echo 'brew update'
 brew update
-echo 'brew upgrade --all'
-brew upgrade --all
+echo 'brew upgrade'
+brew upgrade
 echo 'brew cleanup'
 brew cleanup
