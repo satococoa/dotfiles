@@ -42,6 +42,10 @@ set readline_prefix /usr/local/opt/readline
 set -x RUBY_CONFIGURE_OPTS "--with-openssl-dir=$openssl_prefix --with-readline-dir=$readline_prefix"
 set -x RUBY_MAKE_OPTS '-j 2'
 
+# java
+set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
+set -U fish_user_paths $JAVA_HOME/bin $fish_user_paths
+
 # anyenv
 set -U fish_user_paths $HOME/.anyenv/bin $fish_user_paths
 status --is-interactive; and source (anyenv init -|psub)
