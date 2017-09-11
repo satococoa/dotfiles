@@ -4,24 +4,10 @@ alias g='git'
 alias be='bundle exec'
 
 # completions
-if [ -f ~/.bash/git-completion.bash ]; then
-  source ~/.bash/git-completion.bash
-  PS1="\h:\W\$(__git_ps1) \u\$ "
-fi
-
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 if [ -f ~/.anyenv/envs/rbenv/completions/rbenv.bash ]; then
   source ~/.anyenv/envs/rbenv/completions/rbenv.bash
 fi
-
-if [ -f /usr/local/bin/aws_completer ]; then
-  complete -C '/usr/local/bin/aws_completer' aws
-fi
-
-# *env
-eval "$(anyenv init -)"
-
-# direnv
-eval "$(direnv hook bash)"
 
 # tmux 自動起動
 if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && which tmux > /dev/null; then
@@ -42,11 +28,12 @@ fi
 
 # peco
 peco-select-history() {
-    declare l=$(HISTTIMEFORMAT= history | sort -k1,1nr | perl -ne 'BEGIN { my @lines = (); } s/^\s*\d+\s*//; $in=$_; if (!(grep {$in eq $_} @lines)) { push(@lines, $in); print $in; }' | peco --query "$READLINE_LINE")
-    READLINE_LINE="$l"
-    READLINE_POINT=${#l}
+  local action
+  action="$(history | peco | cut -c 8-)"
+  history -s "${action}"
+  eval "${action}"
 }
-bind -x '"\C-r": peco-select-history'
+bind '"\C-r": "\erpeco-select-history\n"'
 
 peco-select-project() {
   local selected_file=$(ghq list --full-path | peco --query "$LBUFFER")
@@ -57,4 +44,10 @@ peco-select-project() {
     fi
   fi
 }
-bind -x '"\C-]": peco-select-project'
+bind '"\C-]": "\erpeco-select-project\n"'
+
+# *env
+eval "$(anyenv init -)"
+
+# direnv
+eval "$(direnv hook bash)"
