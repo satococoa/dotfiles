@@ -34,7 +34,7 @@ peco-select-history() {
   history -s "${action}"
   eval "${action}"
 }
-bind '"\C-r": "\erpeco-select-history\n"'
+# bind '"\C-r": "\erpeco-select-history\n"'
 
 peco-select-project() {
   local selected_file=$(ghq list --full-path | peco --query "$LBUFFER")
@@ -45,7 +45,7 @@ peco-select-project() {
     fi
   fi
 }
-bind '"\C-]": "\erpeco-select-project\n"'
+bind -x '"\C-]": peco-select-project'
 
 # *env
 eval "$(anyenv init -)"
