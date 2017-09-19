@@ -2,6 +2,7 @@
 alias r='rails'
 alias g='git'
 alias be='bundle exec'
+alias d='docker-compose'
 
 # completions
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
