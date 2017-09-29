@@ -3,3 +3,5 @@
 vendor/bundle
 vendor/gems
 .idea
+.vscode
+
