@@ -31,18 +31,17 @@ fi
 peco-select-history() {
   local action
   action="$(history | peco | cut -c 8-)"
-  history -s "${action}"
-  eval "${action}"
+  history -s "$action"
+  READLINE_LINE="${action}"
+  READLINE_POINT=${#READLINE_LINE}
 }
-# bind '"\C-r": "\erpeco-select-history\n"'
+bind -x '"\C-r": peco-select-history'
 
 peco-select-project() {
   local selected_file=$(ghq list --full-path | peco --query "$LBUFFER")
   if [ -n "$selected_file" ]; then
-    if [ -t 1 ]; then
-      echo ${selected_file}
-      cd ${selected_file}
-    fi
+    READLINE_LINE="cd ${selected_file}"
+    READLINE_POINT=${#READLINE_LINE}
   fi
 }
 bind -x '"\C-]": peco-select-project'
