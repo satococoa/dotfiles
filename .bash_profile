@@ -14,7 +14,7 @@ export CONFIGURE_OPTS='--disable-install-rdoc'
 openssl_path=/usr/local/opt/openssl
 # brew --prefix readline
 readline_path=/usr/local/opt/readline
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir=$readline_path"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir=$readline_path --disable-dtrace"
 export RUBY_MAKE_OPTS='-j 2'
 export PATH=$HOME/.anyenv/bin:$PATH
 
