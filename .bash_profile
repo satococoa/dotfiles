@@ -17,6 +17,9 @@ readline_path=/usr/local/opt/readline
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir=$readline_path --disable-dtrace"
 export RUBY_MAKE_OPTS='-j 2'
 export PATH=$HOME/.anyenv/bin:$PATH
+# flutter
+export PATH=$HOME/dev/flutter/bin:$PATH
+
 
 if [ -f ~/.bashrc ]; then
   source ~/.bashrc
