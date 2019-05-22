@@ -19,6 +19,8 @@ export RUBY_MAKE_OPTS='-j 2'
 export PATH=$HOME/.anyenv/bin:$PATH
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
+# mysql-client
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
 
 if [ -f ~/.bashrc ]; then
