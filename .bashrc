@@ -35,4 +35,4 @@ eval "$(anyenv init -)"
 # direnv
 eval "$(direnv hook bash)"
 
-ulimit -n 512
+ulimit -n 1024
