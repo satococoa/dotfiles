@@ -6,9 +6,6 @@ alias d='docker-compose'
 
 # completions
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-if [ -f ~/.anyenv/envs/rbenv/completions/rbenv.bash ]; then
-  source ~/.anyenv/envs/rbenv/completions/rbenv.bash
-fi
 
 # peco
 peco-select-history() {
@@ -29,10 +26,8 @@ peco-select-project() {
 }
 bind -x '"\C-]": peco-select-project'
 
-# *env
-eval "$(anyenv init -)"
-
 # direnv
 eval "$(direnv hook bash)"
 
 ulimit -n 1024
+

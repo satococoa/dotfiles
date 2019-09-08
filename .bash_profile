@@ -16,7 +16,7 @@ openssl_path=/usr/local/opt/openssl
 readline_path=/usr/local/opt/readline
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir=$readline_path --disable-dtrace"
 export RUBY_MAKE_OPTS='-j 2'
-export PATH=$HOME/.anyenv/bin:$PATH
+. /usr/local/opt/asdf/asdf.sh
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
@@ -33,3 +33,4 @@ if [ -f "$HOME/google-cloud-sdk/path.bash.inc" ]; then source "$HOME/google-clou
 
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/google-cloud-sdk/completion.bash.inc" ]; then source "$HOME/google-cloud-sdk/completion.bash.inc"; fi
+
