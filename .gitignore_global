@@ -6,4 +6,5 @@ vendor/gems
 .vscode
 .vs
 .envrc
+.tool-versions
 
