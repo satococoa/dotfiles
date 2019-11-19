@@ -89,6 +89,7 @@ precmd_functions=($precmd_functions _GIT_precmd)
 RPROMPT="%1v[%~]"
 autoload bashcompinit
 bashcompinit
+ulimit -n 1024
 
 # aws
 if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; fi
