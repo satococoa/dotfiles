@@ -63,6 +63,7 @@ export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir
 export RUBY_MAKE_OPTS='-j 2'
 export BUNDLE_JOBS=4
 . /usr/local/opt/asdf/asdf.sh
+. /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
 # go
 export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
