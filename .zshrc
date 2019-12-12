@@ -31,7 +31,7 @@ setopt hist_expire_dups_first
 setopt hist_ignore_space
 setopt extended_history
 setopt share_history
-setopt correct
+#setopt correct
 function history-all { history -E 1 }
 fpath=(/usr/local/share/zsh-completions /usr/local/share/zsh/site-functions $fpath)
 autoload -U compinit
@@ -69,6 +69,8 @@ export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
+# mysql-client
+export PATH="/usr/local/opt/mysql-client@5.7/bin:$PATH"
 
 # aliases
 alias r='rails'
