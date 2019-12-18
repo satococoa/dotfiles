@@ -64,9 +64,6 @@ export RUBY_MAKE_OPTS='-j 2'
 export BUNDLE_JOBS=4
 . /usr/local/opt/asdf/asdf.sh
 . /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
-# go
-export GOPATH="$HOME/dev"
-export PATH=$PATH:$GOPATH/bin
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
