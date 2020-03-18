@@ -76,6 +76,7 @@ alias r='rails'
 alias g='git'
 alias be='bundle exec'
 alias d='docker-compose'
+alias c='code-insiders'
 
 # git completion
 autoload -Uz vcs_info
