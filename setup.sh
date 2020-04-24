@@ -13,7 +13,7 @@ $(cd ~; mv ~/.gitignore_global ~/.gitignore)
 # homebrew
 ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
-brews=(ghq git hub jq peco readline openssl direnv mercurial bash-completion bash zsh-completions reattach-to-user-namespace)
+brews=(ghq git jq peco readline openssl direnv mercurial zsh-completions reattach-to-user-namespace git-lfs)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
