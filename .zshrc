@@ -53,15 +53,6 @@ case "${OSTYPE}" in
   export EDITOR=/usr/local/bin/vim
   ;;
 esac
-# ruby
-export CONFIGURE_OPTS='--disable-install-rdoc'
-# brew --prefix openssl
-openssl_path=/usr/local/opt/openssl
-# brew --prefix readline
-readline_path=/usr/local/opt/readline
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$openssl_path --with-readline-dir=$readline_path --disable-dtrace"
-export RUBY_MAKE_OPTS='-j 2'
-export BUNDLE_JOBS=4
 . /usr/local/opt/asdf/asdf.sh
 # go
 export GOPATH="$HOME/dev"
