@@ -56,14 +56,12 @@ case "${OSTYPE}" in
   export EDITOR=/usr/local/bin/vim
   ;;
 esac
-. /usr/local/opt/asdf/asdf.sh
+. $(brew --prefix asdf)/asdf.sh
 # go
 export GOPATH="$HOME/dev"
 export PATH=$PATH:$GOPATH/bin
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
-# mysql-client
-export PATH="/usr/local/opt/mysql-client@5.7/bin:$PATH"
 
 # aliases
 alias r='rails'
@@ -86,9 +84,6 @@ RPROMPT="%1v[%~]"
 autoload bashcompinit
 bashcompinit
 ulimit -n 1024
-
-# aws
-if which aws > /dev/null; then source /usr/local/share/zsh/site-functions/_aws; fi
 
 # google cloud SDK
 if [ -e "$HOME/google-cloud-sdk" ]; then
