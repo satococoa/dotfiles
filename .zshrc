@@ -33,9 +33,12 @@ setopt extended_history
 setopt share_history
 #setopt correct
 function history-all { history -E 1 }
-fpath=(/usr/local/share/zsh-completions /usr/local/share/zsh/site-functions $fpath)
-autoload -U compinit
-compinit
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit -u
+fi
 typeset -U path PATH
 
 # env
