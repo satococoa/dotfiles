@@ -86,9 +86,9 @@ bashcompinit
 ulimit -n 1024
 
 # google cloud SDK
-if [ -e "$HOME/google-cloud-sdk" ]; then
-  source "$HOME/google-cloud-sdk/path.zsh.inc"
-  source "$HOME/google-cloud-sdk/completion.zsh.inc"
+if [ -e "$HOME/dev/google-cloud-sdk" ]; then
+  source "$HOME/dev/google-cloud-sdk/path.zsh.inc"
+  source "$HOME/dev/google-cloud-sdk/completion.zsh.inc"
 fi
 
 # peco
