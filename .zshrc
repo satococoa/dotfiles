@@ -11,7 +11,7 @@ if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && ( ! expr $TER
     fi
   else
     echo "Create new tmux session."
-    tmux
+    exec tmux
   fi
 fi
 
