@@ -1,7 +1,4 @@
 .DS_Store
-.bundle
-vendor/bundle
-vendor/gems
 .idea
 .vscode
 .vs
