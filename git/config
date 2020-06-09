@@ -8,7 +8,6 @@
 	interactive = auto
 	grep = auto
 [core]
-	excludesfile = ~/.gitignore
 	quotepath = false
 	precomposeunicode = true
 [push]
@@ -17,6 +16,8 @@
 	rebase = true
 [merge]
 	ff = false
+[rebase]
+	autosquash = true
 [alias]
 	co = checkout
 	ci = commit
@@ -37,5 +38,3 @@
 	smudge = git-lfs smudge -- %f
 	required = true
 	process = git-lfs filter-process
-[rebase]
-	autosquash = true

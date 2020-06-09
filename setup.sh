@@ -8,7 +8,14 @@ for file in ${files[@]};do
   ln -s $_path ~/$file
 done
 
-$(cd ~; mv ~/.gitignore_global ~/.gitignore)
+# .config
+mkdir -p ~/.config
+config_dirs=(git)
+for config_dir in ${config_dirs[@]};do
+  _path=$DIR/$config_dir
+  echo "ln -s $_path ~/.config/$config_dir"
+  ln -s $_path ~/.config/$config_dir
+done
 
 # homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
