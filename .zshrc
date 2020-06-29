@@ -64,6 +64,7 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
 export PATH=/usr/local/opt/mysql-client/bin:$PATH
+export PATH=/usr/local/opt/libpq/bin:$PATH
 
 # aliases
 alias r='rails'
