@@ -57,9 +57,6 @@ case "${OSTYPE}" in
   ;;
 esac
 . $(brew --prefix asdf)/asdf.sh
-# go
-export GOPATH="$HOME/dev"
-export PATH=$PATH:$GOPATH/bin
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
