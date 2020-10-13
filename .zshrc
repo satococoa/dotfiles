@@ -66,6 +66,20 @@ export PATH=/usr/local/opt/libpq/bin:$PATH
 # dart
 export PATH=$PATH:$HOME/.pub-cache/bin
 
+ulimit -n 1024
+
+# google cloud SDK
+if [ -e "$HOME/dev/google-cloud-sdk" ]; then
+  source "$HOME/dev/google-cloud-sdk/path.zsh.inc"
+  source "$HOME/dev/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# direnv
+eval "$(direnv hook $0)"
+
+# pack
+. $(pack completion --shell zsh)
+
 # aliases
 alias r='rails'
 alias g='git'
@@ -86,13 +100,6 @@ precmd_functions=($precmd_functions _GIT_precmd)
 RPROMPT="%1v[%~]"
 autoload bashcompinit
 bashcompinit
-ulimit -n 1024
-
-# google cloud SDK
-if [ -e "$HOME/dev/google-cloud-sdk" ]; then
-  source "$HOME/dev/google-cloud-sdk/path.zsh.inc"
-  source "$HOME/dev/google-cloud-sdk/completion.zsh.inc"
-fi
 
 # peco
 function peco-select-history() {
@@ -121,6 +128,3 @@ function peco-select-project () {
 }
 zle -N peco-select-project
 bindkey '^]' peco-select-project
-
-# direnv
-eval "$(direnv hook $0)"
