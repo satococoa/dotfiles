@@ -34,6 +34,7 @@ setopt share_history
 #setopt correct
 function history-all { history -E 1 }
 if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
   autoload -Uz compinit
