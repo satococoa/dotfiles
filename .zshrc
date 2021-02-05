@@ -57,7 +57,12 @@ case "${OSTYPE}" in
   export EDITOR=/usr/local/bin/vim
   ;;
 esac
-. $(brew --prefix asdf)/asdf.sh
+# ruby
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+eval "$(rbenv init -)"
+# node
+export VOLTA_HOME=$HOME/.volta
+export PATH=$VOLTA_HOME/bin:$PATH
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
