@@ -71,6 +71,8 @@ export PATH=/usr/local/opt/mysql-client/bin:$PATH
 export PATH=/usr/local/opt/libpq/bin:$PATH
 # dart
 export PATH=$PATH:$HOME/.pub-cache/bin
+# go
+export PATH=$HOME/go/bin:$PATH
 
 ulimit -n 1024
 
