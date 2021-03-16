@@ -18,8 +18,6 @@ for config_dir in ${config_dirs[@]};do
 done
 
 # homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
 brews=(ghq git jq peco direnv mercurial zsh-completions reattach-to-user-namespace tmux rbenv)
 
 for brew in ${brews[@]}; do
