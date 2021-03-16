@@ -85,9 +85,6 @@ fi
 # direnv
 eval "$(direnv hook $0)"
 
-# pack
-. $(pack completion --shell zsh)
-
 # aliases
 alias r='rails'
 alias g='git'
