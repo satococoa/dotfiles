@@ -5,6 +5,8 @@ echo 'brew update'
 brew update
 echo 'brew upgrade'
 brew upgrade
-echo 'gcloud components update'
-gcloud components update
+if command -v gcloud > /dev/null; then
+  echo 'gcloud components update'
+  gcloud components update
+fi
 
