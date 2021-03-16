@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 DIR=$(cd $(dirname $0); pwd)
-files=(.gemrc .gitconfig .gitignore_global .tmux.conf .vim .vimrc update.sh .bash_profile .bashrc .zshrc)
+files=(.tmux.conf update.sh .zshrc)
 for file in ${files[@]};do
   _path=$DIR/$file
   echo "ln -s $_path ~/$file"
