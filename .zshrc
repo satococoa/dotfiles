@@ -66,9 +66,9 @@ export PATH=$VOLTA_HOME/bin:$PATH
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # mysql-client
-export PATH=/usr/local/opt/mysql-client/bin:$PATH
+export PATH=$HOMEBREW_PREFIX/opt/mysql-client/bin:$PATH
 # libpq
-export PATH=/usr/local/opt/libpq/bin:$PATH
+export PATH=$HOMEBREW_PREFIX/opt/libpq/bin:$PATH
 # dart
 export PATH=$PATH:$HOME/.pub-cache/bin
 # go
