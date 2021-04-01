@@ -89,7 +89,7 @@ eval "$(direnv hook $0)"
 alias r='rails'
 alias g='git'
 alias be='bundle exec'
-alias d='docker-compose'
+alias d='docker compose'
 alias c='code'
 
 # git completion
