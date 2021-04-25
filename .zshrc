@@ -19,8 +19,6 @@ fi
 bindkey -e
 bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
-PROMPT="%(?!%F{yellow}☀%f !%F{cyan}☂ %f) $ "
-RPROMPT="[%~]"
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=100000
 SAVEHIST=100000
@@ -40,7 +38,11 @@ if type brew &>/dev/null; then
   autoload -Uz compinit
   compinit -u
 fi
+autoload bashcompinit
+bashcompinit
 typeset -U path PATH
+autoload -U promptinit; promptinit
+prompt pure
 
 # env
 export CLICOLOR=1
@@ -91,20 +93,6 @@ alias g='git'
 alias be='bundle exec'
 alias d='docker compose'
 alias c='code'
-
-# git completion
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' formats "(%b)"
-zstyle ':vcs_info:*' actionformats "(%b|%a)"
-function _GIT_precmd {
-  psvar=()
-  LANG=en_US.UTF-8 vcs_info
-  psvar[1]=$vcs_info_msg_0_
-}
-precmd_functions=($precmd_functions _GIT_precmd)
-RPROMPT="%1v[%~]"
-autoload bashcompinit
-bashcompinit
 
 # peco
 function peco-select-history() {
