@@ -75,6 +75,8 @@ export PATH=$HOMEBREW_PREFIX/opt/libpq/bin:$PATH
 export PATH=$PATH:$HOME/.pub-cache/bin
 # go
 export PATH=$HOME/go/bin:$PATH
+# pack
+. $(pack completion --shell zsh)
 
 ulimit -n 1024
 
