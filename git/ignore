@@ -1,7 +1,6 @@
 .DS_Store
 .idea
 .vscode
-.devcontainer
 .vs
 .envrc
 .tool-versions
