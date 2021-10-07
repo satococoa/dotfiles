@@ -31,9 +31,8 @@ setopt extended_history
 setopt share_history
 #setopt correct
 function history-all { history -E 1 }
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+if [ -n "$HOMEBREW_PREFIX" ]; then
+  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
 
   autoload -Uz compinit
   compinit -u
@@ -77,8 +76,6 @@ export PATH=$PATH:$HOME/.pub-cache/bin
 export PATH=$HOME/go/bin:$PATH
 # pack
 . $(pack completion --shell zsh)
-
-ulimit -n 1024
 
 # google cloud SDK
 if [ -e "$HOME/dev/google-cloud-sdk" ]; then
