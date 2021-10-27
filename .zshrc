@@ -76,6 +76,8 @@ export PATH=$PATH:$HOME/.pub-cache/bin
 export PATH=$HOME/go/bin:$PATH
 # pack
 . $(pack completion --shell zsh)
+# openjdk
+export PATH=$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH
 
 # google cloud SDK
 if [ -e "$HOME/dev/google-cloud-sdk" ]; then
