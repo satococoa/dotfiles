@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 # tmux自動起動
 if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && ( ! expr $TERM_PROGRAM : "^vscode" > /dev/null) && which tmux > /dev/null; then
   if ( tmux has-session ); then
@@ -124,4 +124,4 @@ zle -N peco-select-project
 bindkey '^]' peco-select-project
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
