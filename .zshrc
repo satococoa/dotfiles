@@ -86,7 +86,7 @@ if [ -e "$HOME/dev/google-cloud-sdk" ]; then
 fi
 
 # direnv
-eval "$(direnv hook $0)"
+eval "$(direnv hook zsh)"
 
 # aliases
 alias r='rails'
