@@ -60,24 +60,21 @@ case "${OSTYPE}" in
   export EDITOR=/usr/local/bin/vim
   ;;
 esac
-# ruby
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-eval "$(rbenv init -)"
-# node
-export VOLTA_HOME=$HOME/.volta
-export PATH=$VOLTA_HOME/bin:$PATH
-# flutter
-export PATH=$HOME/dev/flutter/bin:$PATH
-# mysql-client
-export PATH=$HOMEBREW_PREFIX/opt/mysql-client/bin:$PATH
-# libpq
-export PATH=$HOMEBREW_PREFIX/opt/libpq/bin:$PATH
-# dart
-export PATH=$PATH:$HOME/.pub-cache/bin
+
 # go
 export PATH=$HOME/go/bin:$PATH
 # openjdk
 export PATH=$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH
+# asdf
+. $(brew --prefix asdf)/libexec/asdf.sh
+# flutter
+export PATH=$HOME/dev/flutter/bin:$PATH
+# dart
+export PATH=$PATH:$HOME/.pub-cache/bin
+# mysql-client
+export PATH=$HOMEBREW_PREFIX/opt/mysql-client/bin:$PATH
+# libpq
+export PATH=$HOMEBREW_PREFIX/opt/libpq/bin:$PATH
 
 # google cloud SDK
 if [ -e "$HOME/dev/google-cloud-sdk" ]; then

@@ -18,12 +18,9 @@ for config_dir in ${config_dirs[@]};do
 done
 
 # homebrew
-brews=(ghq git jq peco direnv mercurial zsh-completions reattach-to-user-namespace tmux rbenv)
+brews=(ghq git jq peco direnv zsh-completions tmux asdf)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
   brew install $brew
 done
-
-# volta
-curl https://get.volta.sh | bash
