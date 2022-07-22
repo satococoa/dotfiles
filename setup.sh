@@ -18,7 +18,7 @@ for config_dir in ${config_dirs[@]};do
 done
 
 # homebrew
-brews=(ghq git jq peco direnv zsh-completions tmux asdf)
+brews=(ghq git jq peco direnv zsh-completions tmux asdf pure)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
