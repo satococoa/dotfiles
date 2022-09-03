@@ -28,8 +28,14 @@ for config_dir in ${config_dirs[@]};do
 done
 
 # homebrew
-brews=(ghq git jq peco direnv zsh-completions tmux asdf pure)
+brews=(ghq git jq peco direnv zsh-completions tmux asdf pure go ripgrep)
 
+for brew in ${brews[@]}; do
+  echo "brew install $brew ..."
+  brew install $brew
+done
+
+casks=(1password appcleaner dash discord docker figma google-chrome google-drive imageoptim multipass raindropio visual-studio-code)
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
   brew install $brew
