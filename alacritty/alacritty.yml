@@ -3,9 +3,8 @@ window:
     columns: 120
     lines: 56
   padding:
-    x: 6
-    y: 6
-  dynamic_padding: true
+    x: 8
+    y: 4
   decorations: full
   opacity: 0.9
   dynamic_title: true
@@ -26,37 +25,43 @@ font:
     style: Bold Italic
   size: 14.0
 
-colors:
-  # Default colors
-  primary:
-    background: '0x1f1f1f'
-    foreground: '0xe5e1d8'
-
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xf7786d'
-    green:   '0xbde97c'
-    yellow:  '0xefdfac'
-    blue:    '0x6ebaf8'
-    magenta: '0xef88ff'
-    cyan:    '0x90fdf8'
-    white:   '0xe5e1d8'
-
-  # Bright colors
-  bright:
-    black:   '0xb4b4b4'
-    red:     '0xf99f92'
-    green:   '0xe3f7a1'
-    yellow:  '0xf2e9bf'
-    blue:    '0xb3d2ff'
-    magenta: '0xe5bdff'
-    cyan:    '0xc2fefa'
-    white:   '0xffffff'
-
 shell:
   program: /bin/zsh
   args:
     - -l
     - -c
     - "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux -u"
+
+# Colors (Base16 Default Dark)
+colors:
+  # Default colors
+  primary:
+    background: '0x181818'
+    foreground: '0xd8d8d8'
+
+  # Colors the cursor will use if `custom_cursor_colors` is true
+  cursor:
+    text: '0xd8d8d8'
+    cursor: '0xd8d8d8'
+
+  # Normal colors
+  normal:
+    black:   '0x181818'
+    red:     '0xab4642'
+    green:   '0xa1b56c'
+    yellow:  '0xf7ca88'
+    blue:    '0x7cafc2'
+    magenta: '0xba8baf'
+    cyan:    '0x86c1b9'
+    white:   '0xd8d8d8'
+
+  # Bright colors
+  bright:
+    black:   '0x585858'
+    red:     '0xab4642'
+    green:   '0xa1b56c'
+    yellow:  '0xf7ca88'
+    blue:    '0x7cafc2'
+    magenta: '0xba8baf'
+    cyan:    '0x86c1b9'
+    white:   '0xf8f8f8'
