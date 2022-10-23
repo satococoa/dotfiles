@@ -15,7 +15,7 @@ done
 
 # .config
 mkdir -p ~/.config
-config_dirs=(git)
+config_dirs=(git alacritty)
 for config_dir in ${config_dirs[@]};do
   _path=$DIR/$config_dir
   _target=~/.config/$config_dir

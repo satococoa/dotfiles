@@ -1,20 +1,3 @@
-# tmux自動起動
-if ( ! test $TMUX ) && ( ! expr $TERM : "^screen" > /dev/null ) && ( ! expr $TERM_PROGRAM : "^vscode" > /dev/null) && which tmux > /dev/null; then
-  if ( tmux has-session ); then
-    session=`tmux list-sessions | grep -e '^[0-9].*$' | head -n 1 | sed -e 's/^\([0-9]*\).*$/\1/'`
-    if [ -n "$session" ]; then
-      echo "Attache tmux session $session."
-      exec tmux attach-session -t $session
-    else
-      echo "Session has been already attached."
-      exec tmux list-sessions
-    fi
-  else
-    echo "Create new tmux session."
-    exec tmux
-  fi
-fi
-
 # zsh settings
 bindkey -e
 bindkey '^R' history-incremental-pattern-search-backward

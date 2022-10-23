@@ -1,0 +1,62 @@
+window:
+  dimensions:
+    columns: 120
+    lines: 56
+  padding:
+    x: 6
+    y: 6
+  dynamic_padding: true
+  decorations: full
+  opacity: 0.9
+  dynamic_title: true
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  normal:
+    family: Ricty Diminished Discord
+    style: Regular
+  bold:
+    style: Bold
+  italic:
+    style: Italic
+  bold_italic:
+    style: Bold Italic
+  size: 14.0
+
+colors:
+  # Default colors
+  primary:
+    background: '0x1f1f1f'
+    foreground: '0xe5e1d8'
+
+  # Normal colors
+  normal:
+    black:   '0x000000'
+    red:     '0xf7786d'
+    green:   '0xbde97c'
+    yellow:  '0xefdfac'
+    blue:    '0x6ebaf8'
+    magenta: '0xef88ff'
+    cyan:    '0x90fdf8'
+    white:   '0xe5e1d8'
+
+  # Bright colors
+  bright:
+    black:   '0xb4b4b4'
+    red:     '0xf99f92'
+    green:   '0xe3f7a1'
+    yellow:  '0xf2e9bf'
+    blue:    '0xb3d2ff'
+    magenta: '0xe5bdff'
+    cyan:    '0xc2fefa'
+    white:   '0xffffff'
+
+shell:
+  program: /bin/zsh
+  args:
+    - -l
+    - -c
+    - "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux -u"
