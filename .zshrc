@@ -46,6 +46,7 @@ esac
 export PATH=$HOME/go/bin:$PATH
 # openjdk
 export PATH=$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 # asdf
 . $(brew --prefix asdf)/libexec/asdf.sh
 # flutter
