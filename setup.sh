@@ -36,7 +36,7 @@ for brew in ${brews[@]}; do
 done
 
 casks=(1password appcleaner dash discord docker figma google-chrome google-drive imageoptim multipass raindropio visual-studio-code)
-for brew in ${brews[@]}; do
+for brew in ${casks[@]}; do
   echo "brew install $brew ..."
   brew install $brew
 done
