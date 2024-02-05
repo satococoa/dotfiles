@@ -27,7 +27,7 @@ background = "0x181818"
 foreground = "0xd8d8d8"
 
 [font]
-size = 14.0
+size = 12.0
 
 [font.bold]
 style = "Bold"
@@ -39,15 +39,18 @@ style = "Bold Italic"
 style = "Italic"
 
 [font.normal]
-family = "Ricty Diminished Discord"
-style = "Regular"
+family = "UDEV Gothic 35JPDOC"
 
 [scrolling]
 history = 10000
 multiplier = 3
 
 [shell]
-args = ["-l", "-c", "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux -u"]
+args = [
+  "-l",
+  "-c",
+  "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux -u",
+]
 program = "/bin/zsh"
 
 [window]
