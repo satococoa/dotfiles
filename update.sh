@@ -5,6 +5,8 @@ echo 'brew update'
 brew update
 echo 'brew upgrade'
 brew upgrade
+echo 'asdf plugin update --all'
+asdf plugin update --all
 if command -v gcloud > /dev/null; then
   echo 'gcloud components update'
   gcloud components update
