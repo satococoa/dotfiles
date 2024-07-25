@@ -46,11 +46,7 @@ history = 10000
 multiplier = 3
 
 [shell]
-args = [
-  "-l",
-  "-c",
-  "/opt/homebrew/bin/tmux a -t 0 || /opt/homebrew/bin/tmux -u",
-]
+args = ["-l", "-c", "zellij attach --index 0 --create"]
 program = "/bin/zsh"
 
 [window]

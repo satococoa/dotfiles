@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 DIR=$(cd $(dirname $0); pwd)
-files=(.tmux.conf update.sh .zshrc)
+files=(update.sh .zshrc)
 for file in ${files[@]};do
   _path=$DIR/$file
   _target=~/$file
@@ -15,7 +15,7 @@ done
 
 # .config
 mkdir -p ~/.config
-config_dirs=(git alacritty)
+config_dirs=(git alacritty zellij)
 for config_dir in ${config_dirs[@]};do
   _path=$DIR/$config_dir
   _target=~/.config/$config_dir
@@ -28,7 +28,7 @@ for config_dir in ${config_dirs[@]};do
 done
 
 # homebrew
-brews=(ghq git jq peco direnv zsh-completions tmux asdf pure go ripgrep)
+brews=(ghq git jq peco direnv zsh-completions zellij asdf pure go ripgrep)
 
 for brew in ${brews[@]}; do
   echo "brew install $brew ..."
