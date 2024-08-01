@@ -1,55 +1,72 @@
 #!/bin/zsh
 
+set -e  # エラーが発生した時点でスクリプトを終了
+
 DIR=$(cd $(dirname $0); pwd)
+
+# Homebrew の存在確認
+if ! command -v brew &> /dev/null; then
+    echo "Homebrew is not installed. Please install Homebrew first."
+    exit 1
+fi
+
+# シンボリックリンクを作成する関数
+create_symlink() {
+    local source=$1
+    local target=$2
+
+    if [[ -L $target ]]; then
+        echo "Removing existing symlink: $target"
+        unlink $target
+    elif [[ -e $target ]]; then
+        echo "Removing existing file/directory: $target"
+        rm -rf $target
+    fi
+
+    echo "Creating symlink: $source -> $target"
+    ln -s $source $target
+}
+
+# ホームディレクトリのファイル
 files=(update.sh .zshrc)
-for file in ${files[@]};do
-  _path=$DIR/$file
-  _target=~/$file
-  if [[ -f $_target ]]; then
-    echo "remove exsisting file: $_target"
-    rm $_target
-  fi
-  echo "ln -s $_path $_target"
-  ln -s $_path $_target
+for file in ${files[@]}; do
+    create_symlink $DIR/$file ~/$file
 done
 
-# .config/ にディレクトリごとシンボリックリンクを貼る
+# .config/ ディレクトリのシンボリックリンク
 mkdir -p ~/.config
 config_dirs=(git alacritty zellij)
-for config_dir in ${config_dirs[@]};do
-  _path=$DIR/$config_dir
-  _target=~/.config/$config_dir
-  if [[ -d $_target ]]; then
-    echo "remove exsisting dir: $_target"
-    rm -rf $_target
-  fi
-  echo "ln -s $_path $_target"
-  ln -s $_path $_target
+for config_dir in ${config_dirs[@]}; do
+    create_symlink $DIR/$config_dir ~/.config/$config_dir
 done
 
-# .config/ 内に特定ファイルのシンボリックリンクを貼る
-mkdir -p ~/.config
+# .config/ 内の特定ファイルのシンボリックリンク
 config_files=(zed/settings.json zed/keymap.json)
-for config_file in ${config_files[@]};do
-  _path=$DIR/$config_file
-  _target=~/.config/$config_file
-  if [[ -f $_target ]]; then
-    echo "remove exsisting file: $_target"
-    rm $_target
-  fi
-  echo "ln -s $_path $_target"
-  ln -s $_path $_target
+for config_file in ${config_files[@]}; do
+    mkdir -p ~/.config/$(dirname $config_file)
+    create_symlink $DIR/$config_file ~/.config/$config_file
 done
 
-# homebrew
-brews=(ghq git jq peco direnv zsh-completions zellij asdf pure go ripgrep font-udev-gothic)
+# Homebrew パッケージのインストール
+brews=(ghq git jq peco direnv zsh-completions zellij asdf pure go ripgrep docker docker-compose)
 for brew in ${brews[@]}; do
-  echo "brew install $brew ..."
-  brew install $brew
+    if brew list $brew &>/dev/null; then
+        echo "$brew is already installed"
+    else
+        echo "Installing $brew ..."
+        brew install $brew
+    fi
 done
 
-casks=(1password appcleaner discord docker figma google-chrome imageoptim raindropio visual-studio-code zed)
-for brew in ${casks[@]}; do
-  echo "brew install $brew ..."
-  brew install $brew
+# Homebrew Cask パッケージのインストール
+casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-udev-gothic)
+for cask in ${casks[@]}; do
+    if brew list --cask $cask &>/dev/null; then
+        echo "$cask is already installed"
+    else
+        echo "Installing $cask ..."
+        brew install --cask $cask
+    fi
 done
+
+echo "Setup completed successfully!"
