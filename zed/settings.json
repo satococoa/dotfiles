@@ -11,8 +11,8 @@
     "version": "2",
     "default_open_ai_model": null,
     "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-4"
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-20240620"
     }
   },
   "ui_font_size": 14,
