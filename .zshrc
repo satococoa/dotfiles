@@ -50,7 +50,6 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 # mise
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
-  eval "$(mise activate --shims)"
 fi
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
