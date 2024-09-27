@@ -67,9 +67,6 @@ if [ -e "$HOME/dev/google-cloud-sdk" ]; then
   source "$HOME/dev/google-cloud-sdk/completion.zsh.inc"
 fi
 
-# direnv
-eval "$(direnv hook zsh)"
-
 # aliases
 alias r='rails'
 alias g='git'
