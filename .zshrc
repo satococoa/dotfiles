@@ -47,8 +47,11 @@ export PATH=$HOME/go/bin:$PATH
 # openjdk
 export PATH=$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
-# asdf
-. $(brew --prefix asdf)/libexec/asdf.sh
+# mise
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
+  eval "$(mise activate --shims)"
+fi
 # flutter
 export PATH=$HOME/dev/flutter/bin:$PATH
 # dart

@@ -1,7 +1,6 @@
 .DS_Store
 .idea
 .vscode
-.vs
 .envrc
 .tool-versions
-
+.mise.toml
