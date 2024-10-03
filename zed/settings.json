@@ -19,6 +19,7 @@
   "ui_font_family": "UDEV Gothic 35JPDOC",
   "buffer_font_size": 14,
   "buffer_font_family": "UDEV Gothic 35JPDOC",
+  "soft_wrap": "editor_width",
   "theme": {
     "mode": "dark",
     "light": "One Light",
