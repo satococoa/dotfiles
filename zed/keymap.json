@@ -16,6 +16,7 @@
     "context": "Editor",
     "bindings": {
       // "j k": ["workspace::SendKeystrokes", "escape"]
+      "alt-escape": "editor::ShowCompletions"
     }
   }
 ]
