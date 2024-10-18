@@ -31,7 +31,7 @@ create_symlink() {
 }
 
 # ホームディレクトリのファイル
-files=(update.sh .zshrc)
+files=(update.sh .zshrc .tmux.conf)
 for file in ${files[@]}; do
     create_symlink $DIR/$file ~/$file
 done
@@ -40,7 +40,7 @@ done
 mkdir -p ~/.config
 
 # .config/ ディレクトリのシンボリックリンク
-config_dirs=(git alacritty zellij)
+config_dirs=(git alacritty)
 for config_dir in ${config_dirs[@]}; do
     create_symlink $DIR/$config_dir ~/.config/$config_dir
 done
@@ -53,7 +53,7 @@ for config_file in ${config_files[@]}; do
 done
 
 # Homebrew パッケージのインストール
-brews=(ghq git jq peco zsh-completions zellij pure go ripgrep docker docker-compose mise)
+brews=(ghq git jq peco zsh-completions tmux pure go ripgrep docker docker-compose mise)
 echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 
