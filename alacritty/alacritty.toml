@@ -45,7 +45,7 @@ family = "UDEV Gothic 35JPDOC"
 history = 10000
 multiplier = 3
 
-[shell]
+[terminal.shell]
 args = [
   "-l",
   "-c",
@@ -66,3 +66,5 @@ lines = 56
 [window.padding]
 x = 8
 y = 4
+
+[terminal]
