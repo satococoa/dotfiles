@@ -15,9 +15,9 @@
       "model": "gpt-4o"
     }
   },
-  "ui_font_size": 14,
+  "ui_font_size": 12,
   "ui_font_family": "UDEV Gothic 35JPDOC",
-  "buffer_font_size": 14,
+  "buffer_font_size": 12,
   "buffer_font_family": "UDEV Gothic 35JPDOC",
   "soft_wrap": "editor_width",
   "theme": {
