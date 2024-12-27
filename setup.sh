@@ -40,7 +40,7 @@ done
 mkdir -p ~/.config
 
 # .config/ ディレクトリのシンボリックリンク
-config_dirs=(git alacritty)
+config_dirs=(git alacritty ghostty)
 for config_dir in ${config_dirs[@]}; do
     create_symlink $DIR/$config_dir ~/.config/$config_dir
 done
@@ -58,7 +58,7 @@ echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 
 # Homebrew Cask パッケージのインストール
-casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-udev-gothic)
+casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-udev-gothic ghostty)
 echo "Installing Homebrew Cask packages..."
 brew install --cask ${casks[@]}
 
