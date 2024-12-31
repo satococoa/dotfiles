@@ -58,7 +58,7 @@ echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 
 # Homebrew Cask パッケージのインストール
-casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-udev-gothic ghostty)
+casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-jetbrains-mono ghostty)
 echo "Installing Homebrew Cask packages..."
 brew install --cask ${casks[@]}
 
