@@ -1,4 +1,5 @@
 .DS_Store
 .idea
 .vscode
-.mise.toml
+mise.local.toml
+memo.local.md
