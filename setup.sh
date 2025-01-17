@@ -4,12 +4,20 @@ set -euo pipefail
 
 DIR=$(cd $(dirname $0); pwd)
 
+# Homebrewパスの設定
+if [[ $(uname -m) == "arm64" ]]; then
+    BREW_PATH="/opt/homebrew/bin/brew"
+else
+    BREW_PATH="/usr/local/bin/brew"
+fi
+
 # Homebrewのインストールチェックと提案
 if ! command -v brew &> /dev/null; then
     echo "Homebrew is not installed. Would you like to install it now? (y/n)"
     read answer
     if [[ $answer == "y" ]]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        eval "$($BREW_PATH shellenv)"
     else
         echo "Homebrew is required for this script. Exiting."
         exit 1
