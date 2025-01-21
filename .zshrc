@@ -60,38 +60,17 @@ case "${OSTYPE}" in
   ;;
 esac
 
-# go
-export PATH=$HOME/go/bin:$PATH
-# openjdk
-export PATH=$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH
-export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 # mise
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
-# bun
-export PATH="$HOME/.bun/bin:$PATH"
-# flutter
-export PATH=$HOME/dev/flutter/bin:$PATH
-# dart
-export PATH=$PATH:$HOME/.pub-cache/bin
-# mysql-client
-export PATH=$HOMEBREW_PREFIX/opt/mysql-client/bin:$PATH
-# libpq
-export PATH=$HOMEBREW_PREFIX/opt/libpq/bin:$PATH
-
-# google cloud SDK
-if [ -e "$HOME/dev/google-cloud-sdk" ]; then
-  source "$HOME/dev/google-cloud-sdk/path.zsh.inc"
-  source "$HOME/dev/google-cloud-sdk/completion.zsh.inc"
-fi
+# Windsurf
+export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 
 # aliases
-alias r='rails'
 alias g='git'
-alias be='bundle exec'
-alias d='docker compose'
 alias c='code'
+alias w='windsurf'
 
 # peco
 function peco-select-history() {
@@ -120,6 +99,3 @@ function peco-select-project () {
 }
 zle -N peco-select-project
 bindkey '^]' peco-select-project
-
-# Added by Windsurf
-export PATH="/Users/satoshi/.codeium/windsurf/bin:$PATH"
