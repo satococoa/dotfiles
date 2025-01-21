@@ -61,7 +61,7 @@ for config_file in ${config_files[@]}; do
 done
 
 # Homebrew パッケージのインストール
-brews=(ghq git jq peco zsh-completions tmux pure go ripgrep docker docker-compose mise)
+brews=(ghq git jq peco zsh-completions zsh-syntax-highlighting zsh-autosuggestions tmux pure go ripgrep docker docker-compose mise)
 echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 

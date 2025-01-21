@@ -16,15 +16,34 @@ setopt share_history
 function history-all { history -E 1 }
 if [ -n "$HOMEBREW_PREFIX" ]; then
   FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
-
+  # Improve completion performance with caching
   autoload -Uz compinit
-  compinit -u
+  if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+    compinit -i
+  else
+    compinit -C -i
+  fi
 fi
 autoload bashcompinit
 bashcompinit
 typeset -U path PATH
 autoload -U promptinit; promptinit
 prompt pure
+
+# Plugins (requires brew install)
+if [ -f $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+if [ -f $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+  source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# Enhanced completion settings
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%F{yellow}completing %B%d%b%f'
 
 # env
 export CLICOLOR=1
@@ -35,7 +54,6 @@ case "${OSTYPE}" in
   export EDITOR=/usr/bin/vim
   ;;
   linux*)
-  umask 002
   alias ls="ls --color=auto"
   export LS_COLORS="di=01;33"
   export EDITOR=/usr/local/bin/vim
@@ -83,22 +101,25 @@ function peco-select-history() {
   else
     tac="tail -r"
   fi
-  BUFFER=$(history -n 1 | \
-    eval $tac | \
-    peco --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle clear-screen
+  BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER" 2>/dev/null)
+  if [ $? -eq 0 ]; then
+    CURSOR=$#BUFFER
+    zle reset-prompt
+  fi
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
 function peco-select-project () {
-  local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
+  local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER" 2>/dev/null)
+  if [ $? -eq 0 -a -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
   fi
-  zle clear-screen
+  zle reset-prompt
 }
 zle -N peco-select-project
 bindkey '^]' peco-select-project
+
+# Added by Windsurf
+export PATH="/Users/satoshi/.codeium/windsurf/bin:$PATH"
