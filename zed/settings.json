@@ -8,21 +8,25 @@
 // from the command palette
 {
   "assistant": {
-    "version": "2",
-    "default_open_ai_model": null,
     "default_model": {
-      "provider": "copilot_chat",
-      "model": "claude-3-5-sonnet"
-    }
+      "model": "claude-3-5-sonnet",
+      "provider": "copilot_chat"
+    },
+    "default_open_ai_model": null,
+    "version": "2"
   },
-  "ui_font_size": 12,
-  "ui_font_family": "JetBrains Mono",
-  "buffer_font_size": 12,
   "buffer_font_family": "JetBrains Mono",
+  "buffer_font_size": 12,
+  "features": {
+    "inline_completion_provider": "zed"
+  },
+  "icon_theme": "Catppuccin Frappé",
   "soft_wrap": "editor_width",
   "theme": {
-    "mode": "dark",
+    "dark": "Catppuccin Frappé",
     "light": "Catppuccin Frappé",
-    "dark": "Catppuccin Frappé"
-  }
+    "mode": "dark"
+  },
+  "ui_font_family": "JetBrains Mono",
+  "ui_font_size": 12
 }
