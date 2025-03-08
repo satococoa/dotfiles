@@ -58,8 +58,6 @@ esac
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
-# Windsurf
-export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 
 # aliases
 alias g='git'
