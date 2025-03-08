@@ -28,7 +28,9 @@ autoload bashcompinit
 bashcompinit
 typeset -U path PATH
 autoload -U promptinit; promptinit
-prompt pure
+if [[ "$TERM_PROGRAM" != "vscode" ]]; then
+  prompt pure
+fi
 
 # Enhanced completion settings
 zstyle ':completion:*' menu select
