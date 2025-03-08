@@ -10,14 +10,38 @@
 [core]
 	quotepath = false
 	precomposeunicode = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
 [pull]
 	rebase = true
 [merge]
 	ff = false
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+	autoupdate = true
 [rebase]
 	autosquash = true
+	autoStash = true
+	updateRefs = true
 [alias]
 	co = checkout
 	ci = commit
@@ -25,7 +49,7 @@
 	br = branch
 	st = status --branch --short
 	difc = diff --cached
-	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+	hist = log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
 	gr = grep --line-number --show-function --color --heading --break
 	l = log --stat --decorate
 	lp = log --stat --decorate --patch
