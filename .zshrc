@@ -61,7 +61,7 @@ fi
 
 # aliases
 alias g='git'
-alias c='code-insiders'
+alias c='code'
 
 # peco
 function peco-select-history() {
