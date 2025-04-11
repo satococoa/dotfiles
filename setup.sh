@@ -61,12 +61,12 @@ for config_file in ${config_files[@]}; do
 done
 
 # Homebrew パッケージのインストール
-brews=(ghq git jq peco zsh-completions pure go ripgrep docker docker-compose mise)
+brews=(ghq git jq peco zsh-completions pure ripgrep mise)
 echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 
 # Homebrew Cask パッケージのインストール
-casks=(1password appcleaner discord figma google-chrome imageoptim raindropio visual-studio-code zed font-jetbrains-mono ghostty)
+casks=(1password appcleaner discord google-chrome imageoptim raindropio visual-studio-code zed font-jetbrains-mono ghostty)
 echo "Installing Homebrew Cask packages..."
 brew install --cask ${casks[@]}
 
