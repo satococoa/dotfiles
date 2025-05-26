@@ -1,1 +1,2 @@
 theme = catppuccin-frappe
+keybind = shift+enter=text:\n
