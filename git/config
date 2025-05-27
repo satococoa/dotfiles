@@ -48,8 +48,8 @@
 	sw = switch
 	br = branch
 	st = status --branch --short
+	wt = worktree
 	difc = diff --cached
-	hist = log --pretty=format:"%h %ad | %s%d [%an]" --graph --date=short
 	gr = grep --line-number --show-function --color --heading --break
 	l = log --stat --decorate
 	lp = log --stat --decorate --patch
