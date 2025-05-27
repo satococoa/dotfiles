@@ -3,5 +3,4 @@
 .vscode
 mise.local.toml
 memo.local.md
-git-worktrees
 **/.claude/settings.local.json
