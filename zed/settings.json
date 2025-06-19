@@ -7,25 +7,24 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
-  "assistant": {
+  "agent": {
     "default_model": {
-      "model": "claude-3-5-sonnet",
+      "model": "gpt-4.1",
       "provider": "copilot_chat"
     },
-    "default_open_ai_model": null,
     "version": "2"
   },
+  "agent_font_size": 12,
   "buffer_font_family": "JetBrains Mono",
   "buffer_font_size": 12,
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "copilot"
   },
-  "icon_theme": "Catppuccin Frappé",
   "soft_wrap": "editor_width",
   "theme": {
-    "dark": "Catppuccin Frappé",
-    "light": "Catppuccin Frappé",
-    "mode": "dark"
+    "dark": "Rosé Pine Moon",
+    "light": "Rosé Pine Dawn",
+    "mode": "system"
   },
   "ui_font_family": "JetBrains Mono",
   "ui_font_size": 12
