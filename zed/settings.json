@@ -11,16 +11,19 @@
     "default_profile": "ask",
     "default_model": {
       "model": "claude-sonnet-4",
-      "provider": "copilot_chat"
+      "provider": "zed.dev"
     }
   },
   "agent_font_size": 12,
   "buffer_font_family": "JetBrains Mono",
   "buffer_font_size": 12,
-  "features": {
-    "edit_prediction_provider": "copilot"
+  "collaboration_panel": {
+    "button": false
   },
   "icon_theme": "Catppuccin Frappé",
+  "project_panel": {
+    "indent_size": 10
+  },
   "soft_wrap": "editor_width",
   "tab_size": 2,
   "theme": {
