@@ -8,11 +8,11 @@
 // from the command palette
 {
   "agent": {
+    "default_profile": "ask",
     "default_model": {
-      "model": "gpt-4.1",
+      "model": "claude-sonnet-4",
       "provider": "copilot_chat"
-    },
-    "version": "2"
+    }
   },
   "agent_font_size": 12,
   "buffer_font_family": "JetBrains Mono",
@@ -20,11 +20,13 @@
   "features": {
     "edit_prediction_provider": "copilot"
   },
+  "icon_theme": "Catppuccin Frappé",
   "soft_wrap": "editor_width",
+  "tab_size": 2,
   "theme": {
-    "dark": "Rosé Pine Moon",
-    "light": "Rosé Pine Dawn",
-    "mode": "system"
+    "dark": "Catppuccin Frappé - No Italics",
+    "light": "Catppuccin Frappé - No Italics",
+    "mode": "dark"
   },
   "ui_font_family": "JetBrains Mono",
   "ui_font_size": 12
