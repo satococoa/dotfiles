@@ -1,6 +1,6 @@
 .DS_Store
-.idea
 .vscode
+.zed
 mise.local.toml
 memo.local.md
 .worktrees
