@@ -60,6 +60,10 @@ for config_file in ${config_files[@]}; do
     create_symlink $DIR/$config_file ~/.config/$config_file
 done
 
+# ~/.claude/ ディレクトリのシンボリックリンク
+mkdir -p ~/.claude
+create_symlink $DIR/claude/settings.json ~/.claude/settings.json
+
 # Homebrew パッケージのインストール
 brews=(ghq git jq peco zsh-completions pure ripgrep mise)
 echo "Installing Homebrew packages..."
