@@ -1,58 +1,36 @@
 # zsh settings
 bindkey -e
-bindkey '^R' history-incremental-pattern-search-backward
+# bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
-setopt hist_ignore_dups
 setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_expire_dups_first
 setopt hist_ignore_space
 setopt extended_history
 setopt share_history
-#setopt correct
-function history-all { history -E 1 }
+#　setopt correct
+
 if [ -n "$HOMEBREW_PREFIX" ]; then
-  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$HOMEBREW_PREFIX/share/zsh/site-functions:$FPATH
-  # Improve completion performance with caching
-  autoload -Uz compinit
-  if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-    compinit -i
-  else
-    compinit -C -i
-  fi
+  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
 fi
-autoload bashcompinit
-bashcompinit
+autoload -Uz compinit
+compinit
 typeset -U path PATH
 autoload -U promptinit; promptinit
+
+# Load pure prompt if not in VSCode
 if [[ "$TERM_PROGRAM" != "vscode" ]]; then
   prompt pure
 fi
 
-# Enhanced completion settings
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%F{yellow}completing %B%d%b%f'
-
-# env
-export CLICOLOR=1
-case "${OSTYPE}" in
-  darwin*)
-  alias ls="ls -G -w"
-  export LSCOLORS=DxGxcxdxCxegedabagacad
-  export EDITOR=/usr/bin/vim
-  ;;
-  linux*)
-  alias ls="ls --color=auto"
-  export LS_COLORS="di=01;33"
-  export EDITOR=/usr/local/bin/vim
-  ;;
-esac
 
 # mise
 if command -v mise &>/dev/null; then
