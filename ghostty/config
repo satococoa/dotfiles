@@ -1,3 +1,4 @@
 theme = rose-pine-moon
 keybind = shift+enter=text:\n
 font-family = "Guguru Sans Code 35"
+font-feature = -dlig
