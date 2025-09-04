@@ -32,6 +32,8 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%F{yellow}completing %B%d%b%f'
 
+export EDITOR=/usr/bin/vi
+
 # mise
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
