@@ -65,7 +65,7 @@ mkdir -p ~/.claude
 create_symlink $DIR/claude/settings.json ~/.claude/settings.json
 
 # Homebrew パッケージのインストール
-brews=(ghq git jq peco zsh-completions pure ripgrep mise)
+brews=(ghq git jq peco zsh-completions pure ripgrep mise libyaml)
 echo "Installing Homebrew packages..."
 brew install ${brews[@]}
 
