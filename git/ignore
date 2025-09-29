@@ -3,6 +3,5 @@
 .zed
 mise.local.toml
 memo.local.md
-.worktrees
 .wtp.yml
 **/.claude/settings.local.json
