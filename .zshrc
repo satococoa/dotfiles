@@ -70,3 +70,8 @@ function peco-select-project () {
 }
 zle -N peco-select-project
 bindkey '^]' peco-select-project
+
+# wtp
+if command -v wtp &>/dev/null; then
+  eval "$(wtp shell-init zsh)"
+fi
