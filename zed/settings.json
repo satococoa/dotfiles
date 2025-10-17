@@ -10,15 +10,18 @@
   "agent": {
     "default_profile": "ask",
     "default_model": {
-      "model": "claude-sonnet-4",
-      "provider": "zed.dev"
+      "model": "claude-sonnet-4.5",
+      "provider": "copilot_chat"
     }
   },
-  "agent_font_size": 12,
-  "buffer_font_family": "JetBrains Mono",
+  "agent_ui_font_size": 12,
+  "buffer_font_family": "Guguru Sans Code 35",
   "buffer_font_size": 12,
   "collaboration_panel": {
     "button": false
+  },
+  "features": {
+    "edit_prediction_provider": "copilot"
   },
   "icon_theme": "Catppuccin Frappé",
   "project_panel": {
@@ -31,6 +34,6 @@
     "light": "Catppuccin Frappé - No Italics",
     "mode": "dark"
   },
-  "ui_font_family": "JetBrains Mono",
+  "ui_font_family": "Guguru Sans Code 35",
   "ui_font_size": 12
 }
