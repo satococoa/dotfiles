@@ -53,7 +53,7 @@ function fzf-select-project () {
   fi
 
   local selected_dir
-  selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER" --layout=reverse --height=40% --prompt='ghq> ' 2>/dev/null)
+  selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER" 2>/dev/null)
   if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
