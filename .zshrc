@@ -12,8 +12,7 @@ setopt share_history
 # setopt correct
 
 if [ -n "$HOMEBREW_PREFIX" ]; then
-  FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
-  fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
+  fpath=("$HOMEBREW_PREFIX/share/zsh-completions" "$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
 fi
 autoload -Uz compinit
 compinit
