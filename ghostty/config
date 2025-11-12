@@ -2,3 +2,4 @@ theme = Rose Pine Moon
 keybind = shift+enter=text:\n
 font-family = "Guguru Sans Code 35"
 font-feature = -dlig
+macos-option-as-alt = left

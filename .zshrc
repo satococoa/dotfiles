@@ -41,33 +41,27 @@ fi
 alias g='git'
 alias c='code'
 
-# peco
-function peco-select-history() {
-  local tac
-  if which tac > /dev/null; then
-    tac="tac"
-  else
-    tac="tail -r"
-  fi
-  BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER" 2>/dev/null)
-  if [ $? -eq 0 ]; then
-    CURSOR=$#BUFFER
-    zle reset-prompt
-  fi
-}
-zle -N peco-select-history
-bindkey '^r' peco-select-history
+# fzf
+if command -v fzf &>/dev/null; then
+  source <(fzf --zsh)
+fi
 
-function peco-select-project () {
-  local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER" 2>/dev/null)
-  if [ $? -eq 0 -a -n "$selected_dir" ]; then
+function fzf-select-project () {
+  if ! command -v ghq &>/dev/null || ! command -v fzf &>/dev/null; then
+    zle reset-prompt
+    return
+  fi
+
+  local selected_dir
+  selected_dir=$(ghq list --full-path | fzf --query "$LBUFFER" --layout=reverse --height=40% --prompt='ghq> ' 2>/dev/null)
+  if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
   fi
   zle reset-prompt
 }
-zle -N peco-select-project
-bindkey '^]' peco-select-project
+zle -N fzf-select-project
+bindkey '^]' fzf-select-project
 
 # wtp
 if command -v wtp &>/dev/null; then
