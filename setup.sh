@@ -2,26 +2,32 @@
 
 set -euo pipefail
 
-DIR=$(cd $(dirname $0); pwd)
+DIR=$(cd "$(dirname "$0")" && pwd)
+BREWFILE="$DIR/Brewfile"
 
 # Homebrewパスの設定
 if [[ $(uname -m) == "arm64" ]]; then
-    BREW_PATH="/opt/homebrew/bin/brew"
+    BREW_PREFIX="/opt/homebrew"
 else
-    BREW_PATH="/usr/local/bin/brew"
+    BREW_PREFIX="/usr/local"
 fi
+BREW_PATH="$BREW_PREFIX/bin/brew"
 
 # Homebrewのインストールチェックと提案
 if ! command -v brew &> /dev/null; then
     echo "Homebrew is not installed. Would you like to install it now? (y/n)"
-    read answer
+    read -r answer
     if [[ $answer == "y" ]]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        eval "$($BREW_PATH shellenv)"
     else
         echo "Homebrew is required for this script. Exiting."
         exit 1
     fi
+fi
+
+# HomebrewのENV設定
+if [[ -x $BREW_PATH ]]; then
+    eval "$($BREW_PATH shellenv)"
 fi
 
 # シンボリックリンクを作成する関数
@@ -64,14 +70,12 @@ done
 mkdir -p ~/.claude
 create_symlink $DIR/claude/settings.json ~/.claude/settings.json
 
-# Homebrew パッケージのインストール
-brews=(ghq git jq zsh-completions pure ripgrep mise libyaml fd bat ast-grep fzf)
-echo "Installing Homebrew packages..."
-brew install ${brews[@]}
-
-# Homebrew Cask パッケージのインストール
-casks=(1password appcleaner discord google-chrome imageoptim raindropio visual-studio-code zed font-jetbrains-mono ghostty)
-echo "Installing Homebrew Cask packages..."
-brew install --cask ${casks[@]}
+# Brewfile の適用
+if [[ -f "$BREWFILE" ]]; then
+    echo "Installing Homebrew packages from Brewfile..."
+    brew bundle --file "$BREWFILE" --no-lock
+else
+    echo "Brewfile not found at $BREWFILE. Skipping brew bundle."
+fi
 
 echo "Setup completed successfully!"
