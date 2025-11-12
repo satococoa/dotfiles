@@ -54,7 +54,7 @@ done
 mkdir -p ~/.config
 
 # .config/ ディレクトリのシンボリックリンク
-config_dirs=(git alacritty ghostty)
+config_dirs=(git alacritty ghostty nvim)
 for config_dir in ${config_dirs[@]}; do
     create_symlink $DIR/$config_dir ~/.config/$config_dir
 done
