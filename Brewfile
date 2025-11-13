@@ -47,35 +47,23 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 # Password manager that keeps all passwords secure behind one password
 cask "1password"
-# Photo storage and sharing service
-cask "amazon-photos"
 # Application uninstaller
 cask "appcleaner"
 # OpenAI's official ChatGPT desktop app
 cask "chatgpt"
 # OpenAI's official browser with ChatGPT built in
 cask "chatgpt-atlas"
-# Anthropic's official Claude AI desktop app
-cask "claude"
 # Voice and text chat software
 cask "discord"
 cask "font-jetbrains-mono"
 cask "font-udev-gothic"
-# Set of tools to manage resources and applications hosted on Google Cloud
-cask "gcloud-cli"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
 # Web browser
 cask "google-chrome"
 # Tool to optimise images to a smaller size
 cask "imageoptim"
-# All-in-one bookmark manager
-cask "raindropio"
-# Tool to render realistic skies in real time on the screen
-cask "stellarium"
 # Open-source code editor
 cask "visual-studio-code"
 # Open-source code editor
 cask "visual-studio-code@insiders"
-# Multiplayer code editor
-cask "zed"
