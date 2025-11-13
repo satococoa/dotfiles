@@ -19,10 +19,6 @@ compinit
 typeset -U path PATH
 autoload -U promptinit; promptinit
 
-# Load zellij
-if [ "$TERM_PROGRAM" = "ghostty" ]; then
-  eval "$(zellij setup --generate-auto-start zsh)"
-fi
 # Load pure prompt if not in VSCode
 if [[ "$TERM_PROGRAM" != "vscode" ]]; then
   prompt pure
