@@ -14,7 +14,7 @@ brew upgrade || echo "Warning: brew upgrade failed"
 
 if [[ -f "$BREWFILE" ]]; then
     echo "Applying Brewfile..."
-    brew bundle --file "$BREWFILE" --no-lock || echo "Warning: brew bundle failed"
+    brew bundle --file "$BREWFILE" || echo "Warning: brew bundle failed"
 else
     echo "Brewfile not found at $BREWFILE"
 fi
