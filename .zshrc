@@ -63,6 +63,11 @@ function fzf-select-project () {
 zle -N fzf-select-project
 bindkey '^]' fzf-select-project
 
+# codex
+if command -v codex &>/dev/null; then
+  eval "$(codex completion zsh)"
+fi
+
 # wtp
 if command -v wtp &>/dev/null; then
   eval "$(wtp shell-init zsh)"
