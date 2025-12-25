@@ -67,3 +67,4 @@ cask "imageoptim"
 cask "visual-studio-code"
 # Open-source code editor
 cask "visual-studio-code@insiders"
+cask "font-guguru-sans-code"
