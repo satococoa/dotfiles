@@ -7,33 +7,29 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "toolbar": {
+    
+  },
+  "buffer_line_height": "comfortable",
+  "edit_predictions": {
+    "provider": "copilot",
+  },
   "agent": {
     "default_profile": "ask",
     "default_model": {
-      "model": "claude-sonnet-4.5",
-      "provider": "copilot_chat"
-    }
+      "model": "claude-opus-4.5",
+      "provider": "copilot_chat",
+    },
   },
-  "agent_ui_font_size": 12,
   "buffer_font_family": "Guguru Sans Code 35",
   "buffer_font_size": 12,
   "collaboration_panel": {
-    "button": false
-  },
-  "features": {
-    "edit_prediction_provider": "copilot"
+    "button": false,
   },
   "icon_theme": "Catppuccin Frappé",
-  "project_panel": {
-    "indent_size": 10
-  },
   "soft_wrap": "editor_width",
   "tab_size": 2,
-  "theme": {
-    "dark": "Catppuccin Frappé - No Italics",
-    "light": "Catppuccin Frappé - No Italics",
-    "mode": "dark"
-  },
+  "theme": "Catppuccin Frappé - No Italics",
   "ui_font_family": "Guguru Sans Code 35",
-  "ui_font_size": 12
+  "ui_font_size": 12,
 }
