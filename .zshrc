@@ -1,3 +1,13 @@
+# Homebrew
+if [[ $(uname -m) == "arm64" ]]; then
+  BREW_BIN="/opt/homebrew/bin/brew"
+else
+  BREW_BIN="/usr/local/bin/brew"
+fi
+if command -v "$BREW_BIN" >/dev/null 2>&1; then
+  eval "$("$BREW_BIN" shellenv)"
+fi
+
 # zsh settings
 bindkey -e
 HISTFILE=$HOME/.zsh_history

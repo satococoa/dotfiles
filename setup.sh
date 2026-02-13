@@ -45,7 +45,7 @@ create_symlink() {
 }
 
 # ホームディレクトリのファイル
-files=(update.sh .zshrc .zprofile .tmux.conf)
+files=(update.sh .zshrc .tmux.conf)
 for file in ${files[@]}; do
     create_symlink $DIR/$file ~/$file
 done
