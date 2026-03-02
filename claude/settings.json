@@ -69,5 +69,7 @@
       "WebSearch"
     ],
     "deny": []
-  }
+  },
+  "effortLevel": "high",
+  "model": "opus"
 }
