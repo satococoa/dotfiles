@@ -82,3 +82,8 @@ fi
 if command -v wtp &>/dev/null; then
   eval "$(wtp shell-init zsh)"
 fi
+
+# direnv
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook zsh)"
+fi
