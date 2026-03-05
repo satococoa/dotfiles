@@ -7,23 +7,14 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
-  "agent_servers": {
-    "github-copilot": {
-      "type": "registry"
-    }
-  },
   "git_panel": {
-    "tree_view": true
-  },
-  "toolbar": {
-    
+    "tree_view": true,
   },
   "buffer_line_height": "comfortable",
   "edit_predictions": {
     "provider": "copilot",
   },
   "agent": {
-    "default_profile": "write",
     "default_model": {
       "model": "claude-opus-4.6",
       "provider": "copilot_chat",
