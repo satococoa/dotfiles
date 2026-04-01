@@ -87,3 +87,15 @@ fi
 if command -v direnv &>/dev/null; then
   eval "$(direnv hook zsh)"
 fi
+
+# git branch cleanup helpers
+git-list-prunable-local() {
+  git fetch origin &&
+    comm -23 \
+      <(git for-each-ref --format='%(refname:short)' refs/heads --merged origin/main | grep -F -x -v -e main -e master | sort) \
+      <(git worktree list --porcelain | sed -n 's/^branch refs\/heads\///p' | sort)
+}
+
+git-prune-merged-local() {
+  git-list-prunable-local | xargs -r git branch -d
+}
