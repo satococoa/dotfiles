@@ -7,23 +7,38 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
-  "git_panel": {
-    "tree_view": true,
-  },
-  "buffer_line_height": "comfortable",
-  "edit_predictions": {
-    "provider": "copilot",
-  },
   "agent": {
+    "default_profile": "ask",
     "default_model": {
+      "effort": "high",
+      "enable_thinking": true,
       "model": "claude-opus-4.6",
       "provider": "copilot_chat",
+    },
+  },
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry",
+    },
+    "codex-acp": {
+      "type": "registry",
     },
   },
   "buffer_font_family": "Guguru Sans Code 35",
   "buffer_font_size": 12,
   "collaboration_panel": {
     "button": false,
+  },
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+    },
+  },
+  "git_panel": {
+    "tree_view": true,
   },
   "icon_theme": "Catppuccin Frappé",
   "soft_wrap": "editor_width",
