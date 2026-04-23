@@ -11,8 +11,8 @@
     "default_profile": "ask",
     "default_model": {
       "effort": "high",
-      "enable_thinking": true,
-      "model": "claude-opus-4.6",
+      "enable_thinking": false,
+      "model": "gpt-5.4",
       "provider": "copilot_chat",
     },
   },
