@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Babysitting"
+  short_description: "PR review, CI, and mergeability babysitter"
+  default_prompt: "Use $pr-babysitting to watch this pull request every 10 minutes until AI reviews are done and the PR is mergeable."
