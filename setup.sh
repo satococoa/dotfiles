@@ -44,6 +44,35 @@ create_symlink() {
     ln -s $source $target
 }
 
+sync_agent_skills() {
+    local source_dir="$DIR/.agents/skills"
+    local target_dir="$HOME/.agents/skills"
+
+    if [[ ! -d "$source_dir" ]]; then
+        return
+    fi
+
+    mkdir -p "$target_dir"
+
+    for skill in "$source_dir"/*; do
+        if [[ ! -d "$skill" || ! -f "$skill/SKILL.md" ]]; then
+            continue
+        fi
+
+        local name
+        name="$(basename "$skill")"
+        local target="$target_dir/$name"
+
+        if [[ -e "$target" && ! -L "$target" ]]; then
+            echo "Warning: $target exists and is not a symlink. Skipping."
+            continue
+        fi
+
+        echo "Linking agent skill: $name"
+        ln -sfn "$skill" "$target"
+    done
+}
+
 # ホームディレクトリのファイル
 files=(update.sh .zshrc .tmux.conf)
 for file in ${files[@]}; do
@@ -69,6 +98,8 @@ done
 # ~/.claude/ ディレクトリのシンボリックリンク
 mkdir -p ~/.claude
 create_symlink $DIR/claude/settings.json ~/.claude/settings.json
+
+sync_agent_skills
 
 # Brewfile の適用
 if [[ -f "$BREWFILE" ]]; then
