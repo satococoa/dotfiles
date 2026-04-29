@@ -1,0 +1,4 @@
+interface:
+  display_name: "ExecPlan"
+  short_description: "Plan and carry out long Codex tasks"
+  default_prompt: "Use $execplan to plan and carry out this multi-hour repository change."

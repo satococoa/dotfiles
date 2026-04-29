@@ -35,7 +35,7 @@ sync_agent_skills() {
 }
 
 echo "Updating dotfiles repository..."
-(cd "$DOTFILES_DIR" && git pull)
+(cd "$DOTFILES_DIR" && git pull) || echo "Warning: git pull failed"
 
 echo "Syncing agent skills..."
 sync_agent_skills
