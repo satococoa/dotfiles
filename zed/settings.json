@@ -7,15 +7,16 @@
 // custom settings, run the `zed: Open Default Settings` command
 // from the command palette
 {
+  "cli_default_open_behavior": "new_window",
   "outline_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "agent": {
     "dock": "right",
-    "sidebar_side": "right",
+    "sidebar_side": "left",
     "default_profile": "ask",
     "default_model": {
       "effort": "high",
