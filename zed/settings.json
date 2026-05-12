@@ -26,9 +26,6 @@
     },
   },
   "agent_servers": {
-    "github-copilot-cli": {
-      "type": "registry",
-    },
     "codex-acp": {
       "type": "registry",
     },
