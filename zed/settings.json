@@ -19,15 +19,10 @@
     "sidebar_side": "left",
     "default_profile": "ask",
     "default_model": {
-      "effort": "high",
-      "enable_thinking": false,
-      "model": "gpt-5.4",
-      "provider": "copilot_chat",
-    },
-  },
-  "agent_servers": {
-    "codex-acp": {
-      "type": "registry",
+      "effort": "medium",
+      "enable_thinking": true,
+      "model": "gpt-5.5",
+      "provider": "openai-subscribed",
     },
   },
   "buffer_font_family": "Guguru Sans Code 35",
@@ -36,7 +31,7 @@
     "button": false,
   },
   "edit_predictions": {
-    "provider": "copilot",
+    "provider": "none",
   },
   "git": {
     "inline_blame": {
