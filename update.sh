@@ -30,7 +30,7 @@ sync_agent_skills() {
         fi
 
         echo "Linking agent skill: $name"
-        ln -sfn "$skill" "$target"
+        ln -sfn "$skill" "$target" || echo "Warning: failed to link agent skill: $name"
     done
 }
 
