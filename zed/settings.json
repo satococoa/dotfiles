@@ -19,6 +19,7 @@
     "sidebar_side": "left",
     "default_profile": "ask",
     "default_model": {
+      "speed": "fast",
       "effort": "medium",
       "enable_thinking": true,
       "model": "gpt-5.5",
