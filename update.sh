@@ -42,7 +42,7 @@ sync_agent_skills
 
 echo "Updating Homebrew packages..."
 brew update || echo "Warning: brew update failed"
-brew upgrade || echo "Warning: brew upgrade failed"
+brew upgrade -y || echo "Warning: brew upgrade failed"
 
 if [[ -f "$BREWFILE" ]]; then
     echo "Applying Brewfile..."
