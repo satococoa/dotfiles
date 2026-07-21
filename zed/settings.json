@@ -19,10 +19,10 @@
     "sidebar_side": "left",
     "default_profile": "ask",
     "default_model": {
-      "speed": "fast",
-      "effort": "medium",
+      "speed": "standard",
+      "effort": "low",
       "enable_thinking": true,
-      "model": "gpt-5.5",
+      "model": "gpt-5.6-sol",
       "provider": "openai-subscribed",
     },
   },
