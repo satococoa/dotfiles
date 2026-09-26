@@ -11,4 +11,4 @@ if ! command -v brew &> /dev/null; then
 fi
 
 echo "Dumping Brewfile to $BREWFILE..."
-brew bundle dump --describe --force --no-vscode --no-go --file "$BREWFILE"
+brew bundle dump --force --no-mas --no-vscode --no-go --file "$BREWFILE"
