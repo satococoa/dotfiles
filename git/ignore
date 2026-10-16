@@ -1,8 +1,4 @@
 .DS_Store
-.vscode
-.zed
 mise.local.toml
-memo.local.md
-.wtp.yml
-**/.claude/settings.local.json
-.worktreeinclude
+mise.*.local.toml
+.miserc.local.toml
