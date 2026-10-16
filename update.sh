@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="$HOME/dev/src/github.com/satococoa/dotfiles"
+# ~/update.sh のシンボリックリンク経由でも、実体のある場所を使う
+DOTFILES_DIR=${0:A:h}
 BREWFILE="$DOTFILES_DIR/Brewfile"
 
 echo "Updating dotfiles repository..."

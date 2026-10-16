@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DIR=$(cd "$(dirname "$0")" && pwd)
+DIR=${0:A:h}
 BREWFILE="$DIR/Brewfile"
 
 # Homebrewパスの設定
@@ -35,17 +35,22 @@ create_symlink() {
     local source=$1
     local target=$2
 
+    if [[ ! -e $source ]]; then
+        echo "Source not found: $source" >&2
+        return 1
+    fi
+
     if [[ -L $target || -e $target ]]; then
         echo "Removing existing file/symlink: $target"
-        rm -rf $target
+        rm -rf "$target"
     fi
 
     echo "Creating symlink: $source -> $target"
-    ln -s $source $target
+    ln -s "$source" "$target"
 }
 
 # ホームディレクトリのファイル
-files=(update.sh .zshrc .tmux.conf)
+files=(update.sh .zshrc)
 for file in ${files[@]}; do
     create_symlink $DIR/$file ~/$file
 done
@@ -54,7 +59,7 @@ done
 mkdir -p ~/.config
 
 # .config/ ディレクトリのシンボリックリンク
-config_dirs=(git alacritty ghostty nvim)
+config_dirs=(git ghostty)
 for config_dir in ${config_dirs[@]}; do
     create_symlink $DIR/$config_dir ~/.config/$config_dir
 done
@@ -65,10 +70,6 @@ for config_file in ${config_files[@]}; do
     mkdir -p ~/.config/$(dirname $config_file)
     create_symlink $DIR/$config_file ~/.config/$config_file
 done
-
-# ~/.claude/ ディレクトリのシンボリックリンク
-mkdir -p ~/.claude
-create_symlink $DIR/claude/settings.json ~/.claude/settings.json
 
 # Brewfile の適用
 if [[ -f "$BREWFILE" ]]; then
