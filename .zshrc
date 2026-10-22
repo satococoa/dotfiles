@@ -43,6 +43,7 @@ zstyle ':completion:*:descriptions' format '%F{yellow}completing %B%d%b%f'
 export EDITOR=/usr/bin/vi
 
 # mise
+export PATH="$HOME/.local/bin:$PATH"
 if command -v mise &>/dev/null; then
   eval "$(mise activate zsh)"
 fi
