@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+repo=${0:A:h:h}
+mise_bin="$HOME/.local/bin/mise"
+
+if [[ -n $(git -C "$repo" status --porcelain) ]]; then
+    print -u2 'dotfiles has uncommitted changes. Commit or stash them before updating.'
+    exit 1
+fi
+
+git -C "$repo" pull --ff-only
+"$mise_bin" self-update --yes
+
+# Reload the task definitions after pulling the repository.
+exec "$mise_bin" -C "$repo" run apply-updates

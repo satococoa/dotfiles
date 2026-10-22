@@ -1,0 +1,40 @@
+min_version = "2026.10.17"
+
+[bootstrap.packages]
+"brew-cask:1password-cli" = "latest"
+"brew-cask:font-guguru-sans-code" = "latest"
+"brew-cask:font-jetbrains-mono" = "latest"
+"brew-cask:font-udev-gothic" = "latest"
+"brew:ast-grep" = "latest"
+"brew:bat" = "latest"
+"brew:fd" = "latest"
+"brew:fzf" = "latest"
+"brew:gh" = "latest"
+"brew:ghq" = "latest"
+"brew:git" = "latest"
+"brew:git-lfs" = "latest"
+"brew:jq" = "latest"
+"brew:pure" = "latest"
+"brew:ripgrep" = "latest"
+"brew:yazi" = "latest"
+"brew:zsh-completions" = "latest"
+
+[dotfiles]
+"~/.zshrc" = ".zshrc"
+"~/.config/git" = "git"
+"~/.config/ghostty" = "ghostty"
+"~/.config/zed/settings.json" = "zed/settings.json"
+"~/.config/zed/keymap.json" = "zed/keymap.json"
+
+[tasks.update]
+description = "Pull dotfiles, then apply and update the development environment"
+run = "zsh {{ config_root | quote }}/tasks/update"
+
+[tasks.apply-updates]
+description = "Apply this checkout and update its CLI packages and global tools"
+run = '''
+set -eu
+"$HOME/.local/bin/mise" bootstrap --yes
+"$HOME/.local/bin/mise" bootstrap packages upgrade --yes
+"$HOME/.local/bin/mise" upgrade
+'''
